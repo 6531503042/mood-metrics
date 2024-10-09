@@ -1,128 +1,82 @@
 import React from 'react';
-import { Card, CardHeader, CardBody, CardFooter, Divider, Link, Image } from "@nextui-org/react";
+import { Card, CardHeader, CardBody, Divider, Progress } from "@nextui-org/react";
 import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer, PieChart, Pie, Cell } from 'recharts';
-import { Tabs, Tab } from "@nextui-org/react";
+import { Activity, Users, ThumbsUp } from 'lucide-react';
 
 const mockData = [
-  { category: 'Work Environment', positive: 65, neutral: 20, negative: 15 },
-  { category: 'Management', positive: 55, neutral: 30, negative: 15 },
-  { category: 'Career Growth', positive: 70, neutral: 20, negative: 10 },
-  { category: 'Work-Life Balance', positive: 60, neutral: 25, negative: 15 },
-  { category: 'Team Collaboration', positive: 75, neutral: 15, negative: 10 },
-  { category: 'Company Culture', positive: 68, neutral: 22, negative: 10 },
+  { category: 'Work Environment', value: 92 },
+  { category: 'Management', value: 85 },
+  { category: 'Career Growth', value: 78 },
+  { category: 'Work-Life Balance', value: 65 },
+  { category: 'Team Collaboration', value: 88 },
+  { category: 'Company Culture', value: 80 },
 ];
 
-const recommendationData = [
-  { name: 'Very Likely', value: 45 },
-  { name: 'Somewhat Likely', value: 30 },
-  { name: 'Neutral', value: 15 },
-  { name: 'Somewhat Unlikely', value: 7 },
-  { name: 'Not at all Likely', value: 3 },
+const sentimentData = [
+  { name: 'Positive', value: 70 },
+  { name: 'Neutral', value: 20 },
+  { name: 'Negative', value: 10 },
 ];
 
-const COLORS = ['#4ade80', '#facc15', '#f87171', '#60a5fa', '#a78bfa'];
+const COLORS = ['#4ade80', '#facc15', '#f87171'];
 
 const FeedbackDashboard = () => {
   return (
-    <div className="p-8 bg-gray-100 min-h-screen">
-      <h1 className="text-4xl font-bold mb-8 text-center">Feedback Dashboard</h1>
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+    <div className="p-8 bg-gray-50 min-h-screen">
+      <h1 className="text-3xl font-bold mb-8 text-center">Feedback Dashboard</h1>
+      <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
+        <Card>
+          <CardBody className="flex flex-col items-center justify-center">
+            <Activity size={40} className="text-primary mb-2" />
+            <p className="text-2xl font-bold">120</p>
+            <p className="text-sm text-gray-500">Feedback Submitted</p>
+          </CardBody>
+        </Card>
+        <Card>
+          <CardBody className="flex flex-col items-center justify-center">
+            <Users size={40} className="text-primary mb-2" />
+            <p className="text-2xl font-bold">85%</p>
+            <p className="text-sm text-gray-500">Participation Rate</p>
+          </CardBody>
+        </Card>
+        <Card>
+          <CardBody className="flex flex-col items-center justify-center">
+            <ThumbsUp size={40} className="text-primary mb-2" />
+            <p className="text-2xl font-bold">7.8/10</p>
+            <p className="text-sm text-gray-500">Average Satisfaction</p>
+          </CardBody>
+        </Card>
+      </div>
+
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
         <Card className="col-span-full">
-          <CardHeader className="flex gap-3">
-            <Image
-              alt="nextui logo"
-              height={40}
-              radius="sm"
-              src="https://avatars.githubusercontent.com/u/86160567?s=200&v=4"
-              width={40}
-            />
-            <div className="flex flex-col">
-              <p className="text-md">Feedback Overview</p>
-              <p className="text-small text-default-500">Last 30 days</p>
-            </div>
+          <CardHeader className="pb-0 pt-2 px-4 flex-col items-start">
+            <p className="text-lg font-bold">Feedback Category Breakdown</p>
+            <small className="text-default-500">Satisfaction score by category</small>
           </CardHeader>
-          <Divider/>
-          <CardBody>
+          <CardBody className="overflow-visible py-2">
             <ResponsiveContainer width="100%" height={300}>
-              <BarChart data={mockData}>
+              <BarChart data={mockData} layout="vertical">
                 <CartesianGrid strokeDasharray="3 3" />
-                <XAxis dataKey="category" />
-                <YAxis />
+                <XAxis type="number" domain={[0, 100]} />
+                <YAxis dataKey="category" type="category" width={150} />
                 <Tooltip />
-                <Legend />
-                <Bar dataKey="positive" fill="#4ade80" />
-                <Bar dataKey="neutral" fill="#facc15" />
-                <Bar dataKey="negative" fill="#f87171" />
+                <Bar dataKey="value" fill="#4ade80" />
               </BarChart>
             </ResponsiveContainer>
           </CardBody>
         </Card>
 
         <Card>
-          <CardHeader className="flex gap-3">
-            <div className="flex flex-col">
-              <p className="text-md">Recent Feedback</p>
-              <p className="text-small text-default-500">Last 5 submissions</p>
-            </div>
+          <CardHeader className="pb-0 pt-2 px-4 flex-col items-start">
+            <p className="text-lg font-bold">Sentiment Overview</p>
+            <small className="text-default-500">Distribution of feedback sentiment</small>
           </CardHeader>
-          <Divider/>
           <CardBody>
-            <Tabs aria-label="Recent Feedback">
-              <Tab key="positive" title="Positive">
-                <ul className="list-disc pl-5">
-                  <li>Great team collaboration on the latest project!</li>
-                  <li>The new office layout improves productivity.</li>
-                  <li>Management has been very supportive of work-life balance.</li>
-                </ul>
-              </Tab>
-              <Tab key="neutral" title="Neutral">
-                <ul className="list-disc pl-5">
-                  <li>The new software is okay, but needs some improvements.</li>
-                  <li>Team meetings could be more focused.</li>
-                  <li>Career growth opportunities are available but limited.</li>
-                </ul>
-              </Tab>
-              <Tab key="negative" title="Negative">
-                <ul className="list-disc pl-5">
-                  <li>Workload distribution needs to be more balanced.</li>
-                  <li>Communication between departments can be improved.</li>
-                  <li>More training opportunities would be beneficial.</li>
-                </ul>
-              </Tab>
-            </Tabs>
-          </CardBody>
-        </Card>
-
-        <Card>
-          <CardHeader className="flex gap-3">
-            <div className="flex flex-col">
-              <p className="text-md">Sentiment Analysis</p>
-              <p className="text-small text-default-500">Overall mood</p>
-            </div>
-          </CardHeader>
-          <Divider/>
-          <CardBody>
-            <div className="flex flex-col items-center justify-center h-full">
-              <span className="text-6xl mb-4">😊</span>
-              <p className="text-xl font-semibold">Positive</p>
-              <p className="text-sm text-gray-500">Based on recent feedback</p>
-            </div>
-          </CardBody>
-        </Card>
-
-        <Card>
-          <CardHeader className="flex gap-3">
-            <div className="flex flex-col">
-              <p className="text-md">Recommendation Likelihood</p>
-              <p className="text-small text-default-500">Employee Net Promoter Score</p>
-            </div>
-          </CardHeader>
-          <Divider/>
-          <CardBody>
-            <ResponsiveContainer width="100%" height={200}>
+            <ResponsiveContainer width="100%" height={250}>
               <PieChart>
                 <Pie
-                  data={recommendationData}
+                  data={sentimentData}
                   cx="50%"
                   cy="50%"
                   labelLine={false}
@@ -130,42 +84,40 @@ const FeedbackDashboard = () => {
                   fill="#8884d8"
                   dataKey="value"
                 >
-                  {recommendationData.map((entry, index) => (
+                  {sentimentData.map((entry, index) => (
                     <Cell key={`cell-${index}`} fill={COLORS[index % COLORS.length]} />
                   ))}
                 </Pie>
                 <Tooltip />
               </PieChart>
             </ResponsiveContainer>
-            <div className="mt-4">
-              <p className="text-center font-semibold">eNPS Score: 35</p>
+            <div className="flex justify-center mt-4">
+              {sentimentData.map((entry, index) => (
+                <div key={entry.name} className="flex items-center mx-2">
+                  <div className="w-3 h-3 rounded-full mr-1" style={{ backgroundColor: COLORS[index] }}></div>
+                  <span className="text-sm">{entry.name}</span>
+                </div>
+              ))}
             </div>
           </CardBody>
         </Card>
 
         <Card>
-          <CardHeader className="flex gap-3">
-            <div className="flex flex-col">
-              <p className="text-md">Action Items</p>
-              <p className="text-small text-default-500">Based on recent feedback</p>
-            </div>
+          <CardHeader className="pb-0 pt-2 px-4 flex-col items-start">
+            <p className="text-lg font-bold">Top Performing Areas</p>
+            <small className="text-default-500">Highest rated categories</small>
           </CardHeader>
-          <Divider/>
           <CardBody>
-            <ul className="list-disc pl-5">
-              <li>Schedule a team building event</li>
-              <li>Review workload distribution</li>
-              <li>Improve inter-department communication</li>
-              <li>Organize additional training sessions</li>
-              <li>Enhance career growth programs</li>
-            </ul>
+            {mockData.slice(0, 3).map((item, index) => (
+              <div key={item.category} className="mb-4">
+                <div className="flex justify-between mb-1">
+                  <span>{item.category}</span>
+                  <span>{item.value}%</span>
+                </div>
+                <Progress value={item.value} color="success" className="h-2" />
+              </div>
+            ))}
           </CardBody>
-          <Divider/>
-          <CardFooter>
-            <Link isExternal showAnchorIcon href="#">
-              Create new action item
-            </Link>
-          </CardFooter>
         </Card>
       </div>
     </div>
