@@ -1,24 +1,22 @@
 import React from 'react';
-import { Card, CardHeader, CardBody, Divider, Progress } from "@nextui-org/react";
-import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer, PieChart, Pie, Cell } from 'recharts';
+import { Card, CardHeader, CardBody, Progress } from "@nextui-org/react";
+import { PieChart, Pie, Cell, ResponsiveContainer, Tooltip } from 'recharts';
 import { Activity, Users, ThumbsUp } from 'lucide-react';
 
 const mockData = [
-  { category: 'Work Environment', value: 92 },
-  { category: 'Management', value: 85 },
-  { category: 'Career Growth', value: 78 },
-  { category: 'Work-Life Balance', value: 65 },
-  { category: 'Team Collaboration', value: 88 },
-  { category: 'Company Culture', value: 80 },
+  { category: 'Work Environment', value: 92, emoji: '🏢' },
+  { category: 'Management', value: 85, emoji: '👔' },
+  { category: 'Career Growth', value: 78, emoji: '📈' },
+  { category: 'Work-Life Balance', value: 65, emoji: '⚖️' },
+  { category: 'Team Collaboration', value: 88, emoji: '🤝' },
+  { category: 'Company Culture', value: 80, emoji: '🌟' },
 ];
 
 const sentimentData = [
-  { name: 'Positive', value: 70 },
-  { name: 'Neutral', value: 20 },
-  { name: 'Negative', value: 10 },
+  { name: 'Positive', value: 70, color: '#4ade80' },
+  { name: 'Neutral', value: 20, color: '#facc15' },
+  { name: 'Negative', value: 10, color: '#f87171' },
 ];
-
-const COLORS = ['#4ade80', '#facc15', '#f87171'];
 
 const FeedbackDashboard = () => {
   return (
@@ -49,21 +47,21 @@ const FeedbackDashboard = () => {
       </div>
 
       <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-        <Card className="col-span-full">
+        <Card>
           <CardHeader className="pb-0 pt-2 px-4 flex-col items-start">
-            <p className="text-lg font-bold">Feedback Category Breakdown</p>
+            <p className="text-lg font-bold">Feedback Category Overview</p>
             <small className="text-default-500">Satisfaction score by category</small>
           </CardHeader>
-          <CardBody className="overflow-visible py-2">
-            <ResponsiveContainer width="100%" height={300}>
-              <BarChart data={mockData} layout="vertical">
-                <CartesianGrid strokeDasharray="3 3" />
-                <XAxis type="number" domain={[0, 100]} />
-                <YAxis dataKey="category" type="category" width={150} />
-                <Tooltip />
-                <Bar dataKey="value" fill="#4ade80" />
-              </BarChart>
-            </ResponsiveContainer>
+          <CardBody>
+            {mockData.map((item) => (
+              <div key={item.category} className="mb-4">
+                <div className="flex justify-between items-center mb-1">
+                  <span>{item.emoji} {item.category}</span>
+                  <span className="font-semibold">{item.value}%</span>
+                </div>
+                <Progress value={item.value} color="success" className="h-2" />
+              </div>
+            ))}
           </CardBody>
         </Card>
 
@@ -73,50 +71,34 @@ const FeedbackDashboard = () => {
             <small className="text-default-500">Distribution of feedback sentiment</small>
           </CardHeader>
           <CardBody>
-            <ResponsiveContainer width="100%" height={250}>
-              <PieChart>
-                <Pie
-                  data={sentimentData}
-                  cx="50%"
-                  cy="50%"
-                  labelLine={false}
-                  outerRadius={80}
-                  fill="#8884d8"
-                  dataKey="value"
-                >
-                  {sentimentData.map((entry, index) => (
-                    <Cell key={`cell-${index}`} fill={COLORS[index % COLORS.length]} />
-                  ))}
-                </Pie>
-                <Tooltip />
-              </PieChart>
-            </ResponsiveContainer>
+            <div className="h-64">
+              <ResponsiveContainer width="100%" height="100%">
+                <PieChart>
+                  <Pie
+                    data={sentimentData}
+                    cx="50%"
+                    cy="50%"
+                    innerRadius={60}
+                    outerRadius={80}
+                    paddingAngle={5}
+                    dataKey="value"
+                  >
+                    {sentimentData.map((entry, index) => (
+                      <Cell key={`cell-${index}`} fill={entry.color} />
+                    ))}
+                  </Pie>
+                  <Tooltip />
+                </PieChart>
+              </ResponsiveContainer>
+            </div>
             <div className="flex justify-center mt-4">
-              {sentimentData.map((entry, index) => (
+              {sentimentData.map((entry) => (
                 <div key={entry.name} className="flex items-center mx-2">
-                  <div className="w-3 h-3 rounded-full mr-1" style={{ backgroundColor: COLORS[index] }}></div>
+                  <div className="w-3 h-3 rounded-full mr-1" style={{ backgroundColor: entry.color }}></div>
                   <span className="text-sm">{entry.name}</span>
                 </div>
               ))}
             </div>
-          </CardBody>
-        </Card>
-
-        <Card>
-          <CardHeader className="pb-0 pt-2 px-4 flex-col items-start">
-            <p className="text-lg font-bold">Top Performing Areas</p>
-            <small className="text-default-500">Highest rated categories</small>
-          </CardHeader>
-          <CardBody>
-            {mockData.slice(0, 3).map((item, index) => (
-              <div key={item.category} className="mb-4">
-                <div className="flex justify-between mb-1">
-                  <span>{item.category}</span>
-                  <span>{item.value}%</span>
-                </div>
-                <Progress value={item.value} color="success" className="h-2" />
-              </div>
-            ))}
           </CardBody>
         </Card>
       </div>
