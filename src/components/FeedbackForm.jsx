@@ -1,54 +1,136 @@
 import React, { useState } from 'react';
-import { Card, CardHeader, CardBody, Input, Textarea, Button, Select, SelectItem, Switch, Progress, Radio, RadioGroup } from "@nextui-org/react";
-
-const categories = [
-  { value: "work_environment", label: "Work Environment" },
-  { value: "management", label: "Management" },
-  { value: "career_growth", label: "Career Growth" },
-  { value: "work_life_balance", label: "Work-Life Balance" },
-  { value: "team_collaboration", label: "Team Collaboration" },
-  { value: "company_culture", label: "Company Culture" },
-];
-
-const emojiRatings = [
-  { value: 1, emoji: "😞", label: "Very Dissatisfied" },
-  { value: 2, emoji: "🙁", label: "Dissatisfied" },
-  { value: 3, emoji: "😐", label: "Neutral" },
-  { value: 4, emoji: "🙂", label: "Satisfied" },
-  { value: 5, emoji: "😄", label: "Very Satisfied" },
-];
+import { Card, CardHeader, CardBody, Input, Textarea, Button, Select, SelectItem, Switch, Progress, RadioGroup, Radio } from "@nextui-org/react";
+import { categories, emojiRatings } from '../utils/feedbackUtils';
 
 const FeedbackForm = () => {
   const [step, setStep] = useState(1);
-  const [category, setCategory] = useState("");
-  const [rating, setRating] = useState(0);
-  const [feedback, setFeedback] = useState("");
-  const [isAnonymous, setIsAnonymous] = useState(false);
-  const [privacyLevel, setPrivacyLevel] = useState("");
-  const [improvement, setImprovement] = useState("");
-  const [recommendation, setRecommendation] = useState("");
+  const [formData, setFormData] = useState({
+    category: "",
+    rating: 0,
+    feedback: "",
+    improvement: "",
+    recommendation: "",
+    isAnonymous: false,
+    privacyLevel: "",
+  });
 
-  const handleNext = () => {
-    setStep(step + 1);
+  const handleInputChange = (field, value) => {
+    setFormData(prev => ({ ...prev, [field]: value }));
   };
 
-  const handleBack = () => {
-    setStep(step - 1);
-  };
+  const handleNext = () => setStep(prev => prev + 1);
+  const handleBack = () => setStep(prev => prev - 1);
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    // Handle form submission logic here
-    console.log({ category, rating, feedback, isAnonymous, privacyLevel, improvement, recommendation });
-    // Reset form after submission
+    console.log("Submitted feedback:", formData);
+    // Here you would typically send the data to your backend
+    alert("Thank you for your feedback!");
     setStep(1);
-    setCategory("");
-    setRating(0);
-    setFeedback("");
-    setIsAnonymous(false);
-    setPrivacyLevel("");
-    setImprovement("");
-    setRecommendation("");
+    setFormData({
+      category: "",
+      rating: 0,
+      feedback: "",
+      improvement: "",
+      recommendation: "",
+      isAnonymous: false,
+      privacyLevel: "",
+    });
+  };
+
+  const renderStep = () => {
+    switch(step) {
+      case 1:
+        return (
+          <Select 
+            label="What area would you like to provide feedback on?" 
+            placeholder="Select a category"
+            value={formData.category}
+            onChange={(e) => handleInputChange("category", e.target.value)}
+          >
+            {categories.map((cat) => (
+              <SelectItem key={cat.value} value={cat.value}>
+                {cat.emoji} {cat.label}
+              </SelectItem>
+            ))}
+          </Select>
+        );
+      case 2:
+        return (
+          <div>
+            <p className="mb-2">How would you rate your experience in this area?</p>
+            <div className="flex justify-between">
+              {emojiRatings.map((item) => (
+                <button
+                  key={item.value}
+                  type="button"
+                  onClick={() => handleInputChange("rating", item.value)}
+                  className={`text-4xl ${formData.rating === item.value ? 'scale-125' : ''} transition-transform`}
+                  title={item.label}
+                >
+                  {item.emoji}
+                </button>
+              ))}
+            </div>
+          </div>
+        );
+      case 3:
+        return (
+          <Textarea
+            label="Please provide more details about your experience"
+            placeholder="What specific aspects influenced your rating?"
+            value={formData.feedback}
+            onChange={(e) => handleInputChange("feedback", e.target.value)}
+          />
+        );
+      case 4:
+        return (
+          <Textarea
+            label="What improvements would you suggest?"
+            placeholder="Your ideas for making things better"
+            value={formData.improvement}
+            onChange={(e) => handleInputChange("improvement", e.target.value)}
+          />
+        );
+      case 5:
+        return (
+          <RadioGroup
+            label="How likely are you to recommend our company to others?"
+            value={formData.recommendation}
+            onChange={(value) => handleInputChange("recommendation", value)}
+          >
+            <Radio value="1">Not at all likely</Radio>
+            <Radio value="2">Somewhat unlikely</Radio>
+            <Radio value="3">Neutral</Radio>
+            <Radio value="4">Somewhat likely</Radio>
+            <Radio value="5">Very likely</Radio>
+          </RadioGroup>
+        );
+      case 6:
+        return (
+          <>
+            <div className="flex items-center space-x-2 mb-4">
+              <Switch
+                checked={formData.isAnonymous}
+                onChange={(e) => handleInputChange("isAnonymous", e.target.checked)}
+              />
+              <span>Submit anonymously</span>
+            </div>
+            <Select 
+              label="Who should see this feedback?" 
+              placeholder="Select privacy level"
+              value={formData.privacyLevel}
+              onChange={(e) => handleInputChange("privacyLevel", e.target.value)}
+            >
+              <SelectItem key="public" value="public">Entire Company</SelectItem>
+              <SelectItem key="team" value="team">My Team Only</SelectItem>
+              <SelectItem key="private" value="private">Management Only</SelectItem>
+            </Select>
+          </>
+        );
+      default:
+        return null;
+    }
   };
 
   return (
@@ -63,96 +145,8 @@ const FeedbackForm = () => {
         <CardBody>
           <Progress value={(step / 6) * 100} className="mb-4" />
           <form onSubmit={handleSubmit} className="space-y-4">
-            {step === 1 && (
-              <Select 
-                label="What area would you like to provide feedback on?" 
-                placeholder="Select a category"
-                value={category}
-                onChange={(e) => setCategory(e.target.value)}
-              >
-                {categories.map((cat) => (
-                  <SelectItem key={cat.value} value={cat.value}>
-                    {cat.label}
-                  </SelectItem>
-                ))}
-              </Select>
-            )}
-
-            {step === 2 && (
-              <div>
-                <p className="mb-2">How would you rate your experience in this area?</p>
-                <div className="flex justify-between">
-                  {emojiRatings.map((item) => (
-                    <button
-                      key={item.value}
-                      type="button"
-                      onClick={() => setRating(item.value)}
-                      className={`text-4xl ${rating === item.value ? 'scale-125' : ''} transition-transform`}
-                      title={item.label}
-                    >
-                      {item.emoji}
-                    </button>
-                  ))}
-                </div>
-              </div>
-            )}
-
-            {step === 3 && (
-              <Textarea
-                label="Please provide more details about your experience"
-                placeholder="What specific aspects influenced your rating?"
-                value={feedback}
-                onChange={(e) => setFeedback(e.target.value)}
-              />
-            )}
-
-            {step === 4 && (
-              <Textarea
-                label="What improvements would you suggest?"
-                placeholder="Your ideas for making things better"
-                value={improvement}
-                onChange={(e) => setImprovement(e.target.value)}
-              />
-            )}
-
-            {step === 5 && (
-              <RadioGroup
-                label="How likely are you to recommend our company to others?"
-                value={recommendation}
-                onChange={setRecommendation}
-              >
-                <Radio value="1">Not at all likely</Radio>
-                <Radio value="2">Somewhat unlikely</Radio>
-                <Radio value="3">Neutral</Radio>
-                <Radio value="4">Somewhat likely</Radio>
-                <Radio value="5">Very likely</Radio>
-              </RadioGroup>
-            )}
-
-            {step === 6 && (
-              <>
-                <div className="flex items-center space-x-2">
-                  <Switch
-                    checked={isAnonymous}
-                    onChange={(e) => setIsAnonymous(e.target.checked)}
-                  />
-                  <span>Submit anonymously</span>
-                </div>
-
-                <Select 
-                  label="Who should see this feedback?" 
-                  placeholder="Select privacy level"
-                  value={privacyLevel}
-                  onChange={(e) => setPrivacyLevel(e.target.value)}
-                >
-                  <SelectItem key="public" value="public">Entire Company</SelectItem>
-                  <SelectItem key="team" value="team">My Team Only</SelectItem>
-                  <SelectItem key="private" value="private">Management Only</SelectItem>
-                </Select>
-              </>
-            )}
-
-            <div className="flex justify-between">
+            {renderStep()}
+            <div className="flex justify-between mt-4">
               {step > 1 && (
                 <Button color="secondary" onClick={handleBack}>
                   Back
