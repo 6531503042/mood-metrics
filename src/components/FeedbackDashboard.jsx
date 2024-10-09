@@ -1,6 +1,6 @@
 import React from 'react';
 import { Card, CardHeader, CardBody, CardFooter, Divider, Link, Image } from "@nextui-org/react";
-import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer } from 'recharts';
+import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer, PieChart, Pie, Cell } from 'recharts';
 import { Tabs, Tab } from "@nextui-org/react";
 
 const mockData = [
@@ -8,7 +8,19 @@ const mockData = [
   { category: 'Management', positive: 55, neutral: 30, negative: 15 },
   { category: 'Career Growth', positive: 70, neutral: 20, negative: 10 },
   { category: 'Work-Life Balance', positive: 60, neutral: 25, negative: 15 },
+  { category: 'Team Collaboration', positive: 75, neutral: 15, negative: 10 },
+  { category: 'Company Culture', positive: 68, neutral: 22, negative: 10 },
 ];
+
+const recommendationData = [
+  { name: 'Very Likely', value: 45 },
+  { name: 'Somewhat Likely', value: 30 },
+  { name: 'Neutral', value: 15 },
+  { name: 'Somewhat Unlikely', value: 7 },
+  { name: 'Not at all Likely', value: 3 },
+];
+
+const COLORS = ['#4ade80', '#facc15', '#f87171', '#60a5fa', '#a78bfa'];
 
 const FeedbackDashboard = () => {
   return (
@@ -60,18 +72,21 @@ const FeedbackDashboard = () => {
                 <ul className="list-disc pl-5">
                   <li>Great team collaboration on the latest project!</li>
                   <li>The new office layout improves productivity.</li>
+                  <li>Management has been very supportive of work-life balance.</li>
                 </ul>
               </Tab>
               <Tab key="neutral" title="Neutral">
                 <ul className="list-disc pl-5">
                   <li>The new software is okay, but needs some improvements.</li>
                   <li>Team meetings could be more focused.</li>
+                  <li>Career growth opportunities are available but limited.</li>
                 </ul>
               </Tab>
               <Tab key="negative" title="Negative">
                 <ul className="list-disc pl-5">
                   <li>Workload distribution needs to be more balanced.</li>
                   <li>Communication between departments can be improved.</li>
+                  <li>More training opportunities would be beneficial.</li>
                 </ul>
               </Tab>
             </Tabs>
@@ -87,16 +102,45 @@ const FeedbackDashboard = () => {
           </CardHeader>
           <Divider/>
           <CardBody>
-            <div className="flex justify-center items-center h-full">
-              <span className="text-6xl">😊</span>
+            <div className="flex flex-col items-center justify-center h-full">
+              <span className="text-6xl mb-4">😊</span>
+              <p className="text-xl font-semibold">Positive</p>
+              <p className="text-sm text-gray-500">Based on recent feedback</p>
             </div>
           </CardBody>
+        </Card>
+
+        <Card>
+          <CardHeader className="flex gap-3">
+            <div className="flex flex-col">
+              <p className="text-md">Recommendation Likelihood</p>
+              <p className="text-small text-default-500">Employee Net Promoter Score</p>
+            </div>
+          </CardHeader>
           <Divider/>
-          <CardFooter>
-            <Link isExternal showAnchorIcon href="#">
-              View detailed analysis
-            </Link>
-          </CardFooter>
+          <CardBody>
+            <ResponsiveContainer width="100%" height={200}>
+              <PieChart>
+                <Pie
+                  data={recommendationData}
+                  cx="50%"
+                  cy="50%"
+                  labelLine={false}
+                  outerRadius={80}
+                  fill="#8884d8"
+                  dataKey="value"
+                >
+                  {recommendationData.map((entry, index) => (
+                    <Cell key={`cell-${index}`} fill={COLORS[index % COLORS.length]} />
+                  ))}
+                </Pie>
+                <Tooltip />
+              </PieChart>
+            </ResponsiveContainer>
+            <div className="mt-4">
+              <p className="text-center font-semibold">eNPS Score: 35</p>
+            </div>
+          </CardBody>
         </Card>
 
         <Card>
@@ -112,6 +156,8 @@ const FeedbackDashboard = () => {
               <li>Schedule a team building event</li>
               <li>Review workload distribution</li>
               <li>Improve inter-department communication</li>
+              <li>Organize additional training sessions</li>
+              <li>Enhance career growth programs</li>
             </ul>
           </CardBody>
           <Divider/>
