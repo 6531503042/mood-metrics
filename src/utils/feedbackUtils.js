@@ -17,6 +17,15 @@ export const emojiRatings = [
   { value: 5, emoji: "😄", label: "Very Satisfied" },
 ];
 
+export const teams = [
+  { value: "backend", label: "Backend Team" },
+  { value: "frontend", label: "Frontend Team" },
+  { value: "devops", label: "DevOps Team" },
+  { value: "ai", label: "AI Team" },
+  { value: "design", label: "Design Team" },
+  { value: "product", label: "Product Team" },
+];
+
 export const formatDate = (date) => format(new Date(date), 'yyyy-MM-dd');
 
 export const getRandomDate = (start, end) => {
@@ -25,6 +34,8 @@ export const getRandomDate = (start, end) => {
 
 export const mockFeedbackData = Array.from({ length: 50 }, (_, index) => ({
   id: index + 1,
+  team: teams[Math.floor(Math.random() * teams.length)].value,
+  project: `Project ${Math.floor(Math.random() * 5) + 1}`,
   category: categories[Math.floor(Math.random() * categories.length)].value,
   rating: Math.floor(Math.random() * 5) + 1,
   feedback: `Sample feedback ${index + 1}`,

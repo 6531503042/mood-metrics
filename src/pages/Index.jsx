@@ -1,20 +1,20 @@
 import React from 'react';
-import FeedbackDashboard from '../components/FeedbackDashboard';
-import FeedbackForm from '../components/FeedbackForm';
 import { Tabs, Tab } from "@nextui-org/react";
+import DashboardLayout from '../components/DashboardLayout';
+import FeedbackForm from '../components/FeedbackForm';
 
 const Index = () => {
   return (
-    <div className="min-h-screen bg-gray-50">
+    <DashboardLayout>
       <Tabs aria-label="Feedback System" className="p-4">
         <Tab key="dashboard" title="Dashboard">
-          <FeedbackDashboard />
+          <DashboardLayout />
         </Tab>
         <Tab key="submit" title="Submit Feedback">
           <FeedbackForm />
         </Tab>
       </Tabs>
-    </div>
+    </DashboardLayout>
   );
 };
 

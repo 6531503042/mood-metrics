@@ -1,11 +1,14 @@
 import React, { useState } from 'react';
 import { Card, CardHeader, CardBody, Input, Textarea, Button, Select, SelectItem, Switch, Progress, RadioGroup, Radio } from "@nextui-org/react";
-import { categories, emojiRatings } from '../utils/feedbackUtils';
+import { categories, emojiRatings, teams } from '../utils/feedbackUtils';
+import { Smile, Send, ChevronLeft, ChevronRight } from 'lucide-react';
 
 const FeedbackForm = () => {
   const [step, setStep] = useState(1);
   const [formData, setFormData] = useState({
     category: "",
+    team: "",
+    project: "",
     rating: 0,
     feedback: "",
     improvement: "",
@@ -24,11 +27,12 @@ const FeedbackForm = () => {
   const handleSubmit = (e) => {
     e.preventDefault();
     console.log("Submitted feedback:", formData);
-    // Here you would typically send the data to your backend
     alert("Thank you for your feedback!");
     setStep(1);
     setFormData({
       category: "",
+      team: "",
+      project: "",
       rating: 0,
       feedback: "",
       improvement: "",
@@ -41,6 +45,29 @@ const FeedbackForm = () => {
   const renderStep = () => {
     switch(step) {
       case 1:
+        return (
+          <div className="space-y-4">
+            <Select 
+              label="Select Team" 
+              placeholder="Choose a team"
+              value={formData.team}
+              onChange={(e) => handleInputChange("team", e.target.value)}
+            >
+              {teams.map((team) => (
+                <SelectItem key={team.value} value={team.value}>
+                  {team.label}
+                </SelectItem>
+              ))}
+            </Select>
+            <Input
+              label="Project Name"
+              placeholder="Enter project name"
+              value={formData.project}
+              onChange={(e) => handleInputChange("project", e.target.value)}
+            />
+          </div>
+        );
+      case 2:
         return (
           <Select 
             label="What area would you like to provide feedback on?" 
@@ -55,7 +82,7 @@ const FeedbackForm = () => {
             ))}
           </Select>
         );
-      case 2:
+      case 3:
         return (
           <div>
             <p className="mb-2">How would you rate your experience in this area?</p>
@@ -74,7 +101,7 @@ const FeedbackForm = () => {
             </div>
           </div>
         );
-      case 3:
+      case 4:
         return (
           <Textarea
             label="Please provide more details about your experience"
@@ -83,7 +110,7 @@ const FeedbackForm = () => {
             onChange={(e) => handleInputChange("feedback", e.target.value)}
           />
         );
-      case 4:
+      case 5:
         return (
           <Textarea
             label="What improvements would you suggest?"
@@ -92,7 +119,7 @@ const FeedbackForm = () => {
             onChange={(e) => handleInputChange("improvement", e.target.value)}
           />
         );
-      case 5:
+      case 6:
         return (
           <RadioGroup
             label="How likely are you to recommend our company to others?"
@@ -106,7 +133,7 @@ const FeedbackForm = () => {
             <Radio value="5">Very likely</Radio>
           </RadioGroup>
         );
-      case 6:
+      case 7:
         return (
           <>
             <div className="flex items-center space-x-2 mb-4">
@@ -134,30 +161,30 @@ const FeedbackForm = () => {
   };
 
   return (
-    <div className="p-8 bg-gray-100 min-h-screen flex justify-center items-center">
-      <Card className="w-full max-w-2xl">
+    <div className="p-4 bg-gray-100 min-h-screen">
+      <Card className="w-full max-w-2xl mx-auto">
         <CardHeader className="flex gap-3">
           <div className="flex flex-col">
             <p className="text-xl font-bold">Submit Feedback</p>
-            <p className="text-small text-default-500">Step {step} of 6</p>
+            <p className="text-small text-default-500">Step {step} of 7</p>
           </div>
         </CardHeader>
         <CardBody>
-          <Progress value={(step / 6) * 100} className="mb-4" />
+          <Progress value={(step / 7) * 100} className="mb-4" />
           <form onSubmit={handleSubmit} className="space-y-4">
             {renderStep()}
             <div className="flex justify-between mt-4">
               {step > 1 && (
-                <Button color="secondary" onClick={handleBack}>
+                <Button color="secondary" onClick={handleBack} startContent={<ChevronLeft size={18} />}>
                   Back
                 </Button>
               )}
-              {step < 6 ? (
-                <Button color="primary" onClick={handleNext}>
+              {step < 7 ? (
+                <Button color="primary" onClick={handleNext} endContent={<ChevronRight size={18} />}>
                   Next
                 </Button>
               ) : (
-                <Button color="success" type="submit">
+                <Button color="success" type="submit" startContent={<Send size={18} />}>
                   Submit Feedback
                 </Button>
               )}
