@@ -1,12 +1,19 @@
-// Update this page (the content is just a fallback if you fail to update the page)
+import React from 'react';
+import FeedbackDashboard from '../components/FeedbackDashboard';
+import FeedbackForm from '../components/FeedbackForm';
+import { Tabs, Tab } from "@nextui-org/react";
 
 const Index = () => {
   return (
-    <div className="min-h-screen flex items-center justify-center bg-gray-100">
-      <div className="text-center">
-        <h1 className="text-4xl font-bold mb-4">Welcome to Your Blank App</h1>
-        <p className="text-xl text-gray-600">Start building your amazing project here!</p>
-      </div>
+    <div className="min-h-screen bg-gray-100">
+      <Tabs aria-label="Feedback System" className="p-4">
+        <Tab key="dashboard" title="Dashboard">
+          <FeedbackDashboard />
+        </Tab>
+        <Tab key="submit" title="Submit Feedback">
+          <FeedbackForm />
+        </Tab>
+      </Tabs>
     </div>
   );
 };
