@@ -1,35 +1,34 @@
 import { useState, useEffect } from 'react';
 
-const mockFeedbackData = {
-  totalFeedback: 100,
-  averageRating: 4.2,
-  responseRate: 0.85,
+const createMockDataForTeam = (teamName) => ({
+  totalFeedback: Math.floor(Math.random() * 100) + 50,
+  averageRating: (Math.random() * 2 + 3).toFixed(1),
+  responseRate: (Math.random() * 0.3 + 0.6).toFixed(2),
   categoryData: [
-    { category: 'Work Environment', count: 30 },
-    { category: 'Management', count: 25 },
-    { category: 'Career Growth', count: 20 },
-    { category: 'Work-Life Balance', count: 15 },
-    { category: 'Team Collaboration', count: 10 },
+    { category: 'Work Environment', count: Math.floor(Math.random() * 30) + 10 },
+    { category: 'Management', count: Math.floor(Math.random() * 25) + 10 },
+    { category: 'Career Growth', count: Math.floor(Math.random() * 20) + 10 },
+    { category: 'Work-Life Balance', count: Math.floor(Math.random() * 15) + 10 },
+    { category: 'Team Collaboration', count: Math.floor(Math.random() * 10) + 10 },
   ],
   sentimentData: {
-    positive: 60,
-    neutral: 30,
-    negative: 10,
+    positive: Math.floor(Math.random() * 40) + 30,
+    neutral: Math.floor(Math.random() * 30) + 20,
+    negative: Math.floor(Math.random() * 20) + 5,
   },
-  trendData: [
-    { date: '2023-01', averageRating: 3.8 },
-    { date: '2023-02', averageRating: 4.0 },
-    { date: '2023-03', averageRating: 4.2 },
-    { date: '2023-04', averageRating: 4.1 },
-    { date: '2023-05', averageRating: 4.3 },
-  ],
+  trendData: Array.from({ length: 5 }, (_, i) => ({
+    date: `2023-0${i + 1}`,
+    averageRating: (Math.random() * 1 + 3.5).toFixed(1),
+  })),
   recentFeedback: [
-    { id: 1, text: 'Great work environment!', sentiment: 'positive' },
-    { id: 2, text: 'Need more career growth opportunities', sentiment: 'neutral' },
-    { id: 3, text: 'Management could improve communication', sentiment: 'negative' },
+    { id: 1, text: `Great work environment in ${teamName}!`, sentiment: 'positive' },
+    { id: 2, text: `Need more career growth opportunities in ${teamName}`, sentiment: 'neutral' },
+    { id: 3, text: `${teamName} management could improve communication`, sentiment: 'negative' },
   ],
-  averageResponseTime: '2 days',
-};
+  averageResponseTime: `${Math.floor(Math.random() * 3) + 1} days`,
+});
+
+const mockTeams = ['Backend', 'Frontend', 'DevOps', 'Design', 'Product'];
 
 const mockProjects = [
   { id: 'project1', name: 'Project Alpha' },
@@ -37,16 +36,14 @@ const mockProjects = [
   { id: 'project3', name: 'Project Gamma' },
 ];
 
-const mockRoles = [
-  { id: 'role1', name: 'Developer' },
-  { id: 'role2', name: 'Designer' },
-  { id: 'role3', name: 'Manager' },
-];
-
 const mockAISuggestions = [
-  "Consider implementing more team-building activities to improve collaboration scores.",
-  "The recent drop in work-life balance ratings may be addressed by reviewing current policies.",
-  "Positive feedback on the new project management tool suggests expanding its use across teams.",
+  { category: 'Summary', text: "Overall, the feedback indicates positive trends in work environment and team collaboration, with areas for improvement in career growth opportunities and management communication." },
+  { category: 'Work Environment', text: "Consider implementing more flexible work hours to improve work-life balance scores." },
+  { category: 'Team Collaboration', text: "Increase cross-team projects to foster better collaboration between departments." },
+  { category: 'Performance', text: "Implement a peer recognition program to boost morale and productivity." },
+  { category: 'Work Environment', text: "Upgrade office equipment to enhance employee comfort and efficiency." },
+  { category: 'Team Collaboration', text: "Organize more team-building activities to strengthen interpersonal relationships." },
+  { category: 'Performance', text: "Provide more frequent feedback sessions to help employees track their progress." },
 ];
 
 const mockDataTables = [
@@ -76,12 +73,10 @@ const mockAnalysesRun = [
 ];
 
 export const useFeedbackData = () => {
-  const [feedbackData, setFeedbackData] = useState(mockFeedbackData);
+  const [feedbackData, setFeedbackData] = useState(createMockDataForTeam('All Teams'));
   const [selectedTeam, setSelectedTeam] = useState('all');
   const [projects, setProjects] = useState(mockProjects);
   const [selectedProject, setSelectedProject] = useState('');
-  const [roles, setRoles] = useState(mockRoles);
-  const [selectedRole, setSelectedRole] = useState('');
   const [aiSuggestions, setAISuggestions] = useState(mockAISuggestions);
   const [dataTables, setDataTables] = useState(mockDataTables);
   const [employeeSegments, setEmployeeSegments] = useState(mockEmployeeSegments);
@@ -89,10 +84,12 @@ export const useFeedbackData = () => {
   const [analysesRun, setAnalysesRun] = useState(mockAnalysesRun);
 
   useEffect(() => {
-    // In a real application, you would fetch data based on the selected team, project, and role
-    console.log(`Team: ${selectedTeam}, Project: ${selectedProject}, Role: ${selectedRole}`);
-    // Update feedbackData, projects, roles, and aiSuggestions based on selections
-  }, [selectedTeam, selectedProject, selectedRole]);
+    if (selectedTeam === 'all') {
+      setFeedbackData(createMockDataForTeam('All Teams'));
+    } else {
+      setFeedbackData(createMockDataForTeam(selectedTeam));
+    }
+  }, [selectedTeam, selectedProject]);
 
   return { 
     feedbackData, 
@@ -101,9 +98,6 @@ export const useFeedbackData = () => {
     projects, 
     selectedProject, 
     setSelectedProject,
-    roles,
-    selectedRole,
-    setSelectedRole,
     aiSuggestions,
     dataTables,
     employeeSegments,
