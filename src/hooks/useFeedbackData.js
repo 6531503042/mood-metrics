@@ -1,6 +1,5 @@
 import { useState, useEffect } from 'react';
 
-// Mock data for demonstration purposes
 const mockFeedbackData = {
   totalFeedback: 100,
   averageRating: 4.2,
@@ -50,6 +49,32 @@ const mockAISuggestions = [
   "Positive feedback on the new project management tool suggests expanding its use across teams.",
 ];
 
+const mockDataTables = [
+  { id: 1, name: 'Employee Feedback', description: 'Contains all employee feedback data', lastUpdated: '2023-05-15' },
+  { id: 2, name: 'Performance Reviews', description: 'Annual performance review data', lastUpdated: '2023-04-30' },
+  { id: 3, name: 'Employee Demographics', description: 'Employee demographic information', lastUpdated: '2023-05-01' },
+];
+
+const mockEmployeeSegments = [
+  { name: 'Junior', value: 30 },
+  { name: 'Mid-level', value: 45 },
+  { name: 'Senior', value: 20 },
+  { name: 'Management', value: 5 },
+];
+
+const mockPerformanceMetrics = [
+  { name: 'Productivity', value: 85 },
+  { name: 'Quality', value: 92 },
+  { name: 'Collaboration', value: 78 },
+  { name: 'Innovation', value: 70 },
+];
+
+const mockAnalysesRun = [
+  { id: 1, name: 'Sentiment Analysis', dateRun: '2023-05-10', status: 'Completed' },
+  { id: 2, name: 'Attrition Risk', dateRun: '2023-05-12', status: 'In Progress' },
+  { id: 3, name: 'Skills Gap Analysis', dateRun: '2023-05-08', status: 'Completed' },
+];
+
 export const useFeedbackData = () => {
   const [feedbackData, setFeedbackData] = useState(mockFeedbackData);
   const [selectedTeam, setSelectedTeam] = useState('all');
@@ -58,6 +83,10 @@ export const useFeedbackData = () => {
   const [roles, setRoles] = useState(mockRoles);
   const [selectedRole, setSelectedRole] = useState('');
   const [aiSuggestions, setAISuggestions] = useState(mockAISuggestions);
+  const [dataTables, setDataTables] = useState(mockDataTables);
+  const [employeeSegments, setEmployeeSegments] = useState(mockEmployeeSegments);
+  const [performanceMetrics, setPerformanceMetrics] = useState(mockPerformanceMetrics);
+  const [analysesRun, setAnalysesRun] = useState(mockAnalysesRun);
 
   useEffect(() => {
     // In a real application, you would fetch data based on the selected team, project, and role
@@ -75,6 +104,10 @@ export const useFeedbackData = () => {
     roles,
     selectedRole,
     setSelectedRole,
-    aiSuggestions
+    aiSuggestions,
+    dataTables,
+    employeeSegments,
+    performanceMetrics,
+    analysesRun
   };
 };

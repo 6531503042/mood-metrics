@@ -1,5 +1,6 @@
 import React from 'react';
 import { Card, CardHeader, CardBody, Divider } from "@nextui-org/react";
+import { Database, Users, BarChart2, Brain, ChevronRight } from 'lucide-react';
 import MetricCards from "./dashboard/MetricCards";
 import CategoryOverview from "./dashboard/CategoryOverview";
 import SentimentOverview from "./dashboard/SentimentOverview";
@@ -11,6 +12,10 @@ import TeamSelector from "./TeamSelector";
 import ProjectSelector from "./ProjectSelector";
 import RoleSelector from "./RoleSelector";
 import AIAnalyst from "./AIAnalyst";
+import DataTables from "./dashboard/DataTables";
+import EmployeeSegmentation from "./dashboard/EmployeeSegmentation";
+import PerformanceMetrics from "./dashboard/PerformanceMetrics";
+import AnalysesRun from "./dashboard/AnalysesRun";
 import { useFeedbackData } from "../hooks/useFeedbackData";
 
 const FeedbackDashboard = () => {
@@ -24,20 +29,60 @@ const FeedbackDashboard = () => {
     roles,
     selectedRole,
     setSelectedRole,
-    aiSuggestions
+    aiSuggestions,
+    dataTables,
+    employeeSegments,
+    performanceMetrics,
+    analysesRun
   } = useFeedbackData();
 
   return (
     <div className="p-6 bg-gradient-to-br from-blue-50 to-indigo-100 min-h-screen">
       <h1 className="text-4xl font-bold mb-6 text-center text-indigo-800">Feedback Insights</h1>
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-6">
+      <div className="grid grid-cols-1 md:grid-cols-4 gap-4 mb-6">
         <TeamSelector selectedTeam={selectedTeam} setSelectedTeam={setSelectedTeam} />
         <ProjectSelector projects={projects} selectedProject={selectedProject} setSelectedProject={setSelectedProject} />
         <RoleSelector roles={roles} selectedRole={selectedRole} setSelectedRole={setSelectedRole} />
       </div>
       <AIAnalyst suggestions={aiSuggestions} />
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-6">
+      <div className="grid grid-cols-1 md:grid-cols-4 gap-6 mb-6">
         <MetricCards data={feedbackData} />
+      </div>
+      <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-6">
+        <Card className="shadow-lg">
+          <CardHeader className="pb-0 pt-4 px-4 flex-col items-start">
+            <h4 className="font-bold text-large flex items-center"><Database className="mr-2" /> Available Data Tables</h4>
+          </CardHeader>
+          <CardBody className="overflow-visible py-2">
+            <DataTables data={dataTables} />
+          </CardBody>
+        </Card>
+        <Card className="shadow-lg">
+          <CardHeader className="pb-0 pt-4 px-4 flex-col items-start">
+            <h4 className="font-bold text-large flex items-center"><Users className="mr-2" /> Employee Segmentation</h4>
+          </CardHeader>
+          <CardBody className="overflow-visible py-2">
+            <EmployeeSegmentation data={employeeSegments} />
+          </CardBody>
+        </Card>
+      </div>
+      <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-6">
+        <Card className="shadow-lg">
+          <CardHeader className="pb-0 pt-4 px-4 flex-col items-start">
+            <h4 className="font-bold text-large flex items-center"><BarChart2 className="mr-2" /> Performance Metrics</h4>
+          </CardHeader>
+          <CardBody className="overflow-visible py-2">
+            <PerformanceMetrics data={performanceMetrics} />
+          </CardBody>
+        </Card>
+        <Card className="shadow-lg">
+          <CardHeader className="pb-0 pt-4 px-4 flex-col items-start">
+            <h4 className="font-bold text-large flex items-center"><Brain className="mr-2" /> Analyses Run</h4>
+          </CardHeader>
+          <CardBody className="overflow-visible py-2">
+            <AnalysesRun data={analysesRun} />
+          </CardBody>
+        </Card>
       </div>
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-6">
         <Card className="shadow-lg">
