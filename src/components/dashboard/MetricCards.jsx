@@ -4,24 +4,22 @@ import { MessageSquare, Star, BarChart2 } from 'lucide-react';
 
 const MetricCard = ({ title, value, icon }) => (
   <Card className="bg-white shadow-md hover:shadow-xl transition-shadow duration-300">
-    <CardBody className="flex items-center justify-between p-4">
-      <div>
-        <p className="text-sm text-gray-500">{title}</p>
-        <p className="text-2xl font-bold">{value}</p>
-      </div>
-      <div className="text-3xl text-indigo-500">{icon}</div>
+    <CardBody className="flex flex-col items-center justify-center p-4">
+      <div className="text-4xl text-indigo-500 mb-4">{icon}</div>
+      <p className="text-sm text-gray-500 text-center">{title}</p>
+      <p className="text-2xl font-bold text-center">{value}</p>
     </CardBody>
   </Card>
 );
-
 const MetricCards = ({ data }) => {
   return (
-    <>
-      <MetricCard title="Total Feedback" value={data.totalFeedback} icon={<MessageSquare size={24} />} />
-      <MetricCard title="Average Rating" value={data.averageRating.toFixed(1)} icon={<Star size={24} />} />
-      <MetricCard title="Response Rate" value={`${(data.responseRate * 100).toFixed(1)}%`} icon={<BarChart2 size={24} />} />
-    </>
+    <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6"> {/* Keep the gap for spacing */}
+      <MetricCard className="w-full" title="Total Feedback" value={data.totalFeedback} icon={<MessageSquare size={36} />} />
+      <MetricCard className="w-full" title="Average Rating" value={data.averageRating.toFixed(1)} icon={<Star size={36} />} />
+      <MetricCard className="w-full" title="Response Rate" value={`${(data.responseRate * 100).toFixed(1)}%`} icon={<BarChart2 size={36} />} />
+    </div>
   );
 };
 
-export default MetricCards;
+
+export default MetricCards;3
