@@ -1,7 +1,6 @@
 import React from 'react';
 import { Select, SelectItem } from "@nextui-org/react";
-
-const teams = ['All Teams', 'Backend', 'Frontend', 'DevOps', 'Design', 'Product'];
+import { teams } from '../utils/feedbackUtils';
 
 const TeamSelector = ({ selectedTeam, setSelectedTeam }) => {
   return (
@@ -14,8 +13,8 @@ const TeamSelector = ({ selectedTeam, setSelectedTeam }) => {
         className="max-w-xs"
       >
         {teams.map((team) => (
-          <SelectItem key={team.toLowerCase()} value={team.toLowerCase()}>
-            {team}
+          <SelectItem key={team.value} value={team.value}>
+            {team.label}
           </SelectItem>
         ))}
       </Select>
