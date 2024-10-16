@@ -8,15 +8,34 @@ import FeedbackTrends from "./dashboard/FeedbackTrends";
 import RecentFeedback from "./dashboard/RecentFeedback";
 import ResponseTime from "./dashboard/ResponseTime";
 import TeamSelector from "./TeamSelector";
+import ProjectSelector from "./ProjectSelector";
+import RoleSelector from "./RoleSelector";
+import AIAnalyst from "./AIAnalyst";
 import { useFeedbackData } from "../hooks/useFeedbackData";
 
 const FeedbackDashboard = () => {
-  const { feedbackData, selectedTeam, setSelectedTeam } = useFeedbackData();
+  const { 
+    feedbackData, 
+    selectedTeam, 
+    setSelectedTeam, 
+    projects, 
+    selectedProject, 
+    setSelectedProject,
+    roles,
+    selectedRole,
+    setSelectedRole,
+    aiSuggestions
+  } = useFeedbackData();
 
   return (
     <div className="p-6 bg-gradient-to-br from-blue-50 to-indigo-100 min-h-screen">
       <h1 className="text-4xl font-bold mb-6 text-center text-indigo-800">Feedback Insights</h1>
-      <TeamSelector selectedTeam={selectedTeam} setSelectedTeam={setSelectedTeam} />
+      <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-6">
+        <TeamSelector selectedTeam={selectedTeam} setSelectedTeam={setSelectedTeam} />
+        <ProjectSelector projects={projects} selectedProject={selectedProject} setSelectedProject={setSelectedProject} />
+        <RoleSelector roles={roles} selectedRole={selectedRole} setSelectedRole={setSelectedRole} />
+      </div>
+      <AIAnalyst suggestions={aiSuggestions} />
       <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-6">
         <MetricCards data={feedbackData} />
       </div>

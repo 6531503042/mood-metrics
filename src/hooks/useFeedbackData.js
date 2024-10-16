@@ -32,15 +32,49 @@ const mockFeedbackData = {
   averageResponseTime: '2 days',
 };
 
+const mockProjects = [
+  { id: 'project1', name: 'Project Alpha' },
+  { id: 'project2', name: 'Project Beta' },
+  { id: 'project3', name: 'Project Gamma' },
+];
+
+const mockRoles = [
+  { id: 'role1', name: 'Developer' },
+  { id: 'role2', name: 'Designer' },
+  { id: 'role3', name: 'Manager' },
+];
+
+const mockAISuggestions = [
+  "Consider implementing more team-building activities to improve collaboration scores.",
+  "The recent drop in work-life balance ratings may be addressed by reviewing current policies.",
+  "Positive feedback on the new project management tool suggests expanding its use across teams.",
+];
+
 export const useFeedbackData = () => {
   const [feedbackData, setFeedbackData] = useState(mockFeedbackData);
   const [selectedTeam, setSelectedTeam] = useState('all');
+  const [projects, setProjects] = useState(mockProjects);
+  const [selectedProject, setSelectedProject] = useState('');
+  const [roles, setRoles] = useState(mockRoles);
+  const [selectedRole, setSelectedRole] = useState('');
+  const [aiSuggestions, setAISuggestions] = useState(mockAISuggestions);
 
   useEffect(() => {
-    // In a real application, you would fetch data based on the selected team
-    // For now, we'll just use the mock data
-    console.log(`Team selected: ${selectedTeam}`);
-  }, [selectedTeam]);
+    // In a real application, you would fetch data based on the selected team, project, and role
+    console.log(`Team: ${selectedTeam}, Project: ${selectedProject}, Role: ${selectedRole}`);
+    // Update feedbackData, projects, roles, and aiSuggestions based on selections
+  }, [selectedTeam, selectedProject, selectedRole]);
 
-  return { feedbackData, selectedTeam, setSelectedTeam };
+  return { 
+    feedbackData, 
+    selectedTeam, 
+    setSelectedTeam, 
+    projects, 
+    selectedProject, 
+    setSelectedProject,
+    roles,
+    selectedRole,
+    setSelectedRole,
+    aiSuggestions
+  };
 };
