@@ -1,36 +1,46 @@
 import React from 'react';
-import { Sidebar, SidebarItem } from "@nextui-org/react";
+import { Button } from "@nextui-org/react";
 import { BarChart2, Users, Settings, MessageSquare, PieChart } from 'lucide-react';
 
 const AppSidebar = () => {
   return (
-    <Sidebar className="h-screen">
-      <SidebarItem
-        key="feedback-management"
-        title="Feedback Management"
-        icon={<MessageSquare size={24} />}
-      />
-      <SidebarItem
-        key="user-analytics"
-        title="User Analytics"
-        icon={<Users size={24} />}
-      />
-      <SidebarItem
-        key="performance-metrics"
-        title="Performance Metrics"
-        icon={<BarChart2 size={24} />}
-      />
-      <SidebarItem
-        key="sentiment-analysis"
-        title="Sentiment Analysis"
-        icon={<PieChart size={24} />}
-      />
-      <SidebarItem
-        key="settings"
-        title="Settings"
-        icon={<Settings size={24} />}
-      />
-    </Sidebar>
+    <div className="h-screen w-64 bg-gray-100 p-4">
+      <Button
+        className="w-full mb-2 justify-start"
+        startContent={<MessageSquare size={24} />}
+        variant="light"
+      >
+        Feedback Management
+      </Button>
+      <Button
+        className="w-full mb-2 justify-start"
+        startContent={<Users size={24} />}
+        variant="light"
+      >
+        User Analytics
+      </Button>
+      <Button
+        className="w-full mb-2 justify-start"
+        startContent={<BarChart2 size={24} />}
+        variant="light"
+      >
+        Performance Metrics
+      </Button>
+      <Button
+        className="w-full mb-2 justify-start"
+        startContent={<PieChart size={24} />}
+        variant="light"
+      >
+        Sentiment Analysis
+      </Button>
+      <Button
+        className="w-full mb-2 justify-start"
+        startContent={<Settings size={24} />}
+        variant="light"
+      >
+        Settings
+      </Button>
+    </div>
   );
 };
 
