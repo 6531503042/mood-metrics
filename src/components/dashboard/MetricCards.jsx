@@ -13,20 +13,8 @@ const MetricCard = ({ title, value, icon }) => (
 );
 
 const MetricCards = ({ data }) => {
-  // Function to safely format the average rating
-  const formatAverageRating = (rating) => {
-    if (typeof rating === 'number' && !isNaN(rating)) {
-      return rating.toFixed(1);
-    }
-    return 'N/A';
-  };
-
-  // Function to safely format the response rate
-  const formatResponseRate = (rate) => {
-    if (typeof rate === 'number' && !isNaN(rate)) {
-      return `${(rate * 100).toFixed(1)}%`;
-    }
-    return 'N/A';
+  const formatValue = (value) => {
+    return typeof value === 'number' ? value.toFixed(1) : value;
   };
 
   return (
@@ -40,13 +28,13 @@ const MetricCards = ({ data }) => {
       <MetricCard 
         className="w-full" 
         title="Average Rating" 
-        value={formatAverageRating(data.averageRating)} 
+        value={formatValue(data.averageRating)} 
         icon={<Star size={36} />} 
       />
       <MetricCard 
         className="w-full" 
         title="Response Rate" 
-        value={formatResponseRate(data.responseRate)} 
+        value={`${formatValue(data.responseRate)}%`} 
         icon={<BarChart2 size={36} />} 
       />
     </div>

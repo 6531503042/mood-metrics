@@ -1,6 +1,5 @@
 import React from 'react';
 import { Card, CardHeader, CardBody, Select, SelectItem } from "@nextui-org/react";
-import { Database, Users, BarChart2 } from 'lucide-react';
 import MetricCards from "./dashboard/MetricCards";
 import CategoryOverview from "./dashboard/CategoryOverview";
 import SentimentOverview from "./dashboard/SentimentOverview";
@@ -9,10 +8,6 @@ import FeedbackTrends from "./dashboard/FeedbackTrends";
 import RecentFeedback from "./dashboard/RecentFeedback";
 import ResponseTime from "./dashboard/ResponseTime";
 import AIAnalystSuggestions from "./AIAnalystSuggestions";
-import DataTables from "./dashboard/DataTables";
-import EmployeeSegmentation from "./dashboard/EmployeeSegmentation";
-import PerformanceMetrics from "./dashboard/PerformanceMetrics";
-import AnalysesRun from "./dashboard/AnalysesRun";
 import { useFeedbackData } from "../hooks/useFeedbackData";
 
 const FeedbackDashboard = () => {
@@ -21,9 +16,6 @@ const FeedbackDashboard = () => {
     selectedTeam, 
     setSelectedTeam,
     teams,
-    projects, 
-    selectedProject, 
-    setSelectedProject,
     aiSuggestions,
   } = useFeedbackData();
 
@@ -41,18 +33,6 @@ const FeedbackDashboard = () => {
           {teams.map((team) => (
             <SelectItem key={team} value={team}>
               {team}
-            </SelectItem>
-          ))}
-        </Select>
-        <Select 
-          label="Select Project" 
-          placeholder="Choose a project"
-          selectedKeys={[selectedProject]}
-          onChange={(e) => setSelectedProject(e.target.value)}
-        >
-          {projects.map((project) => (
-            <SelectItem key={project.id} value={project.id}>
-              {project.name}
             </SelectItem>
           ))}
         </Select>

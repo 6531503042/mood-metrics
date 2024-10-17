@@ -1,10 +1,12 @@
 import { useState, useEffect } from 'react';
 
+const mockTeams = ['Overall', 'Frontend', 'Backend', 'DevOps', 'Design', 'Product'];
+
 const generateMockData = (teamName) => {
   return {
     totalFeedback: Math.floor(Math.random() * 1000),
     averageRating: (Math.random() * 5).toFixed(1),
-    responseRate: Math.random().toFixed(2),
+    responseRate: (Math.random() * 100).toFixed(1),
     categoryData: [
       { category: 'Work Environment', count: Math.floor(Math.random() * 100) },
       { category: 'Management', count: Math.floor(Math.random() * 100) },
@@ -30,14 +32,6 @@ const generateMockData = (teamName) => {
   };
 };
 
-const mockTeams = ['Frontend', 'Backend', 'DevOps', 'Design', 'Product'];
-
-const mockProjects = [
-  { id: 'project1', name: 'Project Alpha' },
-  { id: 'project2', name: 'Project Beta' },
-  { id: 'project3', name: 'Project Gamma' },
-];
-
 const mockAISuggestions = [
   { category: 'performance', suggestion: "Implement daily stand-ups to improve team coordination." },
   { category: 'performance', suggestion: "Introduce peer code reviews to enhance code quality." },
@@ -50,8 +44,6 @@ const mockAISuggestions = [
 export const useFeedbackData = () => {
   const [selectedTeam, setSelectedTeam] = useState(mockTeams[0]);
   const [feedbackData, setFeedbackData] = useState(generateMockData(selectedTeam));
-  const [projects, setProjects] = useState(mockProjects);
-  const [selectedProject, setSelectedProject] = useState('');
   const [aiSuggestions, setAISuggestions] = useState(mockAISuggestions);
 
   useEffect(() => {
@@ -63,9 +55,6 @@ export const useFeedbackData = () => {
     selectedTeam, 
     setSelectedTeam,
     teams: mockTeams,
-    projects, 
-    selectedProject, 
-    setSelectedProject,
     aiSuggestions,
   };
 };

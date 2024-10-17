@@ -1,6 +1,6 @@
 import React from 'react';
 import { Button } from "@nextui-org/react";
-import { BarChart2, Users, Settings, MessageSquare, PieChart } from 'lucide-react';
+import { BarChart2, Users, MessageSquare, PieChart, Settings } from 'lucide-react';
 
 const AppSidebar = () => {
   return (
@@ -17,7 +17,7 @@ const AppSidebar = () => {
         startContent={<Users size={24} />}
         variant="light"
       >
-        User Analytics
+        Team Analytics
       </Button>
       <Button
         className="w-full mb-2 justify-start"
