@@ -38,7 +38,7 @@ const FeedbackDashboard = () => {
 
   return (
     <div className="p-8 bg-gradient-to-br from-blue-50 to-indigo-100 min-h-screen">
-      <h1 className="text-5xl font-bold mb-8 text-center text-indigo-800">Feedback Insights</h1>
+      <h1 className="text-5xl font-bold mb-8 text-center text-indigo-800">SEEZ's Feedback System</h1>
       
       {/* Selector Section */}
       <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
@@ -59,29 +59,32 @@ const FeedbackDashboard = () => {
 
 
       {/* Data Tables and Employee Segmentation */}
-      <div className="grid grid-cols-1 lg:grid-cols-1 gap-6 mb-8">
-        {/* Data Tables */}
-        <Card className="shadow-lg transition-transform transform hover:scale-105 duration-300">
-          <CardHeader className="pb-0 pt-4 px-4 flex-col items-start">
-            <h4 className="font-bold text-lg flex items-center">
-              <Database className="mr-2" /> Available Data Tables
-            </h4>
-          </CardHeader>
-          <CardBody className="overflow-visible py-2">
-            <DataTables data={dataTables} />
-          </CardBody>
-        </Card>
-        <Card className="shadow-lg transition-transform transform hover:scale-105 duration-300">
-          <CardHeader className="pb-0 pt-4 px-4 flex-col items-start">
-            <h4 className="font-bold text-lg flex items-center">
-              <Users className="mr-2" /> Employee Segmentation
-            </h4>
-          </CardHeader>
-          <CardBody className="overflow-visible py-2">
-            <EmployeeSegmentation data={employeeSegments} />
-          </CardBody>
-        </Card>
-      </div>
+<div className="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-8"> {/* Changed to lg:grid-cols-2 */}
+  {/* Data Tables */}
+  <Card className="shadow-lg transition-transform transform hover:scale-105 duration-300 w-full"> {/* Added w-full */}
+    <CardHeader className="pb-0 pt-4 px-4 flex-col items-start">
+      <h4 className="font-bold text-lg flex items-center">
+        <Database className="mr-2" /> Available Data Tables
+      </h4>
+    </CardHeader>
+    <CardBody className="overflow-visible py-2">
+      <DataTables data={dataTables} />
+    </CardBody>
+  </Card>
+
+  {/* Employee Segmentation */}
+  <Card className="shadow-lg transition-transform transform hover:scale-105 duration-300 w-full"> {/* Added w-full */}
+    <CardHeader className="pb-0 pt-4 px-4 flex-col items-start">
+      <h4 className="font-bold text-lg flex items-center">
+        <Users className="mr-2" /> Employee Segmentation
+      </h4>
+    </CardHeader>
+    <CardBody className="overflow-visible py-2">
+      <EmployeeSegmentation data={employeeSegments} />
+    </CardBody>
+  </Card>
+</div>
+
 
       {/* Performance Metrics and Analyses Run */}
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-8">
