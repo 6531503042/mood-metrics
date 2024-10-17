@@ -1,4 +1,3 @@
-import React from 'react';
 import { Tabs, Tab } from "@nextui-org/react";
 import FeedbackDashboard from '../components/FeedbackDashboard';
 import FeedbackForm from '../components/FeedbackForm';
