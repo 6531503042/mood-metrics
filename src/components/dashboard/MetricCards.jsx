@@ -15,14 +15,40 @@ const MetricCard = ({ title, value, icon }) => (
 const MetricCards = ({ data }) => {
   // Function to safely format the average rating
   const formatAverageRating = (rating) => {
-    return typeof rating === 'number' ? rating.toFixed(1) : 'N/A';
+    if (typeof rating === 'number' && !isNaN(rating)) {
+      return rating.toFixed(1);
+    }
+    return 'N/A';
+  };
+
+  // Function to safely format the response rate
+  const formatResponseRate = (rate) => {
+    if (typeof rate === 'number' && !isNaN(rate)) {
+      return `${(rate * 100).toFixed(1)}%`;
+    }
+    return 'N/A';
   };
 
   return (
     <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-      <MetricCard className="w-full" title="Total Feedback" value={data.totalFeedback} icon={<MessageSquare size={36} />} />
-      <MetricCard className="w-full" title="Average Rating" value={formatAverageRating(data.averageRating)} icon={<Star size={36} />} />
-      <MetricCard className="w-full" title="Response Rate" value={`${(data.responseRate * 100).toFixed(1)}%`} icon={<BarChart2 size={36} />} />
+      <MetricCard 
+        className="w-full" 
+        title="Total Feedback" 
+        value={data.totalFeedback || 'N/A'} 
+        icon={<MessageSquare size={36} />} 
+      />
+      <MetricCard 
+        className="w-full" 
+        title="Average Rating" 
+        value={formatAverageRating(data.averageRating)} 
+        icon={<Star size={36} />} 
+      />
+      <MetricCard 
+        className="w-full" 
+        title="Response Rate" 
+        value={formatResponseRate(data.responseRate)} 
+        icon={<BarChart2 size={36} />} 
+      />
     </div>
   );
 };
