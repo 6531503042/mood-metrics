@@ -1,4 +1,3 @@
-import React from 'react';
 
 const EmojiFeedbackDistribution = ({ data }) => {
   const total = Object.values(data).reduce((acc, val) => acc + val, 0);
