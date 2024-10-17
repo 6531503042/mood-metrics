@@ -14,7 +14,10 @@ const MetricCard = ({ title, value, icon }) => (
 
 const MetricCards = ({ data }) => {
   const formatValue = (value) => {
-    return typeof value === 'number' ? value.toFixed(1) : value;
+    if (typeof value === 'number' && !isNaN(value)) {
+      return value.toFixed(1);
+    }
+    return 'N/A';
   };
 
   return (
