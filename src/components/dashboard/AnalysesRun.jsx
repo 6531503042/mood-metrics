@@ -1,4 +1,4 @@
-
+import React from 'react';
 import { Table, TableHeader, TableColumn, TableBody, TableRow, TableCell, Chip } from "@nextui-org/react";
 
 const AnalysesRun = ({ data }) => {

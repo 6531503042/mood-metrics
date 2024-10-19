@@ -1,8 +1,9 @@
 import { useState, useEffect } from 'react';
 
 const mockTeams = ['Overall', 'Frontend', 'Backend', 'DevOps', 'Design', 'Product'];
+const mockProjects = ['Overall', 'Alpha', 'Beta', 'Gamma', 'Delta'];
 
-const generateMockData = (teamName) => {
+const generateMockData = (teamName, projectName) => {
   return {
     totalFeedback: Math.floor(Math.random() * 1000),
     averageRating: (Math.random() * 5).toFixed(1),
@@ -24,11 +25,27 @@ const generateMockData = (teamName) => {
       averageRating: (Math.random() * 5).toFixed(1),
     })),
     recentFeedback: [
-      { id: 1, text: `Great work environment in ${teamName}!`, sentiment: 'positive' },
-      { id: 2, text: `Need more career growth opportunities in ${teamName}`, sentiment: 'neutral' },
-      { id: 3, text: `${teamName} management could improve communication`, sentiment: 'negative' },
+      { id: 1, text: `Great work environment in ${teamName} for ${projectName}!`, sentiment: 'positive' },
+      { id: 2, text: `Need more career growth opportunities in ${teamName} for ${projectName}`, sentiment: 'neutral' },
+      { id: 3, text: `${teamName} management could improve communication for ${projectName}`, sentiment: 'negative' },
     ],
     averageResponseTime: `${Math.floor(Math.random() * 5) + 1} days`,
+    availableDataTables: [
+      { id: 1, name: 'Employee Feedback', description: 'Contains all employee feedback data', lastUpdated: '2023-06-15' },
+      { id: 2, name: 'Project Metrics', description: 'Project-specific performance metrics', lastUpdated: '2023-06-14' },
+      { id: 3, name: 'Team Analytics', description: 'Team-level analytics and insights', lastUpdated: '2023-06-13' },
+    ],
+    performanceMetrics: [
+      { name: 'Productivity', value: Math.floor(Math.random() * 100) },
+      { name: 'Quality', value: Math.floor(Math.random() * 100) },
+      { name: 'Efficiency', value: Math.floor(Math.random() * 100) },
+      { name: 'Innovation', value: Math.floor(Math.random() * 100) },
+    ],
+    analysesRun: [
+      { id: 1, name: 'Sentiment Analysis', dateRun: '2023-06-15', status: 'Completed' },
+      { id: 2, name: 'Trend Analysis', dateRun: '2023-06-14', status: 'In Progress' },
+      { id: 3, name: 'Predictive Analysis', dateRun: '2023-06-13', status: 'Completed' },
+    ],
   };
 };
 
@@ -43,18 +60,22 @@ const mockAISuggestions = [
 
 export const useFeedbackData = () => {
   const [selectedTeam, setSelectedTeam] = useState(mockTeams[0]);
-  const [feedbackData, setFeedbackData] = useState(generateMockData(selectedTeam));
+  const [selectedProject, setSelectedProject] = useState(mockProjects[0]);
+  const [feedbackData, setFeedbackData] = useState(generateMockData(selectedTeam, selectedProject));
   const [aiSuggestions, setAISuggestions] = useState(mockAISuggestions);
 
   useEffect(() => {
-    setFeedbackData(generateMockData(selectedTeam));
-  }, [selectedTeam]);
+    setFeedbackData(generateMockData(selectedTeam, selectedProject));
+  }, [selectedTeam, selectedProject]);
 
   return { 
     feedbackData, 
     selectedTeam, 
     setSelectedTeam,
+    selectedProject,
+    setSelectedProject,
     teams: mockTeams,
+    projects: mockProjects,
     aiSuggestions,
   };
 };
