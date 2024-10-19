@@ -1,6 +1,6 @@
 import React from 'react';
 import { Card, CardBody } from "@nextui-org/react";
-import { ThumbsUp, ThumbsDown, Minus } from 'lucide-react';
+import { ThumbsUp, ThumbsDown, Minus, MessageSquare } from 'lucide-react';
 
 const SentimentIcon = ({ sentiment }) => {
   switch (sentiment) {
@@ -26,13 +26,16 @@ const RecentFeedback = ({ data, filter, team, project }) => {
         <Card key={feedback.id} className="bg-white shadow-sm hover:shadow-md transition-shadow duration-300">
           <CardBody>
             <div className="flex items-start">
-              <div className="mr-4">
+              <div className="mr-4 mt-1">
                 <SentimentIcon sentiment={feedback.sentiment} />
               </div>
-              <div>
-                <p className="text-gray-800">{feedback.text}</p>
-                <div className="mt-2 text-xs text-gray-500">
-                  <span className="mr-2">Team: {feedback.team}</span>
+              <div className="flex-grow">
+                <div className="flex items-center mb-2">
+                  <MessageSquare size={16} className="mr-2 text-gray-500" />
+                  <p className="text-gray-800 font-medium">{feedback.text}</p>
+                </div>
+                <div className="flex justify-between text-xs text-gray-500">
+                  <span>Team: {feedback.team}</span>
                   <span>Project: {feedback.project}</span>
                 </div>
               </div>
