@@ -1,18 +1,42 @@
 import React from 'react';
-import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer } from 'recharts';
+import { Progress } from "@nextui-org/react";
+import { Activity, Zap, Target, Lightbulb } from 'lucide-react';
+
+const MetricIcon = ({ name }) => {
+  switch (name) {
+    case 'Productivity':
+      return <Activity size={16} />;
+    case 'Quality':
+      return <Target size={16} />;
+    case 'Efficiency':
+      return <Zap size={16} />;
+    case 'Innovation':
+      return <Lightbulb size={16} />;
+    default:
+      return null;
+  }
+};
 
 const PerformanceMetrics = ({ data }) => {
   return (
-    <ResponsiveContainer width="100%" height={300}>
-      <BarChart data={data}>
-        <CartesianGrid strokeDasharray="3 3" />
-        <XAxis dataKey="name" />
-        <YAxis />
-        <Tooltip />
-        <Legend />
-        <Bar dataKey="value" fill="#8884d8" />
-      </BarChart>
-    </ResponsiveContainer>
+    <div className="space-y-4">
+      {data.map((metric) => (
+        <div key={metric.name} className="flex items-center">
+          <div className="w-1/4 flex items-center">
+            <MetricIcon name={metric.name} />
+            <span className="ml-2 text-sm">{metric.name}</span>
+          </div>
+          <div className="w-3/4">
+            <Progress
+              value={metric.value}
+              className="max-w-md"
+              color="primary"
+              showValueLabel={true}
+            />
+          </div>
+        </div>
+      ))}
+    </div>
   );
 };
 

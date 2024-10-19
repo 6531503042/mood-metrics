@@ -1,20 +1,48 @@
+import React from 'react';
+import { Card, CardBody } from "@nextui-org/react";
+import { ThumbsUp, ThumbsDown, Minus } from 'lucide-react';
 
+const SentimentIcon = ({ sentiment }) => {
+  switch (sentiment) {
+    case 'positive':
+      return <ThumbsUp className="text-green-500" />;
+    case 'negative':
+      return <ThumbsDown className="text-red-500" />;
+    default:
+      return <Minus className="text-yellow-500" />;
+  }
+};
 
-const RecentFeedback = ({ data }) => {
+const RecentFeedback = ({ data, filter, team, project }) => {
+  const filteredData = data.filter(feedback => 
+    (filter === 'all' || feedback.sentiment === filter) &&
+    (team === 'Overall' || feedback.team === team) &&
+    (project === 'Overall' || feedback.project === project)
+  );
+
   return (
     <div className="space-y-4">
-      {data.map((feedback) => (
-        <div key={feedback.id} className="bg-white p-4 rounded-lg shadow">
-          <p className="text-gray-800">{feedback.text}</p>
-          <span className={`inline-block px-2 py-1 mt-2 text-xs font-semibold rounded-full ${
-            feedback.sentiment === 'positive' ? 'bg-green-200 text-green-800' :
-            feedback.sentiment === 'neutral' ? 'bg-yellow-200 text-yellow-800' :
-            'bg-red-200 text-red-800'
-          }`}>
-            {feedback.sentiment}
-          </span>
-        </div>
+      {filteredData.map((feedback) => (
+        <Card key={feedback.id} className="bg-white shadow-sm hover:shadow-md transition-shadow duration-300">
+          <CardBody>
+            <div className="flex items-start">
+              <div className="mr-4">
+                <SentimentIcon sentiment={feedback.sentiment} />
+              </div>
+              <div>
+                <p className="text-gray-800">{feedback.text}</p>
+                <div className="mt-2 text-xs text-gray-500">
+                  <span className="mr-2">Team: {feedback.team}</span>
+                  <span>Project: {feedback.project}</span>
+                </div>
+              </div>
+            </div>
+          </CardBody>
+        </Card>
       ))}
+      {filteredData.length === 0 && (
+        <p className="text-center text-gray-500">No feedback matching the current filters.</p>
+      )}
     </div>
   );
 };
