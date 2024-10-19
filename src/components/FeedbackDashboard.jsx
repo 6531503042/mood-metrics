@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 import { Card, CardHeader, CardBody, Select, SelectItem } from "@nextui-org/react";
 import MetricCards from "./dashboard/MetricCards";
 import CategoryOverview from "./dashboard/CategoryOverview";
@@ -27,10 +27,11 @@ const FeedbackDashboard = () => {
   const [feedbackFilter, setFeedbackFilter] = useState('all');
 
   return (
-    <div className="space-y-6 p-6 bg-gradient-to-r from-purple-50 to-pink-50">
+    <div className="space-y-8 p-8 bg-gradient-to-r from-purple-50 to-pink-50">
       <h1 className="text-4xl font-bold mb-8 text-purple-800">Feedback Dashboard</h1>
       
-      <div className="flex space-x-4 mb-6">
+      {/* Select Options for Team, Project, and Feedback Filter */}
+      <div className="flex space-x-6 mb-8">
         <Select 
           label="Select Team" 
           placeholder="Choose a team"
@@ -44,6 +45,7 @@ const FeedbackDashboard = () => {
             </SelectItem>
           ))}
         </Select>
+
         <Select 
           label="Select Project" 
           placeholder="Choose a project"
@@ -57,6 +59,7 @@ const FeedbackDashboard = () => {
             </SelectItem>
           ))}
         </Select>
+
         <Select 
           label="Filter Feedback" 
           placeholder="Filter by sentiment"
@@ -70,13 +73,16 @@ const FeedbackDashboard = () => {
           <SelectItem key="negative" value="negative">Negative</SelectItem>
         </Select>
       </div>
-      
+
+      {/* AI Suggestions */}
       <AIAnalystSuggestions suggestions={aiSuggestions} />
 
+      {/* Metric Cards */}
       <MetricCards data={feedbackData} />
 
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-        <Card className="bg-white shadow-xl rounded-xl">
+      {/* Category Distribution and Sentiment Analysis */}
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+        <Card className="bg-white shadow-xl rounded-lg">
           <CardHeader>
             <h2 className="text-2xl font-semibold text-purple-700">Category Distribution</h2>
           </CardHeader>
@@ -84,7 +90,8 @@ const FeedbackDashboard = () => {
             <CategoryOverview data={feedbackData.categoryData} />
           </CardBody>
         </Card>
-        <Card className="bg-white shadow-xl rounded-xl">
+
+        <Card className="bg-white shadow-xl rounded-lg">
           <CardHeader>
             <h2 className="text-2xl font-semibold text-purple-700">Sentiment Analysis</h2>
           </CardHeader>
@@ -94,8 +101,9 @@ const FeedbackDashboard = () => {
         </Card>
       </div>
 
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-        <Card className="bg-white shadow-xl rounded-xl">
+      {/* Emoji Feedback and Feedback Trends */}
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+        <Card className="bg-white shadow-xl rounded-lg">
           <CardHeader>
             <h2 className="text-2xl font-semibold text-purple-700">Emoji Feedback Distribution</h2>
           </CardHeader>
@@ -103,7 +111,8 @@ const FeedbackDashboard = () => {
             <EmojiFeedbackDistribution data={feedbackData.sentimentData} />
           </CardBody>
         </Card>
-        <Card className="bg-white shadow-xl rounded-xl">
+
+        <Card className="bg-white shadow-xl rounded-lg">
           <CardHeader>
             <h2 className="text-2xl font-semibold text-purple-700">Feedback Trends</h2>
           </CardHeader>
@@ -113,17 +122,24 @@ const FeedbackDashboard = () => {
         </Card>
       </div>
 
-      <Card className="bg-white shadow-xl rounded-xl">
+      {/* Recent Feedback */}
+      <Card className="bg-white shadow-xl rounded-lg">
         <CardHeader>
           <h2 className="text-2xl font-semibold text-purple-700">Recent Feedback</h2>
         </CardHeader>
         <CardBody>
-          <RecentFeedback data={feedbackData.recentFeedback} filter={feedbackFilter} team={selectedTeam} project={selectedProject} />
+          <RecentFeedback 
+            data={feedbackData.recentFeedback} 
+            filter={feedbackFilter} 
+            team={selectedTeam} 
+            project={selectedProject} 
+          />
         </CardBody>
       </Card>
 
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-        <Card className="bg-white shadow-xl rounded-xl">
+      {/* Available Data Tables, Performance Metrics, and Analyses Run */}
+      <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+        <Card className="bg-white shadow-xl rounded-lg">
           <CardHeader>
             <h2 className="text-xl font-semibold text-purple-700">Available Data Tables</h2>
           </CardHeader>
@@ -132,7 +148,7 @@ const FeedbackDashboard = () => {
           </CardBody>
         </Card>
 
-        <Card className="bg-white shadow-xl rounded-xl">
+        <Card className="bg-white shadow-xl rounded-lg">
           <CardHeader>
             <h2 className="text-xl font-semibold text-purple-700">Performance Metrics</h2>
           </CardHeader>
@@ -141,7 +157,7 @@ const FeedbackDashboard = () => {
           </CardBody>
         </Card>
 
-        <Card className="bg-white shadow-xl rounded-xl">
+        <Card className="bg-white shadow-xl rounded-lg">
           <CardHeader>
             <h2 className="text-xl font-semibold text-purple-700">Analyses Run</h2>
           </CardHeader>
