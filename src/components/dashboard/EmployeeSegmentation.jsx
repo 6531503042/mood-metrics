@@ -4,6 +4,11 @@ import { PieChart, Pie, Cell, ResponsiveContainer, Legend, Tooltip } from 'recha
 const COLORS = ['#0088FE', '#00C49F', '#FFBB28', '#FF8042', '#8884D8'];
 
 const EmployeeSegmentation = ({ data }) => {
+  // Check if data is undefined or empty
+  if (!data || data.length === 0) {
+    return <div>No employee segmentation data available</div>;
+  }
+
   return (
     <ResponsiveContainer width="100%" height={300}>
       <PieChart>
