@@ -58,14 +58,38 @@ const mockAISuggestions = [
   { category: 'improvement', suggestion: "Conduct regular one-on-one meetings to address individual concerns." },
 ];
 
+// Generate mock data for all team and project combinations
+const generateAllMockData = () => {
+  const data = [];
+  mockTeams.forEach(team => {
+    mockProjects.forEach(project => {
+      data.push({
+        team,
+        project,
+        feedbackData: generateMockData(team, project),
+      });
+    });
+  });
+  return data;
+};
+
 export const useFeedbackData = () => {
   const [selectedTeam, setSelectedTeam] = useState(mockTeams[0]);
   const [selectedProject, setSelectedProject] = useState(mockProjects[0]);
-  const [feedbackData, setFeedbackData] = useState(generateMockData(selectedTeam, selectedProject));
+  const [allFeedbackData, setAllFeedbackData] = useState(generateAllMockData());
   const [aiSuggestions, setAISuggestions] = useState(mockAISuggestions);
 
+  const feedbackData = allFeedbackData.find(data => data.team === selectedTeam && data.project === selectedProject)?.feedbackData || {};
+
   useEffect(() => {
-    setFeedbackData(generateMockData(selectedTeam, selectedProject));
+    const filteredData = generateMockData(selectedTeam, selectedProject);
+    setAllFeedbackData((prevData) =>
+      prevData.map((data) =>
+        data.team === selectedTeam && data.project === selectedProject
+          ? { ...data, feedbackData: filteredData }
+          : data
+      )
+    );
   }, [selectedTeam, selectedProject]);
 
   return { 
