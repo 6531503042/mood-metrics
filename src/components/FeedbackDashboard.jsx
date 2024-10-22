@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Card, CardHeader, CardBody, Grid } from "@nextui-org/react";
+import { Card, CardHeader, CardBody } from "@nextui-org/react";
 import MetricCards from "./dashboard/MetricCards";
 import CategoryOverview from "./dashboard/CategoryOverview";
 import SentimentOverview from "./dashboard/SentimentOverview";
@@ -46,57 +46,47 @@ const FeedbackDashboard = () => {
         
         <AIAnalystSuggestions suggestions={aiSuggestions} />
 
-        <Grid.Container gap={2} className="mb-8">
-          <Grid xs={12}>
-            <MetricCards data={feedbackData} />
-          </Grid>
-        </Grid.Container>
+        <div className="mb-8">
+          <MetricCards data={feedbackData} />
+        </div>
 
-        <Grid.Container gap={2} className="mb-8">
-          <Grid xs={12} md={6}>
-            <Card className="w-full h-full">
-              <CardHeader>
-                <h2 className="text-2xl font-semibold text-purple-700">Category Distribution</h2>
-              </CardHeader>
-              <CardBody>
-                <CategoryOverview data={feedbackData.categoryData} />
-              </CardBody>
-            </Card>
-          </Grid>
-          <Grid xs={12} md={6}>
-            <Card className="w-full h-full">
-              <CardHeader>
-                <h2 className="text-2xl font-semibold text-purple-700">Sentiment Analysis</h2>
-              </CardHeader>
-              <CardBody>
-                <SentimentOverview data={feedbackData.sentimentData} />
-              </CardBody>
-            </Card>
-          </Grid>
-        </Grid.Container>
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-8 mb-8">
+          <Card className="w-full h-full">
+            <CardHeader>
+              <h2 className="text-2xl font-semibold text-purple-700">Category Distribution</h2>
+            </CardHeader>
+            <CardBody>
+              <CategoryOverview data={feedbackData.categoryData} />
+            </CardBody>
+          </Card>
+          <Card className="w-full h-full">
+            <CardHeader>
+              <h2 className="text-2xl font-semibold text-purple-700">Sentiment Analysis</h2>
+            </CardHeader>
+            <CardBody>
+              <SentimentOverview data={feedbackData.sentimentData} />
+            </CardBody>
+          </Card>
+        </div>
 
-        <Grid.Container gap={2} className="mb-8">
-          <Grid xs={12} md={6}>
-            <Card className="w-full h-full">
-              <CardHeader>
-                <h2 className="text-2xl font-semibold text-purple-700">Emoji Feedback Distribution</h2>
-              </CardHeader>
-              <CardBody>
-                <EmojiFeedbackDistribution data={feedbackData.sentimentData} />
-              </CardBody>
-            </Card>
-          </Grid>
-          <Grid xs={12} md={6}>
-            <Card className="w-full h-full">
-              <CardHeader>
-                <h2 className="text-2xl font-semibold text-purple-700">Feedback Trends</h2>
-              </CardHeader>
-              <CardBody>
-                <FeedbackTrends data={feedbackData.trendData} />
-              </CardBody>
-            </Card>
-          </Grid>
-        </Grid.Container>
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-8 mb-8">
+          <Card className="w-full h-full">
+            <CardHeader>
+              <h2 className="text-2xl font-semibold text-purple-700">Emoji Feedback Distribution</h2>
+            </CardHeader>
+            <CardBody>
+              <EmojiFeedbackDistribution data={feedbackData.sentimentData} />
+            </CardBody>
+          </Card>
+          <Card className="w-full h-full">
+            <CardHeader>
+              <h2 className="text-2xl font-semibold text-purple-700">Feedback Trends</h2>
+            </CardHeader>
+            <CardBody>
+              <FeedbackTrends data={feedbackData.trendData} />
+            </CardBody>
+          </Card>
+        </div>
 
         <Card className="mb-8">
           <CardHeader>
@@ -121,38 +111,32 @@ const FeedbackDashboard = () => {
           </CardBody>
         </Card>
 
-        <Grid.Container gap={2}>
-          <Grid xs={12} md={4}>
-            <Card className="w-full h-full">
-              <CardHeader>
-                <h2 className="text-xl font-semibold text-purple-700">Available Data Tables</h2>
-              </CardHeader>
-              <CardBody>
-                <AvailableDataTables data={feedbackData.availableDataTables} />
-              </CardBody>
-            </Card>
-          </Grid>
-          <Grid xs={12} md={4}>
-            <Card className="w-full h-full">
-              <CardHeader>
-                <h2 className="text-xl font-semibold text-purple-700">Performance Metrics</h2>
-              </CardHeader>
-              <CardBody>
-                <PerformanceMetrics data={feedbackData.performanceMetrics} />
-              </CardBody>
-            </Card>
-          </Grid>
-          <Grid xs={12} md={4}>
-            <Card className="w-full h-full">
-              <CardHeader>
-                <h2 className="text-xl font-semibold text-purple-700">Analyses Run</h2>
-              </CardHeader>
-              <CardBody>
-                <AnalysesRun data={feedbackData.analysesRun} />
-              </CardBody>
-            </Card>
-          </Grid>
-        </Grid.Container>
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+          <Card className="w-full h-full">
+            <CardHeader>
+              <h2 className="text-xl font-semibold text-purple-700">Available Data Tables</h2>
+            </CardHeader>
+            <CardBody>
+              <AvailableDataTables data={feedbackData.availableDataTables} />
+            </CardBody>
+          </Card>
+          <Card className="w-full h-full">
+            <CardHeader>
+              <h2 className="text-xl font-semibold text-purple-700">Performance Metrics</h2>
+            </CardHeader>
+            <CardBody>
+              <PerformanceMetrics data={feedbackData.performanceMetrics} />
+            </CardBody>
+          </Card>
+          <Card className="w-full h-full">
+            <CardHeader>
+              <h2 className="text-xl font-semibold text-purple-700">Analyses Run</h2>
+            </CardHeader>
+            <CardBody>
+              <AnalysesRun data={feedbackData.analysesRun} />
+            </CardBody>
+          </Card>
+        </div>
       </div>
     </div>
   );
