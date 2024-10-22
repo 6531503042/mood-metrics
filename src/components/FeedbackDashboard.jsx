@@ -63,6 +63,8 @@ const FeedbackDashboard = () => {
               selectedProject={selectedProject}
               setSelectedProject={setSelectedProject}
               compact={true}
+              teams={teams}
+              projects={projects}
             />
           </CardHeader>
           <CardBody>
@@ -79,6 +81,8 @@ const FeedbackDashboard = () => {
               selectedProject={selectedProject}
               setSelectedProject={setSelectedProject}
               compact={true}
+              teams={teams}
+              projects={projects}
             />
           </CardHeader>
           <CardBody>
@@ -107,6 +111,8 @@ const FeedbackDashboard = () => {
               selectedProject={selectedProject}
               setSelectedProject={setSelectedProject}
               compact={true}
+              teams={teams}
+              projects={projects}
             />
           </CardHeader>
           <CardBody>
@@ -125,6 +131,8 @@ const FeedbackDashboard = () => {
             selectedProject={selectedProject}
             setSelectedProject={setSelectedProject}
             compact={true}
+            teams={teams}
+            projects={projects}
           />
         </CardHeader>
         <CardBody>
@@ -144,6 +152,8 @@ const FeedbackDashboard = () => {
             feedbackFilter={feedbackFilter}
             setFeedbackFilter={setFeedbackFilter}
             compact={true}
+            teams={teams}
+            projects={projects}
           />
         </CardHeader>
         <CardBody>
