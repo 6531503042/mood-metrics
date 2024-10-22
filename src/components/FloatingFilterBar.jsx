@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { Button } from "@nextui-org/react";
-import { Filter } from 'lucide-react';
+import { Filter, X } from 'lucide-react';
 import SelectFilter from './SelectFilter';
 
 const FloatingFilterBar = ({ 
@@ -35,14 +35,14 @@ const FloatingFilterBar = ({
       <Button
         auto
         color="primary"
-        icon={<Filter size={20} />}
+        icon={isExpanded ? <X size={20} /> : <Filter size={20} />}
         onClick={() => setIsExpanded(!isExpanded)}
         className="shadow-lg"
       >
         {isExpanded ? 'Hide Filters' : 'Show Filters'}
       </Button>
       {isExpanded && (
-        <div className="mt-2 p-4 bg-white rounded-lg shadow-xl">
+        <div className="mt-2 p-4 bg-white rounded-lg shadow-xl w-64">
           <SelectFilter
             selectedTeam={selectedTeam}
             setSelectedTeam={setSelectedTeam}

@@ -10,20 +10,16 @@ const SelectFilter = ({
   feedbackFilter, 
   setFeedbackFilter, 
   teams = [], 
-  projects = [],
-  compact = false 
+  projects = []
 }) => {
-  const selectClass = compact ? "w-32 text-sm" : "w-full md:w-1/3";
-
   return (
-    <div className={`flex ${compact ? 'space-x-2' : 'space-x-4 flex-wrap'}`}>
+    <div className="space-y-4">
       {teams.length > 0 && (
         <Select
           label="Team"
           placeholder="Choose a team"
           selectedKeys={[selectedTeam]}
           onChange={(e) => setSelectedTeam(e.target.value)}
-          className={selectClass}
           startContent={<Users size={18} />}
         >
           {teams.map((team) => (
@@ -40,7 +36,6 @@ const SelectFilter = ({
           placeholder="Choose a project"
           selectedKeys={[selectedProject]}
           onChange={(e) => setSelectedProject(e.target.value)}
-          className={selectClass}
           startContent={<Projector size={18} />}
         >
           {projects.map((project) => (
@@ -57,7 +52,6 @@ const SelectFilter = ({
           placeholder="Filter feedback"
           selectedKeys={[feedbackFilter]}
           onChange={(e) => setFeedbackFilter(e.target.value)}
-          className={selectClass}
           startContent={<Filter size={18} />}
         >
           <SelectItem key="all" value="all">All</SelectItem>
