@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Card, CardHeader, CardBody, Container, Grid } from "@nextui-org/react";
+import { Card, CardHeader, CardBody, Grid } from "@nextui-org/react";
 import MetricCards from "./dashboard/MetricCards";
 import CategoryOverview from "./dashboard/CategoryOverview";
 import SentimentOverview from "./dashboard/SentimentOverview";
@@ -41,7 +41,7 @@ const FeedbackDashboard = () => {
         projects={projects}
       />
 
-      <Container lg className="py-8">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
         <h1 className="text-4xl font-bold mb-8 text-purple-800">Feedback Dashboard</h1>
         
         <AIAnalystSuggestions suggestions={aiSuggestions} />
@@ -153,7 +153,7 @@ const FeedbackDashboard = () => {
             </Card>
           </Grid>
         </Grid.Container>
-      </Container>
+      </div>
     </div>
   );
 };
