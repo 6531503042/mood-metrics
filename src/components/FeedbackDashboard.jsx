@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { Card, CardHeader, CardBody, Select, SelectItem } from "@nextui-org/react";
+import { Card, CardHeader, CardBody } from "@nextui-org/react";
 import MetricCards from "./dashboard/MetricCards";
 import CategoryOverview from "./dashboard/CategoryOverview";
 import SentimentOverview from "./dashboard/SentimentOverview";
@@ -10,7 +10,9 @@ import AIAnalystSuggestions from "./AIAnalystSuggestions";
 import AvailableDataTables from "./dashboard/AvailableDataTables";
 import PerformanceMetrics from "./dashboard/PerformanceMetrics";
 import AnalysesRun from "./dashboard/AnalysesRun";
+import EmployeeSegmentation from "./dashboard/EmployeeSegmentation";
 import { useFeedbackData } from "../hooks/useFeedbackData";
+import SelectFilter from "./SelectFilter";
 
 const FeedbackDashboard = () => {
   const { 
@@ -30,48 +32,18 @@ const FeedbackDashboard = () => {
     <div className="space-y-8 p-8 bg-gradient-to-r from-purple-50 to-pink-50">
       <h1 className="text-4xl font-bold mb-8 text-purple-800">Feedback Dashboard</h1>
       
-      {/* Select Options for Team, Project, and Feedback Filter */}
-      <div className="flex space-x-6 mb-8">
-        <Select 
-          label="Select Team" 
-          placeholder="Choose a team"
-          selectedKeys={[selectedTeam]}
-          onChange={(e) => setSelectedTeam(e.target.value)}
-          className="w-1/3"
-        >
-          {teams.map((team) => (
-            <SelectItem key={team} value={team}>
-              {team}
-            </SelectItem>
-          ))}
-        </Select>
-
-        <Select 
-          label="Select Project" 
-          placeholder="Choose a project"
-          selectedKeys={[selectedProject]}
-          onChange={(e) => setSelectedProject(e.target.value)}
-          className="w-1/3"
-        >
-          {projects.map((project) => (
-            <SelectItem key={project} value={project}>
-              {project}
-            </SelectItem>
-          ))}
-        </Select>
-
-        <Select 
-          label="Filter Feedback" 
-          placeholder="Filter by sentiment"
-          selectedKeys={[feedbackFilter]}
-          onChange={(e) => setFeedbackFilter(e.target.value)}
-          className="w-1/3"
-        >
-          <SelectItem key="all" value="all">All</SelectItem>
-          <SelectItem key="positive" value="positive">Positive</SelectItem>
-          <SelectItem key="neutral" value="neutral">Neutral</SelectItem>
-          <SelectItem key="negative" value="negative">Negative</SelectItem>
-        </Select>
+      {/* Sticky Select Options */}
+      <div className="sticky top-0 z-10 bg-white p-4 rounded-lg shadow-md mb-8">
+        <SelectFilter 
+          selectedTeam={selectedTeam}
+          setSelectedTeam={setSelectedTeam}
+          selectedProject={selectedProject}
+          setSelectedProject={setSelectedProject}
+          feedbackFilter={feedbackFilter}
+          setFeedbackFilter={setFeedbackFilter}
+          teams={teams}
+          projects={projects}
+        />
       </div>
 
       {/* AI Suggestions */}
@@ -83,8 +55,15 @@ const FeedbackDashboard = () => {
       {/* Category Distribution and Sentiment Analysis */}
       <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
         <Card className="bg-white shadow-xl rounded-lg">
-          <CardHeader>
+          <CardHeader className="flex justify-between items-center">
             <h2 className="text-2xl font-semibold text-purple-700">Category Distribution</h2>
+            <SelectFilter 
+              selectedTeam={selectedTeam}
+              setSelectedTeam={setSelectedTeam}
+              selectedProject={selectedProject}
+              setSelectedProject={setSelectedProject}
+              compact={true}
+            />
           </CardHeader>
           <CardBody>
             <CategoryOverview data={feedbackData.categoryData} />
@@ -92,8 +71,15 @@ const FeedbackDashboard = () => {
         </Card>
 
         <Card className="bg-white shadow-xl rounded-lg">
-          <CardHeader>
+          <CardHeader className="flex justify-between items-center">
             <h2 className="text-2xl font-semibold text-purple-700">Sentiment Analysis</h2>
+            <SelectFilter 
+              selectedTeam={selectedTeam}
+              setSelectedTeam={setSelectedTeam}
+              selectedProject={selectedProject}
+              setSelectedProject={setSelectedProject}
+              compact={true}
+            />
           </CardHeader>
           <CardBody>
             <SentimentOverview data={feedbackData.sentimentData} />
@@ -113,8 +99,15 @@ const FeedbackDashboard = () => {
         </Card>
 
         <Card className="bg-white shadow-xl rounded-lg">
-          <CardHeader>
+          <CardHeader className="flex justify-between items-center">
             <h2 className="text-2xl font-semibold text-purple-700">Feedback Trends</h2>
+            <SelectFilter 
+              selectedTeam={selectedTeam}
+              setSelectedTeam={setSelectedTeam}
+              selectedProject={selectedProject}
+              setSelectedProject={setSelectedProject}
+              compact={true}
+            />
           </CardHeader>
           <CardBody>
             <FeedbackTrends data={feedbackData.trendData} />
@@ -122,10 +115,36 @@ const FeedbackDashboard = () => {
         </Card>
       </div>
 
+      {/* Employee Segmentation */}
+      <Card className="bg-white shadow-xl rounded-lg">
+        <CardHeader className="flex justify-between items-center">
+          <h2 className="text-2xl font-semibold text-purple-700">Employee Segmentation</h2>
+          <SelectFilter 
+            selectedTeam={selectedTeam}
+            setSelectedTeam={setSelectedTeam}
+            selectedProject={selectedProject}
+            setSelectedProject={setSelectedProject}
+            compact={true}
+          />
+        </CardHeader>
+        <CardBody>
+          <EmployeeSegmentation data={feedbackData.employeeSegmentation} />
+        </CardBody>
+      </Card>
+
       {/* Recent Feedback */}
       <Card className="bg-white shadow-xl rounded-lg">
-        <CardHeader>
+        <CardHeader className="flex justify-between items-center">
           <h2 className="text-2xl font-semibold text-purple-700">Recent Feedback</h2>
+          <SelectFilter 
+            selectedTeam={selectedTeam}
+            setSelectedTeam={setSelectedTeam}
+            selectedProject={selectedProject}
+            setSelectedProject={setSelectedProject}
+            feedbackFilter={feedbackFilter}
+            setFeedbackFilter={setFeedbackFilter}
+            compact={true}
+          />
         </CardHeader>
         <CardBody>
           <RecentFeedback 
