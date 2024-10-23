@@ -3,6 +3,7 @@ import { Navbar, NavbarBrand, NavbarContent, NavbarItem, Button } from "@nextui-
 import { Moon, Sun } from 'lucide-react';
 import { keyframes } from "@emotion/react";
 import styled from "@emotion/styled";
+import { Link } from 'react-router-dom';
 
 const gradientAnimation = keyframes`
   0% { background-position: 0% 50%; }
@@ -18,18 +19,29 @@ const GradientText = styled.p`
   animation: ${gradientAnimation} 10s ease infinite;
   font-size: 1.5rem;
   font-weight: bold;
+  cursor: pointer; /* Change cursor to pointer to indicate it's clickable */
 `;
 
 const AppNavbar = ({ theme, toggleTheme }) => {
+  const handleBrandClick = () => {
+    // If you want to refresh the page
+    window.location.reload();
+
+    // Or, to navigate to the main dashboard without a full refresh, use:
+    // navigate('/'); // Uncomment if using `useNavigate`
+  };
+
   return (
     <Navbar 
       isBordered 
       className={`${theme === 'dark' ? 'bg-gray-900 text-white' : 'bg-white'} transition-colors duration-200`}
     >
       <NavbarBrand>
-        <GradientText>
-          Feedback System
-        </GradientText>
+        <Link to="/" onClick={handleBrandClick} style={{ textDecoration: 'none' }}>
+          <GradientText>
+            Feedback System
+          </GradientText>
+        </Link>
       </NavbarBrand>
       <NavbarContent justify="end" className="gap-4">
         <NavbarItem>
