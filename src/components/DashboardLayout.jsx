@@ -8,14 +8,15 @@ const DashboardLayout = ({ children }) => {
 
   const toggleTheme = () => {
     setTheme(prevTheme => prevTheme === 'light' ? 'dark' : 'light');
+    document.documentElement.classList.toggle('dark');
   };
 
   return (
-    <NextUIProvider theme={theme}>
-      <div className={`min-h-screen ${theme === 'dark' ? 'dark' : ''}`}>
+    <NextUIProvider>
+      <div className={`min-h-screen ${theme === 'dark' ? 'dark bg-gray-900' : 'bg-gray-50'}`}>
         <AppNavbar theme={theme} toggleTheme={toggleTheme} />
         <div className="flex">
-          <AppSidebar />
+          <AppSidebar theme={theme} />
           <main className="flex-grow p-8">
             {children}
           </main>

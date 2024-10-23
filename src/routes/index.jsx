@@ -1,4 +1,5 @@
 import { createBrowserRouter } from "react-router-dom";
+import DashboardLayout from "../components/DashboardLayout";
 import DashboardOverview from "../pages/DashboardOverview";
 import FeedbackManagement from "../pages/FeedbackManagement";
 import TeamAnalytics from "../pages/TeamAnalytics";
@@ -7,33 +8,39 @@ import SentimentAnalysis from "../pages/SentimentAnalysis";
 import ActionItems from "../pages/ActionItems";
 import Settings from "../pages/Settings";
 
+const withDashboardLayout = (Component) => (
+  <DashboardLayout>
+    <Component />
+  </DashboardLayout>
+);
+
 export const router = createBrowserRouter([
   {
     path: "/",
-    element: <DashboardOverview />,
+    element: withDashboardLayout(DashboardOverview),
   },
   {
     path: "/feedback",
-    element: <FeedbackManagement />,
+    element: withDashboardLayout(FeedbackManagement),
   },
   {
     path: "/team-analytics",
-    element: <TeamAnalytics />,
+    element: withDashboardLayout(TeamAnalytics),
   },
   {
     path: "/performance",
-    element: <PerformanceMetrics />,
+    element: withDashboardLayout(PerformanceMetrics),
   },
   {
     path: "/sentiment",
-    element: <SentimentAnalysis />,
+    element: withDashboardLayout(SentimentAnalysis),
   },
   {
     path: "/action-items",
-    element: <ActionItems />,
+    element: withDashboardLayout(ActionItems),
   },
   {
     path: "/settings",
-    element: <Settings />,
+    element: withDashboardLayout(Settings),
   },
 ]);

@@ -16,6 +16,8 @@ const GradientText = styled.p`
   -webkit-background-clip: text;
   color: transparent;
   animation: ${gradientAnimation} 10s ease infinite;
+  font-size: 1.5rem;
+  font-weight: bold;
 `;
 
 const AppNavbar = ({ theme, toggleTheme }) => {
@@ -27,10 +29,10 @@ const AppNavbar = ({ theme, toggleTheme }) => {
       <NavbarBrand>
         <img 
           src="https://ata-it-th.com/wp-content/uploads/2023/03/cropped-ata_bnc.png" 
-          alt="Stakeholder Logo" 
+          alt="ATA IT Logo" 
           className="h-8 mr-3"
         />
-        <GradientText className="font-bold text-inherit text-xl">
+        <GradientText>
           Feedback System
         </GradientText>
       </NavbarBrand>
@@ -38,7 +40,6 @@ const AppNavbar = ({ theme, toggleTheme }) => {
         <NavbarItem>
           <Button 
             isIconOnly 
-            color="primary" 
             variant="light" 
             onClick={toggleTheme}
             className={theme === 'dark' ? 'text-white' : 'text-gray-800'}
