@@ -113,6 +113,6 @@ export const useFeedbackData = () => {
     setSelectedProject,
     teams: mockTeams,
     projects: mockProjects,
-    aiSuggestions,
+    aiSuggestions, // Use the aiSuggestions state variable here
   };
 };
