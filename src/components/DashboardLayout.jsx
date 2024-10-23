@@ -13,13 +13,17 @@ const DashboardLayout = ({ children }) => {
 
   return (
     <NextUIProvider>
-      <div className={`min-h-screen ${theme === 'dark' ? 'dark bg-gray-900' : 'bg-gray-50'}`}>
-        <AppNavbar theme={theme} toggleTheme={toggleTheme} />
-        <div className="flex">
-          <AppSidebar theme={theme} />
-          <main className="flex-grow p-8">
-            {children}
-          </main>
+      <div className={theme === 'dark' ? 'dark' : ''}>
+        <div className="min-h-screen bg-gray-50 dark:bg-gray-900 transition-colors duration-200">
+          <AppNavbar theme={theme} toggleTheme={toggleTheme} />
+          <div className="flex">
+            <AppSidebar theme={theme} />
+            <main className="flex-grow p-8 bg-gray-50 dark:bg-gray-900">
+              <div className="rounded-lg bg-white dark:bg-gray-800 shadow-lg p-6 transition-colors duration-200">
+                {children}
+              </div>
+            </main>
+          </div>
         </div>
       </div>
     </NextUIProvider>

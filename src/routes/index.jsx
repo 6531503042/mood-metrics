@@ -3,8 +3,13 @@ import { lazy, Suspense } from 'react';
 import LoadingScreen from "../components/LoadingScreen";
 import DashboardLayout from "../components/DashboardLayout";
 
-// Lazy load all pages
-const DashboardOverview = lazy(() => import("../pages/DashboardOverview"));
+// Preload critical pages
+const DashboardOverview = lazy(() => import("../pages/DashboardOverview"), {
+  suspense: true,
+  prefetch: true
+});
+
+// Lazy load other pages
 const FeedbackManagement = lazy(() => import("../pages/FeedbackManagement"));
 const TeamAnalytics = lazy(() => import("../pages/TeamAnalytics"));
 const PerformanceMetrics = lazy(() => import("../pages/PerformanceMetrics"));
@@ -20,33 +25,20 @@ const withSuspense = (Component) => (
   </Suspense>
 );
 
-export const router = createBrowserRouter([
-  {
-    path: "/",
-    element: withSuspense(DashboardOverview),
-  },
-  {
-    path: "/feedback",
-    element: withSuspense(FeedbackManagement),
-  },
-  {
-    path: "/team-analytics",
-    element: withSuspense(TeamAnalytics),
-  },
-  {
-    path: "/performance",
-    element: withSuspense(PerformanceMetrics),
-  },
-  {
-    path: "/sentiment",
-    element: withSuspense(SentimentAnalysis),
-  },
-  {
-    path: "/action-items",
-    element: withSuspense(ActionItems),
-  },
-  {
-    path: "/settings",
-    element: withSuspense(Settings),
-  },
-]);
+// Preload routes configuration
+const routes = [
+  { path: "/", element: DashboardOverview },
+  { path: "/feedback", element: FeedbackManagement },
+  { path: "/team-analytics", element: TeamAnalytics },
+  { path: "/performance", element: PerformanceMetrics },
+  { path: "/sentiment", element: SentimentAnalysis },
+  { path: "/action-items", element: ActionItems },
+  { path: "/settings", element: Settings }
+];
+
+export const router = createBrowserRouter(
+  routes.map(route => ({
+    path: route.path,
+    element: withSuspense(route.element)
+  }))
+);

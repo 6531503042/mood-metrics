@@ -27,16 +27,18 @@ const AppNavbar = ({ theme, toggleTheme }) => {
       className={`${theme === 'dark' ? 'bg-gray-900 text-white' : 'bg-white'} transition-colors duration-200`}
     >
       <NavbarBrand>
-        <img 
-          src="https://ata-it-th.com/wp-content/uploads/2023/03/cropped-ata_bnc.png" 
-          alt="ATA IT Logo" 
-          className="h-8 mr-3"
-        />
         <GradientText>
           Feedback System
         </GradientText>
       </NavbarBrand>
-      <NavbarContent justify="end">
+      <NavbarContent justify="end" className="gap-4">
+        <NavbarItem>
+          <img 
+            src="https://ata-it-th.com/wp-content/uploads/2023/03/cropped-ata_bnc.png" 
+            alt="ATA IT Logo" 
+            className="h-8"
+          />
+        </NavbarItem>
         <NavbarItem>
           <Button 
             isIconOnly 

@@ -4,25 +4,61 @@ import { Lightbulb, TrendingUp, Users, Target } from 'lucide-react';
 import styled from "@emotion/styled";
 import { keyframes } from "@emotion/react";
 
-const gradientBorderAnimation = keyframes`
-  0% { border-image-source: linear-gradient(45deg, #FF6B6B, #4ECDC4); }
-  50% { border-image-source: linear-gradient(45deg, #45B7D1, #96C93D); }
-  100% { border-image-source: linear-gradient(45deg, #FF6B6B, #4ECDC4); }
+const shimmer = keyframes`
+  0% { background-position: -1000px 0; }
+  100% { background-position: 1000px 0; }
 `;
 
-const neonGlow = keyframes`
-  0% { box-shadow: 0 0 5px #FF6B6B, 0 0 10px #FF6B6B, 0 0 15px #FF6B6B; }
-  50% { box-shadow: 0 0 10px #4ECDC4, 0 0 20px #4ECDC4, 0 0 30px #4ECDC4; }
-  100% { box-shadow: 0 0 5px #FF6B6B, 0 0 10px #FF6B6B, 0 0 15px #FF6B6B; }
+const neonPulse = keyframes`
+  0% { box-shadow: 0 0 10px #4ECDC4, 0 0 20px #4ECDC4, 0 0 30px #4ECDC4; }
+  50% { box-shadow: 0 0 15px #FF6B6B, 0 0 25px #FF6B6B, 0 0 35px #FF6B6B; }
+  100% { box-shadow: 0 0 10px #4ECDC4, 0 0 20px #4ECDC4, 0 0 30px #4ECDC4; }
+`;
+
+const gradientMove = keyframes`
+  0% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
 `;
 
 const StyledCard = styled(Card)`
   position: relative;
-  background: linear-gradient(45deg, rgba(147, 51, 234, 0.9), rgba(236, 72, 153, 0.9), rgba(239, 68, 68, 0.9));
-  animation: ${neonGlow} 3s infinite;
-  border: 2px solid transparent;
-  border-image: linear-gradient(45deg, #FF6B6B, #4ECDC4) 1;
-  animation: ${gradientBorderAnimation} 3s infinite;
+  background: linear-gradient(
+    45deg, 
+    rgba(74, 222, 128, 0.9),
+    rgba(59, 130, 246, 0.9),
+    rgba(139, 92, 246, 0.9)
+  );
+  background-size: 200% 200%;
+  animation: ${gradientMove} 5s ease infinite;
+  border-radius: 1rem;
+  overflow: hidden;
+
+  &::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: linear-gradient(
+      90deg,
+      transparent,
+      rgba(255, 255, 255, 0.2),
+      transparent
+    );
+    animation: ${shimmer} 2s infinite;
+  }
+
+  &::after {
+    content: '';
+    position: absolute;
+    inset: -2px;
+    background: linear-gradient(45deg, #4ECDC4, #FF6B6B);
+    z-index: -1;
+    animation: ${neonPulse} 3s infinite;
+    border-radius: 1rem;
+  }
 `;
 
 const AIAnalystSuggestions = ({ suggestions }) => {
