@@ -30,7 +30,7 @@ const StyledCard = styled(Card)`
     rgba(139, 92, 246, 0.9)
   );
   background-size: 200% 200%;
-  animation: ${gradientMove} 5s ease infinite;
+  animation: ${gradientMove} 10s ease infinite;
   border-radius: 1rem;
   overflow: hidden;
 
@@ -47,7 +47,7 @@ const StyledCard = styled(Card)`
       rgba(255, 255, 255, 0.2),
       transparent
     );
-    animation: ${shimmer} 2s infinite;
+    animation: ${shimmer} 4s infinite;
   }
 
   &::after {
@@ -56,8 +56,17 @@ const StyledCard = styled(Card)`
     inset: -2px;
     background: linear-gradient(45deg, #4ECDC4, #FF6B6B);
     z-index: -1;
-    animation: ${neonPulse} 3s infinite;
+    animation: ${neonPulse} 6s infinite;
     border-radius: 1rem;
+  }
+
+  .dark & {
+    background: linear-gradient(
+      45deg, 
+      rgba(74, 222, 128, 0.7),
+      rgba(59, 130, 246, 0.7),
+      rgba(139, 92, 246, 0.7)
+    );
   }
 `;
 

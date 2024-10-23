@@ -36,7 +36,7 @@ const AppNavbar = ({ theme, toggleTheme }) => {
           <img 
             src="https://ata-it-th.com/wp-content/uploads/2023/03/cropped-ata_bnc.png" 
             alt="ATA IT Logo" 
-            className="h-8"
+            className={`h-8 transition-opacity duration-200 ${theme === 'dark' ? 'opacity-90 brightness-110' : ''}`}
           />
         </NavbarItem>
         <NavbarItem>

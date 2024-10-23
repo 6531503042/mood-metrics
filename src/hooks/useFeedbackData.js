@@ -8,6 +8,9 @@ const generateMockData = (teamName, projectName) => {
     totalFeedback: Math.floor(Math.random() * 1000) + 500,
     averageRating: (Math.random() * 2 + 3).toFixed(1),
     responseRate: (Math.random() * 30 + 70).toFixed(1),
+    averageResponseTime: `${Math.floor(Math.random() * 24) + 1}h`,
+    participationRate: `${(Math.random() * 20 + 80).toFixed(1)}%`,
+    feedbackQuality: (Math.random() * 2 + 3).toFixed(1),
     categoryData: [
       { category: 'Work Environment', count: Math.floor(Math.random() * 100) + 50 },
       { category: 'Management', count: Math.floor(Math.random() * 100) + 50 },
@@ -31,7 +34,6 @@ const generateMockData = (teamName, projectName) => {
       { id: 4, text: `Excellent team collaboration in ${teamName} on ${projectName}`, sentiment: 'positive', team: teamName, project: projectName },
       { id: 5, text: `Work-life balance needs improvement in ${teamName} for ${projectName}`, sentiment: 'negative', team: teamName, project: projectName },
     ],
-    averageResponseTime: `${Math.floor(Math.random() * 3) + 1} days`,
     availableDataTables: [
       { id: 1, name: 'Employee Feedback', description: 'Contains all employee feedback data', lastUpdated: '2023-06-15' },
       { id: 2, name: 'Project Metrics', description: 'Project-specific performance metrics', lastUpdated: '2023-06-14' },
