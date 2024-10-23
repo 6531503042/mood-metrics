@@ -63,7 +63,6 @@ These mock-ups give a visual representation of the front-end design of the syste
   - NextUI
 - **Backend**: 
   - Java Spring Boot (Microservices Architecture)
-  - Golang (Booking System)
 - **Database**: 
   - MongoDB
 - **Data Processing & Analytics**: 
