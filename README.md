@@ -2,7 +2,7 @@
 
 This repository contains the **Confidential Feedback System**, designed to enhance employee engagement, streamline feedback processes, and improve workplace productivity. The system provides a secure and anonymous platform for employees to share feedback with their teams and HR, empowering organizations to act on insights and foster a healthy work environment.
 
-![ATA IT Logo](../images/ata-icon.png)
+![ATA IT Logo](./images/ata%20icon.png)
 
 ## Table of Contents
 
@@ -43,13 +43,13 @@ The **Confidential Feedback System** aims to provide a safe and effective way fo
 
 Here are mock-ups of the **Confidential Feedback System**:
 
-![Cover 1](../images/cover-1.png)
+![Cover 1](./images/cover-1.png)
 *Cover 1: Dashboard Overview*
 
-![Cover 2](../images/cover-2.png)
+![Cover 2](./images/cover-2.png)
 *Cover 2: Feedback Submission Form*
 
-![Cover 3](../images/cover-3.png)
+![Cover 3](./images/cover-3.png)
 *Cover 3: Sentiment Analysis*
 
 These mock-ups give a visual representation of the front-end design of the system.
