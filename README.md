@@ -97,8 +97,8 @@ Follow these steps to set up the project locally.
 
 1. Clone the repository:
    ```bash
-   git clone https://github.com/your-username/confidential-feedback-system.git
-   cd confidential-feedback-system
+   git clone https://github.com/6531503042/mood-metrics.git
+   cd mood metrics
 
     ```
 2. Install frontend dependencies:
