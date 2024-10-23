@@ -11,6 +11,8 @@
     "preview": "vite preview"
   },
   "dependencies": {
+    "@emotion/react": "^11.13.3",
+    "@emotion/styled": "^11.13.0",
     "@hookform/resolvers": "^3.6.0",
     "@nextui-org/react": "^2.4.8",
     "@radix-ui/react-accordion": "^1.2.0",

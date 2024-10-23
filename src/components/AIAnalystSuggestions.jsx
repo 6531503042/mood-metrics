@@ -1,6 +1,46 @@
 import React from 'react';
 import { Card, CardHeader, CardBody, Divider } from "@nextui-org/react";
 import { Lightbulb, TrendingUp, Users, Target } from 'lucide-react';
+import styled from "@emotion/styled";
+import { keyframes } from "@emotion/react";
+
+const gradientBorderAnimation = keyframes`
+  0% { border-image-source: linear-gradient(45deg, #FF6B6B, #4ECDC4); }
+  50% { border-image-source: linear-gradient(45deg, #45B7D1, #96C93D); }
+  100% { border-image-source: linear-gradient(45deg, #FF6B6B, #4ECDC4); }
+`;
+
+const gradientBackgroundAnimation = keyframes`
+  0% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
+`;
+
+const StyledCard = styled(Card)`
+  position: relative;
+  background: linear-gradient(45deg, rgba(147, 51, 234, 0.9), rgba(236, 72, 153, 0.9), rgba(239, 68, 68, 0.9));
+  background-size: 300% 300%;
+  animation: ${gradientBackgroundAnimation} 15s ease infinite;
+  border: 3px solid transparent;
+  border-image: linear-gradient(45deg, #FF6B6B, #4ECDC4) 1;
+  animation: ${gradientBorderAnimation} 10s infinite;
+
+  &::before {
+    content: '';
+    position: absolute;
+    top: -2px;
+    right: -2px;
+    bottom: -2px;
+    left: -2px;
+    z-index: -1;
+    border-radius: inherit;
+    background: linear-gradient(45deg, #FF6B6B, #4ECDC4, #45B7D1, #96C93D);
+    background-size: 300% 300%;
+    animation: ${gradientBackgroundAnimation} 10s ease infinite;
+    filter: blur(8px);
+    opacity: 0.7;
+  }
+`;
 
 const AIAnalystSuggestions = ({ suggestions }) => {
   const categories = {
