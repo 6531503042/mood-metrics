@@ -50,5 +50,4 @@ export const router = createBrowserRouter([
     element: withSuspense(Settings),
   }
 ], {
-  basename: process.env.NODE_ENV === 'production' ? '/feedback-system' : '/'
 });
