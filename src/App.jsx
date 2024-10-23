@@ -12,6 +12,7 @@ const App = () => (
     <NextUIProvider>
       <TooltipProvider>
         <Toaster />
+        {/* This renders the routes defined in your router */}
         <RouterProvider router={router} />
       </TooltipProvider>
     </NextUIProvider>
