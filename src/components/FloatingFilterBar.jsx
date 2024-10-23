@@ -37,12 +37,12 @@ const FloatingFilterBar = ({
         color="primary"
         icon={isExpanded ? <X size={20} /> : <Filter size={20} />}
         onClick={() => setIsExpanded(!isExpanded)}
-        className="shadow-lg"
+        className="shadow-lg dark:bg-gray-800 dark:text-white"
       >
         {isExpanded ? 'Hide Filters' : 'Show Filters'}
       </Button>
       {isExpanded && (
-        <div className="mt-2 p-4 bg-white rounded-lg shadow-xl w-64">
+        <div className="mt-2 p-4 bg-white dark:bg-gray-800 rounded-lg shadow-xl w-64">
           <SelectFilter
             selectedTeam={selectedTeam}
             setSelectedTeam={setSelectedTeam}

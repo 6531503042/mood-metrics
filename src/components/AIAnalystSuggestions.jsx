@@ -10,36 +10,19 @@ const gradientBorderAnimation = keyframes`
   100% { border-image-source: linear-gradient(45deg, #FF6B6B, #4ECDC4); }
 `;
 
-const gradientBackgroundAnimation = keyframes`
-  0% { background-position: 0% 50%; }
-  50% { background-position: 100% 50%; }
-  100% { background-position: 0% 50%; }
+const neonGlow = keyframes`
+  0% { box-shadow: 0 0 5px #FF6B6B, 0 0 10px #FF6B6B, 0 0 15px #FF6B6B; }
+  50% { box-shadow: 0 0 10px #4ECDC4, 0 0 20px #4ECDC4, 0 0 30px #4ECDC4; }
+  100% { box-shadow: 0 0 5px #FF6B6B, 0 0 10px #FF6B6B, 0 0 15px #FF6B6B; }
 `;
 
 const StyledCard = styled(Card)`
   position: relative;
   background: linear-gradient(45deg, rgba(147, 51, 234, 0.9), rgba(236, 72, 153, 0.9), rgba(239, 68, 68, 0.9));
-  background-size: 300% 300%;
-  animation: ${gradientBackgroundAnimation} 15s ease infinite;
-  border: 3px solid transparent;
+  animation: ${neonGlow} 3s infinite;
+  border: 2px solid transparent;
   border-image: linear-gradient(45deg, #FF6B6B, #4ECDC4) 1;
-  animation: ${gradientBorderAnimation} 10s infinite;
-
-  &::before {
-    content: '';
-    position: absolute;
-    top: -2px;
-    right: -2px;
-    bottom: -2px;
-    left: -2px;
-    z-index: -1;
-    border-radius: inherit;
-    background: linear-gradient(45deg, #FF6B6B, #4ECDC4, #45B7D1, #96C93D);
-    background-size: 300% 300%;
-    animation: ${gradientBackgroundAnimation} 10s ease infinite;
-    filter: blur(8px);
-    opacity: 0.7;
-  }
+  animation: ${gradientBorderAnimation} 3s infinite;
 `;
 
 const AIAnalystSuggestions = ({ suggestions }) => {
@@ -50,7 +33,7 @@ const AIAnalystSuggestions = ({ suggestions }) => {
   };
 
   return (
-    <Card className="w-full mb-6 bg-gradient-to-r from-purple-400 via-pink-500 to-red-500">
+    <StyledCard className="w-full mb-6">
       <CardHeader className="flex gap-3">
         <Lightbulb size={24} className="text-white" />
         <div className="flex flex-col">
@@ -96,7 +79,7 @@ const AIAnalystSuggestions = ({ suggestions }) => {
           </div>
         </div>
       </CardBody>
-    </Card>
+    </StyledCard>
   );
 };
 
