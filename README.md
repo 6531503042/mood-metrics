@@ -146,17 +146,3 @@ bun run dev
 This project is licensed under the MIT License. See the LICENSE file for details.
 
 Developed with ❤️ by the team at ATA IT Limited and [SEEZ's Team Dev].
-
-
-### Key Sections:
-
-- **Overview**: Gives a brief summary of the project’s goals and who the stakeholder is.
-- **Features**: Outlines the key functionality of the system.
-- **Technologies Used**: Lists the stack you're using.
-- **System Architecture**: Includes a placeholder for your architecture diagram.
-- **Installation**: Step-by-step guide to run the project locally.
-- **Usage**: Quick guide for different user roles (employees and admins/HR).
-- **Contributors**: Lists your team members involved in the project.
-- **License**: MIT license (you can change this based on your project’s actual license).
-
-Let me know if you need any changes!
