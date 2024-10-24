@@ -1,7 +1,8 @@
 import React, { useState, useEffect } from 'react';
-import { Button } from "@nextui-org/react";
+import { Button, Tooltip } from "@nextui-org/react";
 import { Filter, X } from 'lucide-react';
 import SelectFilter from './SelectFilter';
+import { motion, AnimatePresence } from 'framer-motion';
 
 const FloatingFilterBar = ({ 
   selectedTeam, 
@@ -31,31 +32,50 @@ const FloatingFilterBar = ({
   }, []);
 
   return (
-    <div className={`fixed top-4 right-4 z-50 transition-all duration-300 ${isVisible ? 'translate-y-0' : '-translate-y-full'}`}>
-      <Button
-        auto
-        color="primary"
-        icon={isExpanded ? <X size={20} /> : <Filter size={20} />}
-        onClick={() => setIsExpanded(!isExpanded)}
-        className="shadow-lg dark:bg-gray-800 dark:text-white"
-      >
-        {isExpanded ? 'Hide Filters' : 'Show Filters'}
-      </Button>
-      {isExpanded && (
-        <div className="mt-2 p-4 bg-white dark:bg-gray-800 rounded-lg shadow-xl w-64">
-          <SelectFilter
-            selectedTeam={selectedTeam}
-            setSelectedTeam={setSelectedTeam}
-            selectedProject={selectedProject}
-            setSelectedProject={setSelectedProject}
-            feedbackFilter={feedbackFilter}
-            setFeedbackFilter={setFeedbackFilter}
-            teams={teams}
-            projects={projects}
-          />
-        </div>
+    <AnimatePresence>
+      {isVisible && (
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          exit={{ opacity: 0, y: 20 }}
+          className="fixed bottom-24 right-4 z-40 md:top-4 md:right-4"
+        >
+          <Tooltip content={isExpanded ? "Hide Filters" : "Show Filters"}>
+            <Button
+              auto
+              color="primary"
+              isIconOnly
+              onPress={() => setIsExpanded(!isExpanded)}
+              className="shadow-lg dark:bg-gray-800 dark:text-white"
+            >
+              {isExpanded ? <X size={20} /> : <Filter size={20} />}
+            </Button>
+          </Tooltip>
+
+          <AnimatePresence>
+            {isExpanded && (
+              <motion.div
+                initial={{ opacity: 0, scale: 0.95 }}
+                animate={{ opacity: 1, scale: 1 }}
+                exit={{ opacity: 0, scale: 0.95 }}
+                className="mt-2 p-4 bg-white dark:bg-gray-800 rounded-lg shadow-xl w-[280px] md:w-64 absolute right-0"
+              >
+                <SelectFilter
+                  selectedTeam={selectedTeam}
+                  setSelectedTeam={setSelectedTeam}
+                  selectedProject={selectedProject}
+                  setSelectedProject={setSelectedProject}
+                  feedbackFilter={feedbackFilter}
+                  setFeedbackFilter={setFeedbackFilter}
+                  teams={teams}
+                  projects={projects}
+                />
+              </motion.div>
+            )}
+          </AnimatePresence>
+        </motion.div>
       )}
-    </div>
+    </AnimatePresence>
   );
 };
 

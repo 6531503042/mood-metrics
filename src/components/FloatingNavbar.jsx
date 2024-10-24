@@ -45,27 +45,29 @@ const FloatingNavbar = ({ theme, setCurrentPage }) => {
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           exit={{ opacity: 0, y: 20 }}
-          className="fixed bottom-8 left-1/2 transform -translate-x-1/2 z-50"
+          className="fixed bottom-4 left-1/2 transform -translate-x-1/2 z-50"
         >
           <div
             className={`
               ${theme === 'dark' ? 'bg-gray-900' : 'bg-white'}
-              rounded-full shadow-lg p-2 flex items-center gap-2
+              rounded-full shadow-lg p-2 flex items-center gap-1 md:gap-2
               transition-all duration-300 ease-in-out
               backdrop-blur-md bg-opacity-90
               border border-purple-500/20
+              max-w-[95vw] md:max-w-none overflow-x-auto
+              scrollbar-hide
             `}
           >
             <Button
               isIconOnly
               variant="light"
               onClick={() => setIsCollapsed(!isCollapsed)}
-              className="text-purple-500"
+              className="text-purple-500 hidden md:flex"
             >
               {isCollapsed ? <ChevronRight size={20} /> : <ChevronLeft size={20} />}
             </Button>
 
-            <div className="flex gap-2">
+            <div className="flex gap-1 md:gap-2">
               {navItems.map((item) => (
                 <Tooltip
                   key={item.id}
@@ -83,6 +85,7 @@ const FloatingNavbar = ({ theme, setCurrentPage }) => {
                         ? 'bg-purple-500 text-white shadow-lg scale-110' 
                         : `${theme === 'dark' ? 'text-gray-300' : 'text-gray-600'} hover:text-purple-500`
                       }
+                      min-w-[40px] md:min-w-[48px]
                     `}
                   >
                     {item.icon}

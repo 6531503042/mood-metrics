@@ -11,17 +11,21 @@ const waveAnimation = keyframes`
 
 const StyledLogo = styled.img`
   animation: ${waveAnimation} 2s ease-in-out infinite;
+  filter: ${props => props.isDark ? 'invert(1) brightness(2)' : 'none'};
 `;
 
 const LoadingScreen = () => {
+  const isDark = document.documentElement.classList.contains('dark');
+
   return (
-    <div className="fixed inset-0 flex flex-col items-center justify-center bg-white dark:bg-gray-900 z-50">
+    <div className="fixed inset-0 flex flex-col items-center justify-center bg-white dark:bg-black z-50">
       <StyledLogo
         src="https://ata-it-th.com/wp-content/uploads/2023/03/cropped-ata_bnc.png"
         alt="ATA IT Logo"
-        className="h-24 mb-8"
+        className="h-16 md:h-24 mb-8"
+        isDark={isDark}
       />
-      <div className="w-64">
+      <div className="w-64 px-4">
         <Progress
           size="sm"
           isIndeterminate
