@@ -75,7 +75,6 @@ These mock-ups give a visual representation of the front-end design of the syste
 - **Others**:
   - Docker (Containerization)
   - Kubernetes (Orchestration)
-  - Firebase (Mobile Web Storage)
   - Sonner (UI Notifications)
 
 ## System Architecture
