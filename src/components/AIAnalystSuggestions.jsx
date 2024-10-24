@@ -4,17 +4,20 @@ import { Lightbulb, TrendingUp, Users, Target } from 'lucide-react';
 import styled from "@emotion/styled";
 import { keyframes } from "@emotion/react";
 
+// Updated shimmer animation for slower effect
 const shimmer = keyframes`
   0% { background-position: -1000px 0; }
   100% { background-position: 1000px 0; }
 `;
 
+// Updated neonPulse animation for slower effect
 const neonPulse = keyframes`
   0% { box-shadow: 0 0 10px #4ECDC4, 0 0 20px #4ECDC4, 0 0 30px #4ECDC4; }
   50% { box-shadow: 0 0 15px #FF6B6B, 0 0 25px #FF6B6B, 0 0 35px #FF6B6B; }
   100% { box-shadow: 0 0 10px #4ECDC4, 0 0 20px #4ECDC4, 0 0 30px #4ECDC4; }
 `;
 
+// Updated gradientMove animation for smoother transition
 const gradientMove = keyframes`
   0% { background-position: 0% 50%; }
   50% { background-position: 100% 50%; }
@@ -30,7 +33,7 @@ const StyledCard = styled(Card)`
     rgba(139, 92, 246, 0.9)
   );
   background-size: 200% 200%;
-  animation: ${gradientMove} 10s ease infinite;
+  animation: ${gradientMove} 15s ease-in-out infinite; /* Increased duration and modified easing */
   border-radius: 1rem;
   overflow: hidden;
 
@@ -47,7 +50,7 @@ const StyledCard = styled(Card)`
       rgba(255, 255, 255, 0.2),
       transparent
     );
-    animation: ${shimmer} 4s infinite;
+    animation: ${shimmer} 6s infinite; /* Increased duration */
   }
 
   &::after {
@@ -56,7 +59,7 @@ const StyledCard = styled(Card)`
     inset: -2px;
     background: linear-gradient(45deg, #4ECDC4, #FF6B6B);
     z-index: -1;
-    animation: ${neonPulse} 6s infinite;
+    animation: ${neonPulse} 8s infinite; /* Increased duration */
     border-radius: 1rem;
   }
 
