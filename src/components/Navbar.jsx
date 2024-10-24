@@ -3,8 +3,7 @@ import { Navbar, NavbarBrand, NavbarContent, NavbarItem, Button } from "@nextui-
 import { Moon, Sun } from 'lucide-react';
 import { keyframes } from "@emotion/react";
 import styled from "@emotion/styled";
-import { Link } from 'react-router-dom';
-import LoadingScreen from './LoadingScreen'; // Import your loading screen component
+import LoadingScreen from './LoadingScreen';
 
 const gradientAnimation = keyframes`
   0% { background-position: 0% 50%; }
@@ -24,35 +23,35 @@ const GradientText = styled.p`
 `;
 
 const AppNavbar = ({ theme, toggleTheme }) => {
-  const [loading, setLoading] = useState(false); // Add loading state
+  const [loading, setLoading] = useState(false);
 
   const handleBrandClick = () => {
-    setLoading(true); // Set loading state to true
+    setLoading(true);
     setTimeout(() => {
-      window.location.reload(); // Refresh the page after 1.5 seconds
-    }, 1500); // Delay of 1.5 seconds
+      window.location.reload();
+    }, 1500);
   };
 
   return (
     <>
-      {loading && <LoadingScreen />} {/* Conditionally render the loading screen */}
+      {loading && <LoadingScreen />}
       <Navbar
         isBordered
         className={`${theme === 'dark' ? 'bg-gray-900 text-white' : 'bg-white'} transition-colors duration-200`}
       >
         <NavbarBrand>
-          <Link to="#" onClick={handleBrandClick} style={{ textDecoration: 'none' }}>
+          <div onClick={handleBrandClick} style={{ cursor: 'pointer' }}>
             <GradientText>
               Feedback System
             </GradientText>
-          </Link>
+          </div>
         </NavbarBrand>
         <NavbarContent justify="end" className="gap-4">
           <NavbarItem>
             <img 
               src="https://ata-it-th.com/wp-content/uploads/2023/03/cropped-ata_bnc.png" 
               alt="ATA IT Logo" 
-              className={`h-8 transition-opacity duration-200 ${theme === 'dark' ? 'opacity-90 brightness-110' : ''}`}
+              className={`h-8 transition-opacity duration-200 ${theme === 'dark' ? 'opacity-90 brightness-110 filter invert' : ''}`}
             />
           </NavbarItem>
           <NavbarItem>

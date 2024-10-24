@@ -1,14 +1,12 @@
 import { HomeIcon } from "lucide-react";
-import Index from "./pages/Index.jsx";
 
 /**
- * Central place for defining the navigation items. Used for navigation components and routing.
+ * Central place for defining the navigation items. Used for navigation components.
  */
 export const navItems = [
   {
     title: "Home",
-    to: "/",
+    id: "dashboard",
     icon: <HomeIcon className="h-4 w-4" />,
-    page: <Index />,
   },
 ];
