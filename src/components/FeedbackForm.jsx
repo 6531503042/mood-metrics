@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { 
   Card, 
   CardHeader, 
@@ -30,8 +30,25 @@ const FeedbackForm = () => {
     isAnonymous: false,
     privacyLevel: "",
   });
-
   const [showModal, setShowModal] = useState(false);
+  const [isDarkMode, setIsDarkMode] = useState(false);
+
+  useEffect(() => {
+    // Detect dark mode preference
+    const darkModePreference = window.matchMedia("(prefers-color-scheme: dark)").matches;
+    setIsDarkMode(darkModePreference);
+
+    const handleModeChange = (e) => {
+      setIsDarkMode(e.matches);
+    };
+
+    // Update theme on change
+    window.matchMedia("(prefers-color-scheme: dark)").addListener(handleModeChange);
+
+    return () => {
+      window.matchMedia("(prefers-color-scheme: dark)").removeListener(handleModeChange);
+    };
+  }, []);
 
   const handleInputChange = (field, value) => {
     setFormData(prev => ({ ...prev, [field]: value }));
@@ -181,12 +198,12 @@ const FeedbackForm = () => {
   };
 
   return (
-    <div className="p-4 bg-gray-100 min-h-screen">
-      <Card className="w-full max-w-2xl mx-auto shadow-lg">
+    <div className={`p-4 ${isDarkMode ? 'bg-gray-900 text-white' : 'bg-gray-100 text-black'} min-h-screen`}>
+      <Card className={`w-full max-w-2xl mx-auto shadow-lg ${isDarkMode ? 'bg-gray-800' : 'bg-white'}`}>
         <CardHeader className="flex gap-3 border-b-2 border-blue-200">
           <div className="flex flex-col">
-            <p className="text-2xl font-bold text-blue-600">Feedback Submission</p>
-            <p className="text-sm text-gray-500">Step {step} of 7</p>
+            <p className={`text-2xl font-bold ${isDarkMode ? 'text-blue-400' : 'text-blue-600'}`}>Feedback Submission</p>
+            <p className={`text-sm ${isDarkMode ? 'text-gray-300' : 'text-gray-500'}`}>Step {step} of 7</p>
           </div>
         </CardHeader>
         <CardBody>
