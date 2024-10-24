@@ -1,15 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import { Button, Tooltip } from "@nextui-org/react";
 import { 
-  LayoutDashboard, 
-  MessageSquare, 
-  Users, 
-  Activity,
-  TrendingUp,
-  Target,
-  Settings,
-  ChevronRight,
-  ChevronLeft
+  LayoutDashboard, MessageSquare, Users, Activity,
+  TrendingUp, Target, Settings, ChevronRight, ChevronLeft 
 } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
 
@@ -17,6 +10,7 @@ const FloatingNavbar = ({ theme, setCurrentPage }) => {
   const [isCollapsed, setIsCollapsed] = useState(false);
   const [isVisible, setIsVisible] = useState(true);
   const [lastScrollY, setLastScrollY] = useState(0);
+  const [activePage, setActivePage] = useState('dashboard');
 
   const navItems = [
     { id: 'dashboard', label: 'Dashboard Overview', icon: <LayoutDashboard size={24} /> },
@@ -39,6 +33,11 @@ const FloatingNavbar = ({ theme, setCurrentPage }) => {
     return () => window.removeEventListener('scroll', handleScroll);
   }, [lastScrollY]);
 
+  const handlePageChange = (pageId) => {
+    setActivePage(pageId);
+    setCurrentPage(pageId);
+  };
+
   return (
     <AnimatePresence>
       {isVisible && (
@@ -50,11 +49,11 @@ const FloatingNavbar = ({ theme, setCurrentPage }) => {
         >
           <div
             className={`
-              ${theme === 'dark' ? 'bg-gray-800' : 'bg-white'}
+              ${theme === 'dark' ? 'bg-gray-900' : 'bg-white'}
               rounded-full shadow-lg p-2 flex items-center gap-2
               transition-all duration-300 ease-in-out
-              ${isCollapsed ? 'w-auto' : 'w-auto'}
               backdrop-blur-md bg-opacity-90
+              border border-purple-500/20
             `}
           >
             <Button
@@ -70,17 +69,20 @@ const FloatingNavbar = ({ theme, setCurrentPage }) => {
               {navItems.map((item) => (
                 <Tooltip
                   key={item.id}
-                  content={isCollapsed ? item.label : ''}
+                  content={item.label}
                   placement="top"
                 >
                   <Button
                     isIconOnly
-                    variant="light"
-                    onClick={() => setCurrentPage(item.id)}
+                    variant={activePage === item.id ? "solid" : "light"}
+                    onClick={() => handlePageChange(item.id)}
                     className={`
                       transition-all duration-300
-                      hover:scale-110 hover:text-purple-500
-                      ${theme === 'dark' ? 'text-gray-300' : 'text-gray-600'}
+                      hover:scale-110
+                      ${activePage === item.id 
+                        ? 'bg-purple-500 text-white shadow-lg scale-110' 
+                        : `${theme === 'dark' ? 'text-gray-300' : 'text-gray-600'} hover:text-purple-500`
+                      }
                     `}
                   >
                     {item.icon}
