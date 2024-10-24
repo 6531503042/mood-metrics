@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import AppNavbar from './Navbar';
-import AppSidebar from './Sidebar';
+import FloatingNavbar from './FloatingNavbar';
 import { NextUIProvider } from "@nextui-org/react";
 
 const DashboardLayout = ({ children, setCurrentPage }) => {
@@ -17,12 +17,12 @@ const DashboardLayout = ({ children, setCurrentPage }) => {
   return (
     <NextUIProvider>
       <div className={theme === 'dark' ? 'dark' : ''}>
-        <div className="min-h-screen bg-gray-900 dark:bg-gray-900 transition-colors duration-200">
+        <div className={`min-h-screen ${theme === 'dark' ? 'bg-gray-900' : 'bg-gray-50'} transition-colors duration-200`}>
           <AppNavbar theme={theme} toggleTheme={toggleTheme} />
-          <div className="flex">
-            <AppSidebar theme={theme} setCurrentPage={setCurrentPage} />
-            <main className="flex-grow p-8 bg-gray-900 dark:bg-gray-900">
-              <div className="rounded-lg bg-gray-800 dark:bg-gray-800 shadow-lg p-6 transition-colors duration-200">
+          <div className="relative">
+            <FloatingNavbar theme={theme} setCurrentPage={setCurrentPage} />
+            <main className={`flex-grow p-8 ${theme === 'dark' ? 'bg-gray-900' : 'bg-gray-50'}`}>
+              <div className={`rounded-lg ${theme === 'dark' ? 'bg-gray-800' : 'bg-white'} shadow-lg p-6 transition-colors duration-200`}>
                 {children}
               </div>
             </main>
