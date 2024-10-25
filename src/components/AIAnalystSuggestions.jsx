@@ -33,7 +33,7 @@ const StyledCard = styled(Card)`
     rgba(139, 92, 246, 0.9)
   );
   background-size: 200% 200%;
-  animation: ${gradientMove} 15s ease-in-out infinite; /* Increased duration and modified easing */
+  animation: ${gradientMove} 15s ease-in-out infinite;
   border-radius: 1rem;
   overflow: hidden;
 
@@ -50,7 +50,7 @@ const StyledCard = styled(Card)`
       rgba(255, 255, 255, 0.2),
       transparent
     );
-    animation: ${shimmer} 6s infinite; /* Increased duration */
+    animation: ${shimmer} 6s infinite;
   }
 
   &::after {
@@ -59,7 +59,7 @@ const StyledCard = styled(Card)`
     inset: -2px;
     background: linear-gradient(45deg, #4ECDC4, #FF6B6B);
     z-index: -1;
-    animation: ${neonPulse} 8s infinite; /* Increased duration */
+    animation: ${neonPulse} 8s infinite;
     border-radius: 1rem;
   }
 

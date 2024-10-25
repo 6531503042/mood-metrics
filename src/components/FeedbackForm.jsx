@@ -113,7 +113,7 @@ const FeedbackForm = () => {
               ) : (
                 <Button 
                   color="success" 
-                  type="submit"
+                  onClick={handleSubmit}
                   startContent={<Send size={18} />}
                   className="w-full"
                 >
