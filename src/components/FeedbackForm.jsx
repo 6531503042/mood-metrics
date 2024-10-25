@@ -4,9 +4,11 @@ import { Send, ChevronLeft, ChevronRight } from 'lucide-react';
 import FeedbackSuccessModal from './FeedbackSuccessModal';
 import IncentiveCard from './feedback/IncentiveCard';
 import * as Steps from './feedback/FeedbackFormSteps';
+import RewardsStore from './feedback/RewardsStore';
 
 const FeedbackForm = () => {
   const [step, setStep] = useState(1);
+  const [showStore, setShowStore] = useState(false);
   const [formData, setFormData] = useState({
     category: "",
     team: "",
@@ -19,7 +21,7 @@ const FeedbackForm = () => {
     privacyLevel: "",
   });
   const [showModal, setShowModal] = useState(false);
-  const [credits, setCredits] = useState(50); // Initial credits
+  const [credits, setCredits] = useState(50);
 
   const handleInputChange = (field, value) => {
     setFormData(prev => ({ ...prev, [field]: value }));
@@ -30,9 +32,8 @@ const FeedbackForm = () => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    setCredits(prev => prev + 10); // Award credits for submission
+    setCredits(prev => prev + 10);
     setShowModal(true);
-    // Reset form after submission
     setTimeout(() => {
       setStep(1);
       setFormData({
@@ -71,7 +72,7 @@ const FeedbackForm = () => {
     <div className="space-y-6">
       <IncentiveCard 
         credits={credits}
-        onRedeem={() => setCredits(prev => prev - 100)}
+        onRedeem={() => setShowStore(true)}
       />
 
       <Card className="w-full">
@@ -112,7 +113,7 @@ const FeedbackForm = () => {
               ) : (
                 <Button 
                   color="success" 
-                  type="submit" 
+                  type="submit"
                   startContent={<Send size={18} />}
                   className="w-full"
                 >
@@ -127,6 +128,13 @@ const FeedbackForm = () => {
       <FeedbackSuccessModal 
         isOpen={showModal} 
         onClose={() => setShowModal(false)} 
+      />
+
+      <RewardsStore 
+        isOpen={showStore}
+        onClose={() => setShowStore(false)}
+        credits={credits}
+        onRedeem={(cost) => setCredits(prev => prev - cost)}
       />
     </div>
   );
