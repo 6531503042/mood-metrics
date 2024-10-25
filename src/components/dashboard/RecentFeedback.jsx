@@ -1,17 +1,7 @@
 import React from 'react';
 import { Card, CardBody } from "@nextui-org/react";
-import { ThumbsUp, ThumbsDown, Minus } from 'lucide-react';
-
-const SentimentIcon = ({ sentiment }) => {
-  switch (sentiment) {
-    case 'positive':
-      return <ThumbsUp className="text-green-500 dark:text-green-400" />;
-    case 'negative':
-      return <ThumbsDown className="text-red-500 dark:text-red-400" />;
-    default:
-      return <Minus className="text-yellow-500 dark:text-yellow-400" />;
-  }
-};
+import { ThumbsUp, ThumbsDown, Minus, Brain } from 'lucide-react';
+import SentimentIndicator from '../feedback/SentimentIndicator';
 
 const RecentFeedback = ({ data, filter, team, project }) => {
   const filteredData = data.filter(feedback => 
@@ -27,13 +17,22 @@ const RecentFeedback = ({ data, filter, team, project }) => {
           <CardBody>
             <div className="flex items-start">
               <div className="mr-4">
-                <SentimentIcon sentiment={feedback.sentiment} />
+                <SentimentIndicator 
+                  sentiment={feedback.sentiment} 
+                  confidence={feedback.confidenceScore || 85}
+                />
               </div>
-              <div>
+              <div className="flex-grow">
                 <p className="text-gray-800 dark:text-gray-200">{feedback.text}</p>
-                <div className="mt-2 text-xs text-gray-500 dark:text-gray-400">
-                  <span className="mr-2">Team: {feedback.team}</span>
-                  <span>Project: {feedback.project}</span>
+                <div className="mt-2 text-xs text-gray-500 dark:text-gray-400 flex items-center justify-between">
+                  <div>
+                    <span className="mr-2">Team: {feedback.team}</span>
+                    <span>Project: {feedback.project}</span>
+                  </div>
+                  <div className="flex items-center gap-2">
+                    <Brain className="text-purple-500" size={16} />
+                    <span>AI Processing</span>
+                  </div>
                 </div>
               </div>
             </div>
@@ -41,7 +40,9 @@ const RecentFeedback = ({ data, filter, team, project }) => {
         </Card>
       ))}
       {filteredData.length === 0 && (
-        <p className="text-center text-gray-500 dark:text-gray-400">No feedback matching the current filters.</p>
+        <p className="text-center text-gray-500 dark:text-gray-400">
+          No feedback matching the current filters.
+        </p>
       )}
     </div>
   );
