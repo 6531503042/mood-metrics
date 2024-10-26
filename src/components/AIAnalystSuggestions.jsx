@@ -1,16 +1,14 @@
 import React from 'react';
 import { Card, CardHeader, CardBody, Divider, Chip, Progress } from "@nextui-org/react";
-import { Lightbulb, TrendingUp, Users, Target } from 'lucide-react';
+import { Lightbulb, TrendingUp, Users, Target, AlertTriangle, AlertCircle, CheckCircle2 } from 'lucide-react';
 import styled from "@emotion/styled";
 import { keyframes } from "@emotion/react";
 
-// Updated shimmer animation for slower effect
 const shimmer = keyframes`
   0% { background-position: -1000px 0; }
   100% { background-position: 1000px 0; }
 `;
 
-// Updated gradientMove animation for smoother transition
 const gradientMove = keyframes`
   0% { background-position: 0% 50%; }
   50% { background-position: 100% 50%; }
@@ -21,8 +19,8 @@ const StyledCard = styled(Card)`
   position: relative;
   background: linear-gradient(
     45deg, 
-    rgba(74, 222, 128, 0.9),
     rgba(59, 130, 246, 0.9),
+    rgba(99, 102, 241, 0.9),
     rgba(139, 92, 246, 0.9)
   );
   background-size: 200% 200%;
@@ -40,12 +38,25 @@ const StyledCard = styled(Card)`
     background: linear-gradient(
       90deg,
       transparent,
-      rgba(255, 255, 255, 0.2),
+      rgba(255, 255, 255, 0.1),
       transparent
     );
     animation: ${shimmer} 6s infinite;
   }
 `;
+
+const getRiskIcon = (risk) => {
+  switch (risk.toLowerCase()) {
+    case 'high':
+      return <AlertTriangle className="text-red-500" />;
+    case 'medium':
+      return <AlertCircle className="text-yellow-500" />;
+    case 'low':
+      return <CheckCircle2 className="text-green-500" />;
+    default:
+      return null;
+  }
+};
 
 const getRiskColor = (risk) => {
   switch (risk.toLowerCase()) {
@@ -67,21 +78,21 @@ const AIAnalystSuggestions = ({ suggestions }) => {
       icon: <TrendingUp size={18} />,
       risk: 'Medium',
       confidence: 85,
-      suggestions: suggestions.filter(s => s.category === 'performance'),
+      suggestions: suggestions?.filter(s => s.category === 'performance') || [],
     },
     engagement: {
       title: 'Engagement Analysis',
       icon: <Users size={18} />,
       risk: 'Low',
       confidence: 92,
-      suggestions: suggestions.filter(s => s.category === 'engagement'),
+      suggestions: suggestions?.filter(s => s.category === 'engagement') || [],
     },
     improvement: {
       title: 'Improvement Opportunities',
       icon: <Target size={18} />,
       risk: 'High',
       confidence: 78,
-      suggestions: suggestions.filter(s => s.category === 'improvement'),
+      suggestions: suggestions?.filter(s => s.category === 'improvement') || [],
     },
   };
 
@@ -91,25 +102,33 @@ const AIAnalystSuggestions = ({ suggestions }) => {
         <Lightbulb size={24} className="text-white animate-pulse" />
         <div className="flex flex-col">
           <p className="text-xl font-bold text-white">AI-Powered Insights</p>
-          <p className="text-small text-white/60">Leveraging advanced machine learning algorithms for data-driven recommendations</p>
+          <p className="text-small text-white/60">
+            Leveraging advanced machine learning algorithms for data-driven recommendations
+          </p>
         </div>
       </CardHeader>
       <Divider />
       <CardBody>
         <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
           {Object.entries(categories).map(([key, category]) => (
-            <div key={key} className={`${getRiskColor(category.risk)} border p-4 rounded-lg backdrop-blur-lg`}>
+            <div 
+              key={key} 
+              className={`${getRiskColor(category.risk)} border p-4 rounded-lg backdrop-blur-lg transition-all duration-300 hover:scale-105`}
+            >
               <div className="flex items-center justify-between mb-4">
-                <h3 className="text-lg font-semibold text-white flex items-center">
+                <h3 className="text-lg font-semibold text-white flex items-center gap-2">
                   {category.icon}
-                  <span className="ml-2">{category.title}</span>
+                  <span>{category.title}</span>
                 </h3>
-                <Chip
-                  size="sm"
-                  className={`${getRiskColor(category.risk)} text-white`}
-                >
-                  {category.risk} Risk
-                </Chip>
+                <div className="flex items-center gap-2">
+                  {getRiskIcon(category.risk)}
+                  <Chip
+                    size="sm"
+                    className={`${getRiskColor(category.risk)} text-white`}
+                  >
+                    {category.risk} Risk
+                  </Chip>
+                </div>
               </div>
               <div className="mb-4">
                 <div className="flex justify-between text-white/80 text-sm mb-1">
@@ -124,7 +143,9 @@ const AIAnalystSuggestions = ({ suggestions }) => {
               </div>
               <ul className="list-disc pl-5 text-white/80 space-y-2">
                 {category.suggestions.map((item, index) => (
-                  <li key={index} className="text-sm">{item.suggestion}</li>
+                  <li key={index} className="text-sm hover:text-white transition-colors duration-200">
+                    {item.suggestion}
+                  </li>
                 ))}
               </ul>
             </div>
