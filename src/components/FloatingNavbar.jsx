@@ -1,29 +1,19 @@
 import React, { useState, useEffect } from 'react';
-import { Button, Tooltip } from "@nextui-org/react";
-import { 
-  LayoutDashboard, MessageSquare, Users, Activity,
-  TrendingUp, Target, Settings, ChevronRight, ChevronLeft 
-} from 'lucide-react';
+import { Button, Tooltip, Avatar, Dropdown, DropdownTrigger, DropdownMenu, DropdownItem } from "@nextui-org/react";
+import { Bell, LogOut, User, Shield, Settings } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
-import LoadingScreen from './LoadingScreen'; // Import your LoadingScreen component
+import { navItems } from '../nav-items';
+import { useToast } from "../hooks/use-toast";
 
 const FloatingNavbar = ({ theme, setCurrentPage }) => {
-  const [isCollapsed, setIsCollapsed] = useState(false);
   const [isVisible, setIsVisible] = useState(true);
   const [lastScrollY, setLastScrollY] = useState(0);
   const [activePage, setActivePage] = useState('dashboard');
-  const [loading, setLoading] = useState(false); // State to manage loading
-
-  const navItems = [
-    { id: 'dashboard', label: 'Dashboard Overview', icon: <LayoutDashboard size={24} /> },
-    { id: 'feedback', label: 'Feedback Management', icon: <MessageSquare size={24} /> },
-    { id: 'team-analytics', label: 'Team Analytics', icon: <Users size={24} /> },
-    { id: 'performance', label: 'Performance Metrics', icon: <Activity size={24} /> },
-    { id: 'sentiment', label: 'Sentiment Analysis', icon: <TrendingUp size={24} /> },
-    { id: 'action-items', label: 'Action Items', icon: <Target size={24} /> },
-    { id: 'hr-management', label: 'HR Management', icon: <Users size={24} /> },
-    { id: 'settings', label: 'Settings', icon: <Settings size={24} /> },
-  ];
+  const [notifications, setNotifications] = useState([
+    { id: 1, type: 'critical', message: 'Urgent feedback requires attention' },
+    { id: 2, type: 'reminder', message: 'Weekly feedback submission reminder' }
+  ]);
+  const { toast } = useToast();
 
   useEffect(() => {
     const handleScroll = () => {
@@ -37,80 +27,112 @@ const FloatingNavbar = ({ theme, setCurrentPage }) => {
   }, [lastScrollY]);
 
   const handlePageChange = (pageId) => {
-    setLoading(true); // Start loading
     setActivePage(pageId);
+    setCurrentPage(pageId);
+  };
 
-    // Simulate a loading screen for 1 second before changing the page
-    setTimeout(() => {
-      setCurrentPage(pageId);
-      setLoading(false); // Stop loading
-    }, 1000); // 1 second loading
+  const handleNotificationClick = (notification) => {
+    toast({
+      title: notification.type === 'critical' ? "Critical Alert" : "Reminder",
+      description: notification.message,
+      variant: notification.type === 'critical' ? "destructive" : "default",
+    });
   };
 
   return (
-    <>
-      <AnimatePresence>
-        {isVisible && (
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            exit={{ opacity: 0, y: 20 }}
-            className="fixed bottom-4 left-1/2 transform -translate-x-1/2 z-50"
-          >
-            <div
-              className={`
-                ${theme === 'dark' ? 'bg-gray-900' : 'bg-white'}
-                rounded-full shadow-lg p-2 flex items-center gap-1 md:gap-2
-                transition-all duration-300 ease-in-out
-                backdrop-blur-md bg-opacity-90
-                border border-purple-500/20
-                max-w-[95vw] md:max-w-none overflow-x-auto
-                scrollbar-hide
-              `}
-            >
-              <Button
-                isIconOnly
-                variant="light"
-                onClick={() => setIsCollapsed(!isCollapsed)}
-                className="text-purple-500 hidden md:flex"
-              >
-                {isCollapsed ? <ChevronRight size={20} /> : <ChevronLeft size={20} />}
-              </Button>
-
-              <div className="flex gap-1 md:gap-2">
-                {navItems.map((item) => (
-                  <Tooltip
-                    key={item.id}
-                    content={item.label}
-                    placement="top"
+    <AnimatePresence>
+      {isVisible && (
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          exit={{ opacity: 0, y: 20 }}
+          transition={{ duration: 0.2 }}
+          className="fixed bottom-4 left-1/2 transform -translate-x-1/2 z-50 w-full max-w-xl px-4"
+        >
+          <div className={`
+            ${theme === 'dark' ? 'bg-gray-900/90' : 'bg-white/90'}
+            rounded-full shadow-lg p-2 flex items-center justify-between gap-2
+            backdrop-blur-md border border-purple-500/20
+          `}>
+            <div className="flex items-center gap-2">
+              {navItems.map((item) => (
+                <Tooltip
+                  key={item.id}
+                  content={item.title}
+                  placement="top"
+                >
+                  <Button
+                    isIconOnly
+                    variant={activePage === item.id ? "solid" : "light"}
+                    onClick={() => handlePageChange(item.id)}
+                    className={`
+                      transition-all duration-200
+                      ${activePage === item.id 
+                        ? 'bg-blue-500 text-white shadow-md scale-105' 
+                        : `${theme === 'dark' ? 'text-gray-300' : 'text-gray-600'} hover:text-blue-500`
+                      }
+                    `}
                   >
-                    <Button
-                      isIconOnly
-                      variant={activePage === item.id ? "solid" : "light"}
-                      onClick={() => handlePageChange(item.id)}
-                      className={`
-                        transition-all duration-300
-                        hover:scale-110
-                        ${activePage === item.id 
-                          ? 'bg-purple-500 text-white shadow-lg scale-110' 
-                          : `${theme === 'dark' ? 'text-gray-300' : 'text-gray-600'} hover:text-purple-500`
-                        }
-                        min-w-[40px] md:min-w-[48px]
-                      `}
-                    >
-                      {item.icon}
-                    </Button>
-                  </Tooltip>
-                ))}
-              </div>
+                    {item.icon}
+                  </Button>
+                </Tooltip>
+              ))}
             </div>
-          </motion.div>
-        )}
-      </AnimatePresence>
 
-      {/* Loading Screen */}
-      {loading && <LoadingScreen />} {/* Render the loading screen when loading is true */}
-    </>
+            <div className="flex items-center gap-2">
+              <Dropdown>
+                <DropdownTrigger>
+                  <Button 
+                    isIconOnly
+                    variant="light"
+                    className="relative"
+                  >
+                    <Bell className="h-5 w-5" />
+                    {notifications.length > 0 && (
+                      <span className="absolute -top-1 -right-1 h-3 w-3 bg-red-500 rounded-full animate-pulse" />
+                    )}
+                  </Button>
+                </DropdownTrigger>
+                <DropdownMenu aria-label="Notifications">
+                  {notifications.map((notification) => (
+                    <DropdownItem
+                      key={notification.id}
+                      className={notification.type === 'critical' ? 'text-red-500' : ''}
+                      onClick={() => handleNotificationClick(notification)}
+                    >
+                      {notification.message}
+                    </DropdownItem>
+                  ))}
+                </DropdownMenu>
+              </Dropdown>
+
+              <Dropdown>
+                <DropdownTrigger>
+                  <Avatar
+                    icon={<User className="h-4 w-4" />}
+                    className="cursor-pointer"
+                  />
+                </DropdownTrigger>
+                <DropdownMenu aria-label="Profile actions">
+                  <DropdownItem startContent={<User className="h-4 w-4" />}>
+                    Profile
+                  </DropdownItem>
+                  <DropdownItem startContent={<Shield className="h-4 w-4" />}>
+                    Privacy Settings
+                  </DropdownItem>
+                  <DropdownItem 
+                    startContent={<LogOut className="h-4 w-4" />}
+                    className="text-danger"
+                  >
+                    Log Out
+                  </DropdownItem>
+                </DropdownMenu>
+              </Dropdown>
+            </div>
+          </div>
+        </motion.div>
+      )}
+    </AnimatePresence>
   );
 };
 

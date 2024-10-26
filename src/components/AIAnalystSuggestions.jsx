@@ -5,8 +5,8 @@ import styled from "@emotion/styled";
 import { keyframes } from "@emotion/react";
 
 const shimmer = keyframes`
-  0% { background-position: -1000px 0; }
-  100% { background-position: 1000px 0; }
+  0% { background-position: -500px 0; }
+  100% { background-position: 500px 0; }
 `;
 
 const gradientMove = keyframes`
@@ -24,7 +24,7 @@ const StyledCard = styled(Card)`
     rgba(139, 92, 246, 0.9)
   );
   background-size: 200% 200%;
-  animation: ${gradientMove} 15s ease-in-out infinite;
+  animation: ${gradientMove} 20s ease-in-out infinite;
   border-radius: 1rem;
   overflow: hidden;
 
@@ -41,7 +41,7 @@ const StyledCard = styled(Card)`
       rgba(255, 255, 255, 0.1),
       transparent
     );
-    animation: ${shimmer} 6s infinite;
+    animation: ${shimmer} 8s infinite;
   }
 `;
 

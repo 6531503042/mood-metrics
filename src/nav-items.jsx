@@ -1,12 +1,19 @@
-import { HomeIcon } from "lucide-react";
+import { LayoutDashboard, FileText, Settings, Users } from "lucide-react";
 
-/**
- * Central place for defining the navigation items. Used for navigation components.
- */
 export const navItems = [
   {
-    title: "Home",
+    title: "Dashboard",
     id: "dashboard",
-    icon: <HomeIcon className="h-4 w-4" />,
+    icon: <LayoutDashboard className="h-4 w-4" />,
+  },
+  {
+    title: "Reports",
+    id: "reports",
+    icon: <FileText className="h-4 w-4" />,
+  },
+  {
+    title: "Settings",
+    id: "settings",
+    icon: <Settings className="h-4 w-4" />,
   },
 ];
