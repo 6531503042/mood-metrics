@@ -93,15 +93,6 @@ const FeedbackDashboard = () => {
 
         <Card className="mb-8">
           <CardHeader>
-            <h2 className="text-2xl font-semibold text-purple-700">Employee Segmentation</h2>
-          </CardHeader>
-          <CardBody>
-            <EmployeeSegmentation data={feedbackData.employeeSegmentation} />
-          </CardBody>
-        </Card>
-
-        <Card className="mb-8">
-          <CardHeader>
             <h2 className="text-2xl font-semibold text-purple-700">Recent Feedback</h2>
           </CardHeader>
           <CardBody>
@@ -113,33 +104,6 @@ const FeedbackDashboard = () => {
             />
           </CardBody>
         </Card>
-
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-          <Card className="w-full h-full">
-            <CardHeader>
-              <h2 className="text-xl font-semibold text-purple-700">Available Data Tables</h2>
-            </CardHeader>
-            <CardBody>
-              <AvailableDataTables data={feedbackData.availableDataTables} />
-            </CardBody>
-          </Card>
-          <Card className="w-full h-full">
-            <CardHeader>
-              <h2 className="text-xl font-semibold text-purple-700">Performance Metrics</h2>
-            </CardHeader>
-            <CardBody>
-              <PerformanceMetrics data={feedbackData.performanceMetrics} />
-            </CardBody>
-          </Card>
-          <Card className="w-full h-full">
-            <CardHeader>
-              <h2 className="text-xl font-semibold text-purple-700">Analyses Run</h2>
-            </CardHeader>
-            <CardBody>
-              <AnalysesRun data={feedbackData.analysesRun} />
-            </CardBody>
-          </Card>
-        </div>
       </div>
     </div>
   );
