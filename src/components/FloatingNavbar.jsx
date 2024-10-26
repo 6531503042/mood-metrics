@@ -21,6 +21,7 @@ const FloatingNavbar = ({ theme, setCurrentPage }) => {
     { id: 'performance', label: 'Performance Metrics', icon: <Activity size={24} /> },
     { id: 'sentiment', label: 'Sentiment Analysis', icon: <TrendingUp size={24} /> },
     { id: 'action-items', label: 'Action Items', icon: <Target size={24} /> },
+    { id: 'hr-management', label: 'HR Management', icon: <Users size={24} /> },
     { id: 'settings', label: 'Settings', icon: <Settings size={24} /> },
   ];
 
