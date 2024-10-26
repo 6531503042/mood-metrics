@@ -3,7 +3,7 @@ import { Button, Tooltip, Avatar, Dropdown, DropdownTrigger, DropdownMenu, Dropd
 import { Bell, LogOut, User, Shield, Settings } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { navItems } from '../nav-items';
-import { useToast } from "../hooks/use-toast";
+import { useToast } from "@/components/ui/use-toast";
 
 const FloatingNavbar = ({ theme, setCurrentPage }) => {
   const [isVisible, setIsVisible] = useState(true);
