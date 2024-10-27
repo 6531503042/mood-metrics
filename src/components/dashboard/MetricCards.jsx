@@ -28,7 +28,7 @@ const MetricCards = ({ data }) => {
       <MetricCard 
         className="w-full" 
         title="Total Feedback" 
-        value={data.totalFeedback || 'N/A'} 
+        value={data.totalFeedback} 
         icon={<MessageSquare size={36} />} 
       />
       <MetricCard 
