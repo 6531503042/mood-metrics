@@ -2,7 +2,7 @@ import React from 'react';
 import { Card, CardBody, Progress } from "@nextui-org/react";
 import { Brain, AlertTriangle, AlertCircle, CheckCircle2 } from 'lucide-react';
 
-const getRiskIcon = (risk = 'medium') => {
+const getRiskIcon = (risk) => {
   switch (risk.toLowerCase()) {
     case 'high':
       return <AlertTriangle className="text-red-500" />;
@@ -11,18 +11,12 @@ const getRiskIcon = (risk = 'medium') => {
     case 'low':
       return <CheckCircle2 className="text-green-500" />;
     default:
-      return <AlertCircle className="text-yellow-500" />;
+      return null;
   }
 };
 
-const AIInsightCard = ({ insight = {} }) => {
-  const { 
-    title = "Insight",
-    description = "",
-    riskLevel = "medium",
-    confidence = 75,
-    actionItems = []
-  } = insight;
+const AIInsightCard = ({ insight }) => {
+  const { title, description, riskLevel, confidence, actionItems } = insight;
 
   return (
     <Card className="w-full mb-4">
