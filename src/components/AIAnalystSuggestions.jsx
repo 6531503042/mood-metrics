@@ -13,7 +13,7 @@ const backgroundShift = keyframes`
 const StyledCard = styled(Card)`
   position: relative;
   overflow: hidden;
-  background: linear-gradient(40deg, #dff9fb, #ffffff);
+  background: linear-gradient(40deg, #C6EBEDFF, #F6CDCDFF, #DAFFE4FF);x
   background-size: 200% 200%;
   animation: ${backgroundShift} 15s ease infinite;
 `;
