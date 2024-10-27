@@ -48,22 +48,22 @@ const ExportButton = ({ data, filename = 'feedback-report' }) => {
       <DropdownMenu aria-label="Export options">
         <DropdownItem 
           key="csv" 
-          onPress={exportToCSV}
-          startContent={<FileText size={16} />}
+          onClick={exportToCSV}
+          startContent={<FileText size={16} />} // Icon for CSV
         >
           Export as CSV
         </DropdownItem>
         <DropdownItem 
           key="excel" 
-          onPress={exportToExcel}
-          startContent={<FileSpreadsheet size={16} />}
+          onClick={exportToExcel}
+          startContent={<FileSpreadsheet size={16} />} // Icon for Excel
         >
           Export as Excel
         </DropdownItem>
         <DropdownItem 
           key="pdf" 
-          onPress={exportToPDF}
-          startContent={<FilePdf size={16} />}
+          onClick={exportToPDF}
+          startContent={<FilePdf size={16} />} // Icon for PDF
         >
           Export as PDF
         </DropdownItem>
