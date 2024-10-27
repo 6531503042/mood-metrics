@@ -4,16 +4,16 @@
  
 @layer base {
   :root {
-    --color-bg1: #dff9fb;
-    --color-bg2: #ffffff;
-    --color1: 104, 109, 224;
-    --color2: 126, 214, 223;
-    --color3: 223, 249, 251;
-    --color4: 255, 121, 121;
-    --color5: 149, 175, 192;
-    --color-interactive: 140, 100, 255;
-    --circle-size: 200%;
-    --blending: hard-light;
+    --color-bg1: #eff7fa;
+  --color-bg2: #ffffff;
+  --color1: 45, 170, 220;
+  --color2: 72, 187, 209;
+  --color3: 245, 252, 254;
+  --color4: 252, 165, 162;
+  --color5: 180, 198, 220;
+  --color-interactive: 80, 130, 255;
+  --circle-size: 220%;
+  --blending: soft-light;
 
     --primary: 222.2 47.4% 11.2%;
     --primary-foreground: 210 40% 98%;
