@@ -4,46 +4,18 @@ import { Lightbulb, TrendingUp, Users, Target, AlertTriangle, AlertCircle, Check
 import styled from "@emotion/styled";
 import { keyframes } from "@emotion/react";
 
-const moveInCircle = keyframes`
-  0% { transform: rotate(0deg); }
-  50% { transform: rotate(180deg); }
-  100% { transform: rotate(360deg); }
-`;
-
-const moveVertical = keyframes`
-  0% { transform: translateY(-50%); }
-  50% { transform: translateY(50%); }
-  100% { transform: translateY(-50%); }
+const backgroundShift = keyframes`
+  0% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
 `;
 
 const StyledCard = styled(Card)`
   position: relative;
   overflow: hidden;
-  background: linear-gradient(40deg, var(--color-bg1, #dff9fb), var(--color-bg2, #ffffff));
-
-  &::before {
-    content: '';
-    position: absolute;
-    width: 200%;
-    height: 200%;
-    background: radial-gradient(circle at center, rgba(104, 109, 224, 0.8) 0, rgba(104, 109, 224, 0) 50%) no-repeat;
-    mix-blend-mode: hard-light;
-    animation: ${moveInCircle} 20s linear infinite;
-    top: -50%;
-    left: -50%;
-  }
-
-  &::after {
-    content: '';
-    position: absolute;
-    width: 200%;
-    height: 200%;
-    background: radial-gradient(circle at center, rgba(126, 214, 223, 0.8) 0, rgba(126, 214, 223, 0) 50%) no-repeat;
-    mix-blend-mode: hard-light;
-    animation: ${moveVertical} 30s ease infinite;
-    top: -50%;
-    left: -50%;
-  }
+  background: linear-gradient(40deg, #dff9fb, #ffffff);
+  background-size: 200% 200%;
+  animation: ${backgroundShift} 15s ease infinite;
 `;
 
 const getRiskIcon = (risk = 'medium') => {
