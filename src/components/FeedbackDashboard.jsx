@@ -9,6 +9,7 @@ import RecentFeedback from "./dashboard/RecentFeedback";
 import AIAnalystSuggestions from "./AIAnalystSuggestions";
 import UserSegmentation from "./dashboard/UserSegmentation";
 import SatisfactionMeter from "./dashboard/SatisfactionMeter";
+import AreasForImprovement from "./dashboard/AreasForImprovement";
 import FloatingFilterBar from "./FloatingFilterBar";
 import { useFeedbackData } from "../hooks/useFeedbackData";
 
@@ -51,6 +52,10 @@ const FeedbackDashboard = () => {
         <div className="grid grid-cols-1 md:grid-cols-2 gap-8 mb-8">
           <UserSegmentation />
           <SatisfactionMeter />
+        </div>
+
+        <div className="mb-8">
+          <AreasForImprovement data={feedbackData.areasForImprovement} />
         </div>
 
         <div className="grid grid-cols-1 md:grid-cols-2 gap-8 mb-8">
