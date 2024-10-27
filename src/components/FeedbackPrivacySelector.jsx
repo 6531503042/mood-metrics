@@ -24,10 +24,21 @@ const FeedbackPrivacySelector = ({ isAnonymous, setIsAnonymous, privacyLevel, se
         onChange={(e) => setPrivacyLevel(e.target.value)}
         startContent={<Lock className="text-purple-500" />}
       >
-        <SelectItem key="public" value="public">Entire Company</SelectItem>
-        <SelectItem key="team" value="team">My Team Only</SelectItem>
-        <SelectItem key="management" value="management">Management Only</SelectItem>
-        <SelectItem key="private" value="private">HR Only</SelectItem>
+        <SelectItem key="public" value="public">
+          🌐 Entire Company
+        </SelectItem>
+        <SelectItem key="team" value="team">
+          👥 My Team Only
+        </SelectItem>
+        <SelectItem key="management" value="management">
+          🧑‍💼 Management Only
+        </SelectItem>
+        <SelectItem key="hr" value="hr">
+          🔒 HR Only
+        </SelectItem>
+        <SelectItem key="private" value="private">
+          🚫 No One
+        </SelectItem>
       </Select>
     </div>
   );
