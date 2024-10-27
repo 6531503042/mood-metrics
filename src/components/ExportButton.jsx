@@ -1,8 +1,10 @@
 import React from 'react';
 import { Button, Dropdown, DropdownTrigger, DropdownMenu, DropdownItem } from "@nextui-org/react";
-import { Download } from 'lucide-react';
+import { Download, FileSpreadsheet, FilePdf, FileText } from 'lucide-react';
 import { saveAs } from 'file-saver';
 import { utils, write } from 'xlsx';
+import { jsPDF } from 'jspdf';
+import 'jspdf-autotable';
 
 const ExportButton = ({ data, filename = 'feedback-report' }) => {
   const exportToCSV = () => {
@@ -14,9 +16,22 @@ const ExportButton = ({ data, filename = 'feedback-report' }) => {
     saveAs(blob, `${filename}.csv`);
   };
 
+  const exportToExcel = () => {
+    const ws = utils.json_to_sheet(data);
+    const wb = utils.book_new();
+    utils.book_append_sheet(wb, ws, "Feedback");
+    const excelData = write(wb, { bookType: 'xlsx', type: 'array' });
+    const blob = new Blob([excelData], { type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet' });
+    saveAs(blob, `${filename}.xlsx`);
+  };
+
   const exportToPDF = () => {
-    // Implement PDF export logic here
-    console.log('PDF export not implemented yet');
+    const doc = new jsPDF();
+    doc.autoTable({
+      head: [Object.keys(data[0])],
+      body: data.map(Object.values),
+    });
+    doc.save(`${filename}.pdf`);
   };
 
   return (
@@ -31,10 +46,25 @@ const ExportButton = ({ data, filename = 'feedback-report' }) => {
         </Button>
       </DropdownTrigger>
       <DropdownMenu aria-label="Export options">
-        <DropdownItem key="csv" onPress={exportToCSV}>
+        <DropdownItem 
+          key="csv" 
+          onPress={exportToCSV}
+          startContent={<FileText size={16} />}
+        >
           Export as CSV
         </DropdownItem>
-        <DropdownItem key="pdf" onPress={exportToPDF}>
+        <DropdownItem 
+          key="excel" 
+          onPress={exportToExcel}
+          startContent={<FileSpreadsheet size={16} />}
+        >
+          Export as Excel
+        </DropdownItem>
+        <DropdownItem 
+          key="pdf" 
+          onPress={exportToPDF}
+          startContent={<FilePdf size={16} />}
+        >
           Export as PDF
         </DropdownItem>
       </DropdownMenu>
