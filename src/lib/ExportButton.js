@@ -22,15 +22,12 @@ export const exportToCSV = (data, filename) => {
 export const exportToPDF = (data, filename) => {
   const doc = new jsPDF();
   
-  // Add title
   doc.setFontSize(16);
   doc.text(filename, 14, 15);
   
-  // Add timestamp
   doc.setFontSize(10);
   doc.text(`Generated on: ${new Date().toLocaleString()}`, 14, 25);
 
-  // Convert data to array format for jspdf-autotable
   const headers = Object.keys(data[0]);
   const rows = data.map(obj => Object.values(obj));
 
