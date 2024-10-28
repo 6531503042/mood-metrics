@@ -99,56 +99,58 @@ const AIAnalystSuggestions = ({ suggestions = [] }) => {
       </CardHeader>
       <Divider />
       <CardBody className="relative z-10">
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
           {Object.entries(categories).map(([key, category]) => (
             <div 
               key={key} 
-              className={`${getRiskColor(category.risk)} border p-4 rounded-lg backdrop-blur-lg transition-all duration-300 hover:scale-102`}
+              className={`${getRiskColor(category.risk)} border p-4 rounded-lg backdrop-blur-lg transition-all duration-300 hover:scale-102 relative overflow-hidden`}
             >
-              <div className="flex items-center justify-between mb-4">
-                <h3 className="text-lg font-semibold text-purple-700 flex items-center gap-2">
-                  {category.icon}
-                  <span>{category.title}</span>
-                </h3>
-                <div className="flex items-center gap-2">
-                  {getRiskIcon(category.risk)}
-                  <Chip
+              <div className="flex flex-col gap-2">
+                <div className="flex items-center justify-between flex-wrap gap-2">
+                  <h3 className="text-lg font-semibold text-purple-700 flex items-center gap-2">
+                    {category.icon}
+                    <span className="text-sm sm:text-base">{category.title}</span>
+                  </h3>
+                  <div className="flex items-center gap-1 sm:gap-2 flex-wrap">
+                    {getRiskIcon(category.risk)}
+                    <Chip
+                      size="sm"
+                      className={`${getRiskColor(category.risk)} text-purple-700 text-xs sm:text-sm whitespace-nowrap`}
+                    >
+                      {category.risk} Risk
+                    </Chip>
+                  </div>
+                </div>
+                <div className="mb-2">
+                  <div className="flex justify-between text-purple-700/80 text-xs sm:text-sm mb-1">
+                    <span>AI Confidence</span>
+                    <span>{category.confidence}%</span>
+                  </div>
+                  <Progress 
+                    value={category.confidence}
+                    color={category.confidence > 85 ? "success" : category.confidence > 70 ? "warning" : "danger"}
+                    className="h-2"
+                  />
+                </div>
+                <ul className="list-disc pl-5 text-purple-700/80 space-y-2 text-xs sm:text-sm">
+                  {category.suggestions.slice(0, expandedCategory === key ? undefined : 2).map((item, index) => (
+                    <li key={index} className="hover:text-purple-700 transition-colors duration-200">
+                      {item.suggestion}
+                    </li>
+                  ))}
+                </ul>
+                {category.suggestions.length > 2 && (
+                  <Button
+                    light
                     size="sm"
-                    className={`${getRiskColor(category.risk)} text-purple-700`}
+                    className="mt-2 text-purple-600 text-xs sm:text-sm"
+                    endContent={expandedCategory === key ? <ChevronUp size={14} /> : <ChevronDown size={14} />}
+                    onPress={() => setExpandedCategory(expandedCategory === key ? null : key)}
                   >
-                    {category.risk} Risk
-                  </Chip>
-                </div>
+                    {expandedCategory === key ? "Show Less" : "See More"}
+                  </Button>
+                )}
               </div>
-              <div className="mb-4">
-                <div className="flex justify-between text-purple-700/80 text-sm mb-1">
-                  <span>AI Confidence</span>
-                  <span>{category.confidence}%</span>
-                </div>
-                <Progress 
-                  value={category.confidence}
-                  color={category.confidence > 85 ? "success" : category.confidence > 70 ? "warning" : "danger"}
-                  className="h-2"
-                />
-              </div>
-              <ul className="list-disc pl-5 text-purple-700/80 space-y-2">
-                {category.suggestions.slice(0, expandedCategory === key ? undefined : 2).map((item, index) => (
-                  <li key={index} className="text-sm hover:text-purple-700 transition-colors duration-200">
-                    {item.suggestion}
-                  </li>
-                ))}
-              </ul>
-              {category.suggestions.length > 2 && (
-                <Button
-                  light
-                  size="sm"
-                  className="mt-2 text-purple-600"
-                  endContent={expandedCategory === key ? <ChevronUp size={16} /> : <ChevronDown size={16} />}
-                  onPress={() => setExpandedCategory(expandedCategory === key ? null : key)}
-                >
-                  {expandedCategory === key ? "Show Less" : "See More"}
-                </Button>
-              )}
             </div>
           ))}
         </div>
@@ -158,4 +160,3 @@ const AIAnalystSuggestions = ({ suggestions = [] }) => {
 };
 
 export default AIAnalystSuggestions;
-

@@ -20,6 +20,9 @@ const GradientText = styled.p`
   font-size: 1.5rem;
   font-weight: bold;
   cursor: pointer;
+  @media (max-width: 640px) {
+    font-size: 1.25rem;
+  }
 `;
 
 const AppNavbar = ({ theme, toggleTheme }) => {
@@ -40,18 +43,18 @@ const AppNavbar = ({ theme, toggleTheme }) => {
         className={`${theme === 'dark' ? 'bg-gray-900 text-white' : 'bg-white'} transition-colors duration-200`}
       >
         <NavbarBrand>
-          <div onClick={handleBrandClick} style={{ cursor: 'pointer' }}>
+          <div onClick={handleBrandClick} className="flex items-center">
             <GradientText>
               Feedback System
             </GradientText>
           </div>
         </NavbarBrand>
-        <NavbarContent justify="end" className="gap-4">
-          <NavbarItem>
+        <NavbarContent justify="end" className="gap-2 sm:gap-4">
+          <NavbarItem className="flex items-center">
             <img 
               src="https://ata-it-th.com/wp-content/uploads/2023/03/cropped-ata_bnc.png" 
               alt="ATA IT Logo" 
-              className={`h-8 transition-opacity duration-200 ${theme === 'dark' ? 'opacity-90 brightness-110 filter invert' : ''}`}
+              className={`h-6 sm:h-8 w-auto object-contain transition-opacity duration-200 ${theme === 'dark' ? 'opacity-90 brightness-110 filter invert' : ''}`}
             />
           </NavbarItem>
           <NavbarItem>

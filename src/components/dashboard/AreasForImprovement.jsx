@@ -3,6 +3,7 @@ import { Card, CardHeader, CardBody, Button } from "@nextui-org/react";
 import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, Legend } from 'recharts';
 import { Briefcase, MessageSquare, TrendingUp, Scale, Users, Crown } from 'lucide-react';
 import { Download } from 'lucide-react';
+import { exportToExcel } from '../../lib/ExportButton';
 
 const getIcon = (name) => {
   const icons = {
@@ -16,7 +17,7 @@ const getIcon = (name) => {
   return icons[name] || null;
 };
 
-const AreasForImprovement = ({ data, onExport }) => {
+const AreasForImprovement = ({ data }) => {
   const chartData = [
     { name: 'Work Environment', count: data?.workEnvironment || 45, target: 80 },
     { name: 'Communication', count: data?.communication || 65, target: 90 },
@@ -26,9 +27,22 @@ const AreasForImprovement = ({ data, onExport }) => {
     { name: 'Leadership Support', count: data?.leadershipSupport || 60, target: 85 },
   ];
 
+  const handleExport = () => {
+    if (!chartData || chartData.length === 0) {
+      console.error('No data to export');
+      return;
+    }
+    
+    try {
+      exportToExcel(chartData, 'areas-for-improvement');
+    } catch (error) {
+      console.error('Error exporting data:', error);
+    }
+  };
+
   return (
     <Card className="w-full">
-      <CardHeader className="flex justify-between items-center">
+      <CardHeader className="flex justify-between items-center flex-wrap gap-2">
         <div>
           <h3 className="text-xl font-semibold text-purple-700">Areas for Improvement</h3>
           <p className="text-small text-default-500">Current performance vs target metrics</p>
@@ -37,8 +51,8 @@ const AreasForImprovement = ({ data, onExport }) => {
           color="primary"
           variant="flat"
           startContent={<Download size={18} />}
-          onPress={onExport}
-          className="hidden sm:flex"
+          onClick={handleExport}
+          className="text-sm"
         >
           Export Data
         </Button>
