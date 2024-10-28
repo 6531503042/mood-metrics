@@ -15,20 +15,25 @@ const FloatingNavbar = ({ theme, setCurrentPage }) => {
   const [loading, setLoading] = useState(false);
 
   const navItems = [
-    { id: 'dashboard', label: 'Dashboard Overview', icon: <LayoutDashboard size={24} /> },
-    { id: 'feedback', label: 'Feedback Management', icon: <MessageSquare size={24} /> },
-    { id: 'team-analytics', label: 'Team Analytics', icon: <Users size={24} /> },
-    { id: 'performance', label: 'Performance Metrics', icon: <Activity size={24} /> },
-    { id: 'sentiment', label: 'Sentiment Analysis', icon: <TrendingUp size={24} /> },
-    { id: 'action-items', label: 'Action Items', icon: <Target size={24} /> },
-    { id: 'hr-management', label: 'HR Management', icon: <Users size={24} /> },
-    { id: 'settings', label: 'Settings', icon: <Settings size={24} /> },
+    { id: 'dashboard', label: 'Dashboard Overview', icon: <LayoutDashboard size={20} /> },
+    { id: 'feedback', label: 'Feedback Management', icon: <MessageSquare size={20} /> },
+    { id: 'team-analytics', label: 'Team Analytics', icon: <Users size={20} /> },
+    { id: 'performance', label: 'Performance Metrics', icon: <Activity size={20} /> },
+    { id: 'sentiment', label: 'Sentiment Analysis', icon: <TrendingUp size={20} /> },
+    { id: 'action-items', label: 'Action Items', icon: <Target size={20} /> },
+    { id: 'hr-management', label: 'HR Management', icon: <Users size={20} /> },
+    { id: 'settings', label: 'Settings', icon: <Settings size={20} /> },
   ];
 
   useEffect(() => {
     const handleScroll = () => {
       const currentScrollY = window.scrollY;
-      setIsVisible(currentScrollY < lastScrollY || currentScrollY < 100);
+      if (currentScrollY < lastScrollY || currentScrollY < 100) {
+        setIsVisible(true);
+      } else {
+        setIsVisible(false);
+        setIsCollapsed(true);
+      }
       setLastScrollY(currentScrollY);
     };
 
@@ -39,11 +44,10 @@ const FloatingNavbar = ({ theme, setCurrentPage }) => {
   const handlePageChange = (pageId) => {
     setLoading(true);
     setActivePage(pageId);
-
     setTimeout(() => {
       setCurrentPage(pageId);
       setLoading(false);
-    }, 1000);
+    }, 800);
   };
 
   return (
@@ -51,38 +55,52 @@ const FloatingNavbar = ({ theme, setCurrentPage }) => {
       <AnimatePresence>
         {isVisible && (
           <motion.div
-            initial={{ opacity: 0, y: 20 }}
+            initial={{ opacity: 0, y: 50 }}
             animate={{ opacity: 1, y: 0 }}
-            exit={{ opacity: 0, y: 20 }}
-            className={`fixed bottom-4 ${isCollapsed ? 'right-4' : 'left-1/2 transform -translate-x-1/2'} z-50`}
+            exit={{ opacity: 0, y: 50 }}
+            transition={{ duration: 0.3, ease: "easeInOut" }}
+            className={`fixed ${isCollapsed ? 'bottom-4 right-4' : 'bottom-4 left-1/2 -translate-x-1/2'} z-50`}
           >
-            <div
+            <motion.div
+              layout
+              transition={{ duration: 0.3 }}
               className={`
-                ${theme === 'dark' ? 'bg-gray-900' : 'bg-white'}
-                rounded-full shadow-lg p-2 flex items-center gap-1
-                transition-all duration-300 ease-in-out
-                backdrop-blur-md bg-opacity-90
+                ${theme === 'dark' ? 'bg-gray-900/90' : 'bg-white/90'}
+                rounded-full shadow-lg p-2 flex items-center gap-2
+                backdrop-blur-md
                 border border-purple-500/20
-                max-w-[90vw] md:max-w-none overflow-x-auto
-                scrollbar-hide
+                max-w-[90vw] overflow-x-auto scrollbar-hide
+                hover:shadow-xl transition-shadow duration-300
               `}
             >
               <Button
                 isIconOnly
                 variant="light"
                 onClick={() => setIsCollapsed(!isCollapsed)}
-                className="text-purple-500"
+                className="text-purple-500 hover:scale-110 transition-transform duration-300"
               >
-                {isCollapsed ? <Menu size={20} /> : <ChevronRight size={20} />}
+                <motion.div
+                  animate={{ rotate: isCollapsed ? 0 : 180 }}
+                  transition={{ duration: 0.3 }}
+                >
+                  {isCollapsed ? <Menu size={20} /> : <ChevronRight size={20} />}
+                </motion.div>
               </Button>
 
               {!isCollapsed && (
-                <div className="flex gap-2 overflow-x-auto">
+                <motion.div
+                  initial={{ opacity: 0, width: 0 }}
+                  animate={{ opacity: 1, width: "auto" }}
+                  exit={{ opacity: 0, width: 0 }}
+                  transition={{ duration: 0.3 }}
+                  className="flex gap-2 overflow-x-auto px-2"
+                >
                   {navItems.map((item) => (
                     <Tooltip
                       key={item.id}
                       content={item.label}
                       placement="top"
+                      className="hidden md:block"
                     >
                       <Button
                         isIconOnly
@@ -92,23 +110,22 @@ const FloatingNavbar = ({ theme, setCurrentPage }) => {
                           transition-all duration-300
                           hover:scale-110
                           ${activePage === item.id 
-                            ? 'bg-purple-500 text-white shadow-lg scale-110' 
+                            ? 'bg-purple-500 text-white shadow-lg scale-105' 
                             : `${theme === 'dark' ? 'text-gray-300' : 'text-gray-600'} hover:text-purple-500`
                           }
-                          min-w-[40px] md:min-w-[48px]
+                          min-w-[40px] h-[40px] md:min-w-[44px] md:h-[44px]
                         `}
                       >
                         {item.icon}
                       </Button>
                     </Tooltip>
                   ))}
-                </div>
+                </motion.div>
               )}
-            </div>
+            </motion.div>
           </motion.div>
         )}
       </AnimatePresence>
-
       {loading && <LoadingScreen />}
     </>
   );

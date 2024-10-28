@@ -13,9 +13,24 @@ const backgroundShift = keyframes`
 const StyledCard = styled(Card)`
   position: relative;
   overflow: hidden;
-  background: linear-gradient(40deg, #D0CEFEFF, #FADDDDFF);x
+  background: linear-gradient(135deg, #f6f9fc, #eef2f7);
   background-size: 200% 200%;
   animation: ${backgroundShift} 15s ease infinite;
+
+  &.dark {
+    background: linear-gradient(135deg, #1a1f2c, #2d3748);
+  }
+
+  &::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: linear-gradient(135deg, rgba(126, 214, 223, 0.1), rgba(104, 109, 224, 0.1));
+    pointer-events: none;
+  }
 `;
 
 const getRiskIcon = (risk = 'medium') => {
@@ -143,3 +158,4 @@ const AIAnalystSuggestions = ({ suggestions = [] }) => {
 };
 
 export default AIAnalystSuggestions;
+
