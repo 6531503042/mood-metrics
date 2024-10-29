@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Button, Tooltip } from "@nextui-org/react";
 import { 
   LayoutDashboard, MessageSquare, Users, Activity,
@@ -6,28 +6,44 @@ import {
 } from "lucide-react";
 import { motion, AnimatePresence } from 'framer-motion';
 import LoadingScreen from './LoadingScreen';
+import { useNavigate } from 'react-router-dom';
 
-const FloatingNavbar = ({ theme, setCurrentPage = () => {} }) => {
+const FloatingNavbar = ({ theme }) => {
   const [isCollapsed, setIsCollapsed] = useState(true);
   const [activePage, setActivePage] = useState('dashboard');
   const [loading, setLoading] = useState(false);
+  const navigate = useNavigate();
 
   const navItems = [
-    { id: 'dashboard', label: 'Dashboard Overview', icon: <LayoutDashboard size={20} /> },
-    { id: 'feedback', label: 'Feedback Management', icon: <MessageSquare size={20} /> },
-    { id: 'team-analytics', label: 'Team Analytics', icon: <Users size={20} /> },
-    { id: 'performance', label: 'Performance Metrics', icon: <Activity size={20} /> },
-    { id: 'sentiment', label: 'Sentiment Analysis', icon: <TrendingUp size={20} /> },
-    { id: 'action-items', label: 'Action Items', icon: <Target size={20} /> },
-    { id: 'hr-management', label: 'HR Management', icon: <Users size={20} /> },
-    { id: 'settings', label: 'Settings', icon: <Settings size={20} /> },
+    { id: 'dashboard', label: 'Dashboard Overview', icon: <LayoutDashboard size={20} />, path: '/dashboard' },
+    { id: 'feedback', label: 'Feedback Management', icon: <MessageSquare size={20} />, path: '/feedback' },
+    { id: 'team-analytics', label: 'Team Analytics', icon: <Users size={20} />, path: '/team-analytics' },
+    { id: 'performance', label: 'Performance Metrics', icon: <Activity size={20} />, path: '/performance' },
+    { id: 'sentiment', label: 'Sentiment Analysis', icon: <TrendingUp size={20} />, path: '/sentiment' },
+    { id: 'action-items', label: 'Action Items', icon: <Target size={20} />, path: '/action-items' },
+    { id: 'hr-management', label: 'HR Management', icon: <Users size={20} />, path: '/hr-management' },
+    { id: 'settings', label: 'Settings', icon: <Settings size={20} />, path: '/settings' },
   ];
 
-  const handlePageChange = (pageId) => {
+  useEffect(() => {
+    const toggleVisibility = () => {
+      if (window.pageYOffset > 100) {
+        setIsVisible(true);
+      } else {
+        setIsVisible(false);
+        setIsExpanded(false);
+      }
+    };
+
+    window.addEventListener('scroll', toggleVisibility);
+    return () => window.removeEventListener('scroll', toggleVisibility);
+  }, []);
+
+  const handlePageChange = (pageId, path) => {
     setLoading(true);
     setActivePage(pageId);
     setTimeout(() => {
-      setCurrentPage(pageId);
+      navigate(path);
       setLoading(false);
     }, 800);
   };
@@ -84,7 +100,7 @@ const FloatingNavbar = ({ theme, setCurrentPage = () => {} }) => {
                   <Button
                     isIconOnly
                     variant={activePage === item.id ? "solid" : "light"}
-                    onClick={() => handlePageChange(item.id)}
+                    onClick={() => handlePageChange(item.id, item.path)}
                     className={`
                       transition-all duration-300
                       hover:scale-110
