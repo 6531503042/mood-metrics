@@ -56,7 +56,7 @@ const AppNavbar = ({ theme, toggleTheme }) => {
             <img 
               src="https://ata-it-th.com/wp-content/uploads/2023/03/cropped-ata_bnc.png" 
               alt="ATA IT Logo" 
-              className={`h-6 sm:h-8 w-auto object-contain transition-opacity duration-200 ${theme === 'dark' ? 'opacity-90 brightness-110 filter invert' : ''}`}
+              className={`h-6 w-auto object-contain transition-opacity duration-200 ${theme === 'dark' ? 'opacity-90 brightness-110 filter invert' : ''}`}
             />
           </NavbarItem>
           <NavbarItem>
@@ -65,14 +65,14 @@ const AppNavbar = ({ theme, toggleTheme }) => {
                 <Button 
                   isIconOnly 
                   variant="light"
-                  className="text-purple-600"
+                  className="bg-gradient-to-r from-purple-500 to-blue-500 text-white rounded-full p-1"
                 >
-                  <User />
+                  <User size={18} />
                 </Button>
               </DropdownTrigger>
               <DropdownMenu aria-label="User actions">
-                <DropdownItem key="role" className="text-purple-600">
-                  Role: {user?.role || 'Guest'}
+                <DropdownItem key="role" className="text-purple-600 font-semibold">
+                  {user?.role === 'admin' ? '👑 Admin' : '👤 User'}
                 </DropdownItem>
                 <DropdownItem key="logout" className="text-danger" color="danger" onClick={logout}>
                   Logout
