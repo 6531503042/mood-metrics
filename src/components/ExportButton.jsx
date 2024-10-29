@@ -1,6 +1,6 @@
 import React from 'react';
 import { Button, Dropdown, DropdownTrigger, DropdownMenu, DropdownItem } from "@nextui-org/react";
-import { Download, FileSpreadsheet, FileType, FileText } from 'lucide-react';
+import { Download, FileSpreadsheet, FilePdf, FileText } from 'lucide-react';
 import { exportToCSV, exportToExcel, exportToPDF } from '../lib/ExportButton';
 
 const ExportButton = ({ data, filename = 'feedback-report' }) => {
@@ -54,7 +54,7 @@ const ExportButton = ({ data, filename = 'feedback-report' }) => {
         <DropdownItem 
           key="pdf" 
           onPress={() => handleExport('pdf')}
-          startContent={<FileType size={16} />}
+          startContent={<FilePdf size={16} />}
         >
           Export as PDF
         </DropdownItem>
