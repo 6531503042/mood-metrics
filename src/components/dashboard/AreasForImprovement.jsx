@@ -1,8 +1,9 @@
 import React from 'react';
 import { Card, CardHeader, CardBody, Button } from "@nextui-org/react";
 import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, Legend } from 'recharts';
-import { Briefcase, MessageSquare, TrendingUp, Scale, Users, Crown, Download } from 'lucide-react';
-import ExportButton from '../ExportButton';
+import { Briefcase, MessageSquare, TrendingUp, Scale, Users, Crown } from 'lucide-react';
+import { Download } from 'lucide-react';
+import { exportToExcel } from '../../lib/ExportButton';
 
 const getIcon = (name) => {
   const icons = {
@@ -26,6 +27,19 @@ const AreasForImprovement = ({ data }) => {
     { name: 'Leadership Support', count: data?.leadershipSupport || 60, target: 85 },
   ];
 
+  const handleExport = () => {
+    if (!chartData || chartData.length === 0) {
+      console.error('No data to export');
+      return;
+    }
+    
+    try {
+      exportToExcel(chartData, 'areas-for-improvement');
+    } catch (error) {
+      console.error('Error exporting data:', error);
+    }
+  };
+
   return (
     <Card className="w-full">
       <CardHeader className="flex justify-between items-center flex-wrap gap-2">
@@ -33,7 +47,15 @@ const AreasForImprovement = ({ data }) => {
           <h3 className="text-xl font-semibold text-purple-700">Areas for Improvement</h3>
           <p className="text-small text-default-500">Current performance vs target metrics</p>
         </div>
-        <ExportButton data={chartData} filename="areas-for-improvement" />
+        <Button
+          color="primary"
+          variant="flat"
+          startContent={<Download size={18} />}
+          onClick={handleExport}
+          className="text-sm"
+        >
+          Export Data
+        </Button>
       </CardHeader>
       <CardBody>
         <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-6 gap-4 mb-6">
@@ -47,9 +69,19 @@ const AreasForImprovement = ({ data }) => {
         </div>
         <div className="h-[400px] w-full">
           <ResponsiveContainer width="100%" height="100%">
-            <BarChart data={chartData} margin={{ top: 20, right: 30, left: 20, bottom: 5 }}>
+            <BarChart
+              data={chartData}
+              margin={{ top: 20, right: 30, left: 20, bottom: 5 }}
+            >
               <CartesianGrid strokeDasharray="3 3" />
-              <XAxis dataKey="name" angle={-45} textAnchor="end" height={80} interval={0} tick={{ fontSize: 12 }} />
+              <XAxis 
+                dataKey="name" 
+                angle={-45} 
+                textAnchor="end" 
+                height={80}
+                interval={0}
+                tick={{ fontSize: 12 }}
+              />
               <YAxis />
               <Tooltip />
               <Legend />
