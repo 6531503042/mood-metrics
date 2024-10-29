@@ -1,9 +1,10 @@
 import React, { useState } from 'react';
-import { Navbar, NavbarBrand, NavbarContent, NavbarItem, Button } from "@nextui-org/react";
-import { Moon, Sun } from 'lucide-react';
+import { Navbar, NavbarBrand, NavbarContent, NavbarItem, Button, Dropdown, DropdownTrigger, DropdownMenu, DropdownItem } from "@nextui-org/react";
+import { Moon, Sun, User } from 'lucide-react';
 import { keyframes } from "@emotion/react";
 import styled from "@emotion/styled";
 import LoadingScreen from './LoadingScreen';
+import { useAuth } from '../contexts/AuthContext';
 
 const gradientAnimation = keyframes`
   0% { background-position: 0% 50%; }
@@ -27,6 +28,7 @@ const GradientText = styled.p`
 
 const AppNavbar = ({ theme, toggleTheme }) => {
   const [loading, setLoading] = useState(false);
+  const { user, logout } = useAuth();
 
   const handleBrandClick = () => {
     setLoading(true);
@@ -56,6 +58,27 @@ const AppNavbar = ({ theme, toggleTheme }) => {
               alt="ATA IT Logo" 
               className={`h-6 sm:h-8 w-auto object-contain transition-opacity duration-200 ${theme === 'dark' ? 'opacity-90 brightness-110 filter invert' : ''}`}
             />
+          </NavbarItem>
+          <NavbarItem>
+            <Dropdown>
+              <DropdownTrigger>
+                <Button 
+                  isIconOnly 
+                  variant="light"
+                  className="text-purple-600"
+                >
+                  <User />
+                </Button>
+              </DropdownTrigger>
+              <DropdownMenu aria-label="User actions">
+                <DropdownItem key="role" className="text-purple-600">
+                  Role: {user?.role || 'Guest'}
+                </DropdownItem>
+                <DropdownItem key="logout" className="text-danger" color="danger" onClick={logout}>
+                  Logout
+                </DropdownItem>
+              </DropdownMenu>
+            </Dropdown>
           </NavbarItem>
           <NavbarItem>
             <Button 
