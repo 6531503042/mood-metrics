@@ -12,6 +12,7 @@ const FloatingNavbar = ({ theme }) => {
   const [isCollapsed, setIsCollapsed] = useState(true);
   const [activePage, setActivePage] = useState('dashboard');
   const [loading, setLoading] = useState(false);
+  const [isVisible, setIsVisible] = useState(false);
   const navigate = useNavigate();
 
   const navItems = [
@@ -31,7 +32,7 @@ const FloatingNavbar = ({ theme }) => {
         setIsVisible(true);
       } else {
         setIsVisible(false);
-        setIsExpanded(false);
+        setIsCollapsed(true);
       }
     };
 
