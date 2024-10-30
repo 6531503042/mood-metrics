@@ -1,8 +1,15 @@
 import React, { useState } from 'react';
-import { Button, Tooltip, Sheet, SheetContent, SheetHeader, SheetTitle, SheetTrigger } from "@nextui-org/react";
+import { Button, Tooltip } from "@nextui-org/react";
 import { Filter, X } from 'lucide-react';
 import SelectFilter from './SelectFilter';
 import { motion } from 'framer-motion';
+import { 
+  Sheet,
+  SheetContent,
+  SheetHeader,
+  SheetTitle,
+  SheetTrigger 
+} from "@/components/ui/sheet";
 
 const FloatingFilterBar = ({ 
   selectedTeam, 
