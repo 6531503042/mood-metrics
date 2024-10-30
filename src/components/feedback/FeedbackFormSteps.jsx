@@ -1,4 +1,3 @@
-import React from 'react';
 import { Select, SelectItem, Input, Textarea, RadioGroup, Radio } from "@nextui-org/react";
 import { categories, emojiRatings, teams } from '../../utils/feedbackUtils';
 import FeedbackPrivacySelector from '../FeedbackPrivacySelector';
@@ -51,7 +50,7 @@ export const Step2 = ({ formData, handleInputChange }) => (
   </div>
 );
 
-export const Step3 = ({ formData, handleEmojiClick }) => (
+export const Step3 = ({ formData, handleEmojiClick, handleInputChange }) => (
   <div>
     <p className="mb-2 text-lg">How would you rate your experience in this area?</p>
     <div className="flex justify-between">
