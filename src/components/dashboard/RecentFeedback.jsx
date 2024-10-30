@@ -1,6 +1,5 @@
-import React from 'react';
 import { Card, CardBody } from "@nextui-org/react";
-import { ThumbsUp, ThumbsDown, Minus, Brain } from 'lucide-react';
+import { Brain } from 'lucide-react';
 import SentimentIndicator from '../feedback/SentimentIndicator';
 
 const RecentFeedback = ({ data, filter, team, project }) => {
