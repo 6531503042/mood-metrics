@@ -1,10 +1,10 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 import { Button, Tooltip } from "@nextui-org/react";
 import { 
   LayoutDashboard, MessageSquare, Users, Activity,
   TrendingUp, Target, Settings, Menu, ChevronRight 
 } from "lucide-react";
-import { motion, AnimatePresence } from 'framer-motion';
+import { motion } from 'framer-motion';
 import LoadingScreen from './LoadingScreen';
 
 const FloatingNavbar = ({ theme, setCurrentPage }) => {
