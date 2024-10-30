@@ -85,13 +85,14 @@ export const Step4 = ({ formData, handleInputChange }) => (
 
 export const Step5 = ({ formData, handleInputChange }) => (
   <Textarea
-    label="What improvements would you suggest?"
-    placeholder="Your suggestions for enhancing our services"
+    label="What specific changes or improvements would you suggest for our services?"
+    placeholder="Your suggestions for enhancing our offerings or addressing any issues"
     value={formData.improvement}
     onChange={(e) => handleInputChange("improvement", e.target.value)}
     className="transition-shadow focus:shadow-lg focus:border-blue-500" // Styled effect
   />
 );
+
 
 export const Step6 = ({ formData, handleInputChange }) => (
   <RadioGroup
