@@ -90,7 +90,7 @@ export const useFeedbackData = () => {
   const [selectedTeam, setSelectedTeam] = useState(mockTeams[0]);
   const [selectedProject, setSelectedProject] = useState(mockProjects[0]);
   const [allFeedbackData, setAllFeedbackData] = useState(generateAllMockData());
-  const [aiSuggestions, setAISuggestions] = useState(mockAISuggestions);
+  const aiSuggestions = mockAISuggestions;
 
   const feedbackData = allFeedbackData.find(data => data.team === selectedTeam && data.project === selectedProject)?.feedbackData || {};
 
