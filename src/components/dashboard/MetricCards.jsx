@@ -1,4 +1,3 @@
-import React from 'react';
 import { Card, CardBody } from "@nextui-org/react";
 import { MessageSquare, Star, BarChart2, Brain } from 'lucide-react';
 
