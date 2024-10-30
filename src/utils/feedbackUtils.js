@@ -10,12 +10,11 @@ export const categories = [
 ];
 
 export const emojiRatings = [
-  { value: 1, emoji: "😞", label: "Very Dissatisfied" },
-  { value: 2, emoji: "🙁", label: "Dissatisfied" },
-  { value: 3, emoji: "😐", label: "Neutral" },
-  { value: 4, emoji: "🙂", label: "Satisfied" },
-  { value: 5, emoji: "😄", label: "Very Satisfied" },
+  { value: 1, emoji: "😞", label: "Negative" },     // Negative
+  { value: 3, emoji: "😐", label: "Neutral" },      // Neutral
+  { value: 5, emoji: "😄", label: "Positive" },     // Positive
 ];
+
 
 export const teams = [
   { value: "backend", label: "Backend Team" },
