@@ -38,7 +38,7 @@ const FloatingFilterBar = ({
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           exit={{ opacity: 0, y: 20 }}
-          className="fixed bottom-24 right-4 z-40 md:top-4 md:right-4"
+          className="fixed bottom-24 right-8 z-40 md:top-4 md:right-4"
         >
           <Tooltip content={isExpanded ? "Hide Filters" : "Show Filters"}>
             <Button
