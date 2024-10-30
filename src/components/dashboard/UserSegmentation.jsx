@@ -1,4 +1,3 @@
-import React from 'react';
 import { Card, CardBody, CardHeader } from "@nextui-org/react";
 import { MoreVertical } from "lucide-react";
 
