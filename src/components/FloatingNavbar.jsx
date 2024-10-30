@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Button, Tooltip } from "@nextui-org/react";
 import { 
   LayoutDashboard, MessageSquare, Users, Activity,
@@ -18,24 +18,24 @@ const FloatingNavbar = ({ theme }) => {
 
   const getNavItems = () => {
     const baseItems = [
-      { id: 'feedback', label: 'Feedback Management', icon: <MessageSquare size={18} />, path: '/feedback' },
+      { id: 'feedback', label: 'Feedback Form', icon: <MessageSquare size={16} />, path: '/feedback' },
     ];
 
     if (user?.role === 'admin') {
       return [
-        { id: 'dashboard', label: 'Dashboard Overview', icon: <LayoutDashboard size={18} />, path: '/dashboard' },
+        { id: 'dashboard', label: 'Dashboard', icon: <LayoutDashboard size={16} />, path: '/dashboard' },
         ...baseItems,
-        { id: 'team-analytics', label: 'Team Analytics', icon: <Users size={18} />, path: '/team-analytics' },
-        { id: 'performance', label: 'Performance Metrics', icon: <Activity size={18} />, path: '/performance' },
-        { id: 'sentiment', label: 'Sentiment Analysis', icon: <TrendingUp size={18} />, path: '/sentiment' },
-        { id: 'action-items', label: 'Action Items', icon: <Target size={18} />, path: '/action-items' },
-        { id: 'settings', label: 'Settings', icon: <Settings size={18} />, path: '/settings' },
+        { id: 'team-analytics', label: 'Team Analytics', icon: <Users size={16} />, path: '/team-analytics' },
+        { id: 'performance', label: 'Performance', icon: <Activity size={16} />, path: '/performance' },
+        { id: 'sentiment', label: 'Sentiment', icon: <TrendingUp size={16} />, path: '/sentiment' },
+        { id: 'action-items', label: 'Actions', icon: <Target size={16} />, path: '/action-items' },
+        { id: 'settings', label: 'Settings', icon: <Settings size={16} />, path: '/settings' },
       ];
     }
 
     return [
       ...baseItems,
-      { id: 'settings', label: 'Settings', icon: <Settings size={18} />, path: '/settings' },
+      { id: 'settings', label: 'Settings', icon: <Settings size={16} />, path: '/settings' },
     ];
   };
 
@@ -45,8 +45,16 @@ const FloatingNavbar = ({ theme }) => {
     setTimeout(() => {
       navigate(path);
       setLoading(false);
-    }, 800);
+    }, 500);
   };
+
+  // Show navbar even when there's no scroll
+  useEffect(() => {
+    const navbar = document.querySelector('.floating-navbar');
+    if (navbar) {
+      navbar.style.display = 'block';
+    }
+  }, []);
 
   const navItems = getNavItems();
 
@@ -55,30 +63,29 @@ const FloatingNavbar = ({ theme }) => {
       <motion.div
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
-        className="fixed bottom-4 left-1/2 -translate-x-1/2 z-50 px-4 w-full max-w-lg"
+        className="floating-navbar fixed bottom-4 left-1/2 -translate-x-1/2 z-50 px-2 w-auto max-w-[95%] sm:max-w-[400px]"
       >
         <motion.div
           layout
-          transition={{ duration: 0.3 }}
+          transition={{ duration: 0.2 }}
           className={`
             ${theme === 'dark' ? 'bg-gray-900/90' : 'bg-white/90'}
-            rounded-full shadow-lg p-1.5 flex items-center gap-1.5
+            rounded-full shadow-lg p-1 flex items-center gap-1
             backdrop-blur-md border border-purple-500/20
             hover:shadow-xl transition-shadow duration-300
-            ${!isCollapsed ? 'justify-center' : 'justify-center'}
           `}
         >
           <Button
             isIconOnly
             variant="light"
             onClick={() => setIsCollapsed(!isCollapsed)}
-            className="text-purple-500 w-8 h-8 min-w-8"
+            className="text-purple-500 w-7 h-7 min-w-7"
           >
             <motion.div
               animate={{ rotate: isCollapsed ? 0 : 180 }}
-              transition={{ duration: 0.3 }}
+              transition={{ duration: 0.2 }}
             >
-              {isCollapsed ? <Menu size={16} /> : <ChevronRight size={16} />}
+              {isCollapsed ? <Menu size={14} /> : <ChevronRight size={14} />}
             </motion.div>
           </Button>
 
@@ -87,8 +94,8 @@ const FloatingNavbar = ({ theme }) => {
               initial={{ opacity: 0, width: 0 }}
               animate={{ opacity: 1, width: "auto" }}
               exit={{ opacity: 0, width: 0 }}
-              transition={{ duration: 0.3 }}
-              className="flex flex-wrap gap-1.5 justify-center items-center"
+              transition={{ duration: 0.2 }}
+              className="flex gap-1 justify-center items-center px-1"
             >
               {navItems.map((item) => (
                 <Tooltip
@@ -101,8 +108,8 @@ const FloatingNavbar = ({ theme }) => {
                     variant={activePage === item.id ? "solid" : "light"}
                     onClick={() => handlePageChange(item.id, item.path)}
                     className={`
-                      transition-all duration-300 hover:scale-105
-                      w-8 h-8 min-w-8
+                      transition-all duration-200 hover:scale-105
+                      w-7 h-7 min-w-7
                       ${activePage === item.id 
                         ? 'bg-purple-500 text-white shadow-sm' 
                         : `${theme === 'dark' ? 'text-gray-300' : 'text-gray-600'} hover:text-purple-500`
