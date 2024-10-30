@@ -1,4 +1,3 @@
-import React from 'react';
 import { Select, SelectItem, Switch } from "@nextui-org/react";
 import { Eye, EyeOff, Lock } from 'lucide-react';
 
