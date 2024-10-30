@@ -1,4 +1,3 @@
-import React from 'react';
 import { Table, TableHeader, TableColumn, TableBody, TableRow, TableCell, Chip } from "@nextui-org/react";
 import { BarChart2, Clock, CheckCircle, AlertCircle } from 'lucide-react';
 
