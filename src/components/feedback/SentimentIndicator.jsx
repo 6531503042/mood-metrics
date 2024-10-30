@@ -1,4 +1,3 @@
-import React from 'react';
 import { Smile, Meh, Frown } from 'lucide-react';
 import { Tooltip } from "@nextui-org/react";
 
