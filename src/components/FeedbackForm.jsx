@@ -44,7 +44,7 @@ const FeedbackForm = () => {
         feedback: "",
         improvement: "",
         recommendation: "",
-        isAnonymous: false,
+        isAnonymous: true,
         privacyLevel: "",
       });
     }, 2000);
