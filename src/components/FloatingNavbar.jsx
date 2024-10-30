@@ -19,7 +19,6 @@ const FloatingNavbar = ({ theme, setCurrentPage }) => {
     { id: 'performance', label: 'Performance Metrics', icon: <Activity size={20} /> },
     { id: 'sentiment', label: 'Sentiment Analysis', icon: <TrendingUp size={20} /> },
     { id: 'action-items', label: 'Action Items', icon: <Target size={20} /> },
-    { id: 'hr-management', label: 'HR Management', icon: <Users size={20} /> },
     { id: 'settings', label: 'Settings', icon: <Settings size={20} /> },
   ];
 
@@ -29,51 +28,58 @@ const FloatingNavbar = ({ theme, setCurrentPage }) => {
     setTimeout(() => {
       setCurrentPage(pageId);
       setLoading(false);
-    }, 800);
+    }, 400); // faster loading effect
   };
 
   return (
     <>
       <motion.div
-        initial={{ opacity: 0, y: 50 }}
+        initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.3, ease: "easeInOut" }}
-        className={`fixed ${isCollapsed ? 'bottom-4 right-4' : 'bottom-4 left-1/2 -translate-x-1/2'} z-50`}
+        className="fixed bottom-6 right-6 md:right-10 md:bottom-8 z-50"
       >
-        <motion.div
-          layout
-          transition={{ duration: 0.3 }}
+        <div
           className={`
             ${theme === 'dark' ? 'bg-gray-900/90' : 'bg-white/90'}
             rounded-full shadow-lg p-2 flex items-center gap-2
-            backdrop-blur-md
-            border border-purple-500/20
-            max-w-[95vw] overflow-x-auto scrollbar-hide
-            hover:shadow-xl transition-shadow duration-300
-            ${!isCollapsed && 'flex-wrap md:flex-nowrap justify-center md:justify-start'}
+            transition-all duration-300
+            backdrop-blur-md border border-purple-500/20
+            max-w-full overflow-hidden
+            ${isCollapsed ? 'justify-end' : 'justify-center md:justify-start'}
           `}
+          style={{
+            transition: "width 0.4s ease-in-out, opacity 0.4s ease-in-out",
+            width: isCollapsed ? "56px" : "100%",
+            opacity: isCollapsed ? 0.85 : 1,
+          }}
         >
           <Button
             isIconOnly
             variant="light"
             onClick={() => setIsCollapsed(!isCollapsed)}
-            className="text-purple-500 hover:scale-110 transition-transform duration-300"
+            className="text-purple-500 hover:scale-105 transition-transform duration-150"
+            style={{
+              display: 'flex',
+              justifyContent: 'center',
+              alignItems: 'center',
+            }}
           >
             <motion.div
               animate={{ rotate: isCollapsed ? 0 : 180 }}
-              transition={{ duration: 0.3 }}
+              transition={{ duration: 0.2, ease: "easeInOut" }}
             >
-              {isCollapsed ? <Menu size={20} /> : <ChevronRight size={20} />}
+              {isCollapsed ? <Menu size={24} /> : <ChevronRight size={24} />}
             </motion.div>
           </Button>
 
           {!isCollapsed && (
             <motion.div
-              initial={{ opacity: 0, width: 0 }}
-              animate={{ opacity: 1, width: "auto" }}
-              exit={{ opacity: 0, width: 0 }}
-              transition={{ duration: 0.3 }}
-              className="flex flex-wrap md:flex-nowrap gap-2 p-2 justify-center md:justify-start"
+              initial={{ opacity: 0, scale: 0.9 }}
+              animate={{ opacity: 1, scale: 1 }}
+              exit={{ opacity: 0, scale: 0.9 }}
+              transition={{ duration: 0.3, ease: "easeInOut" }}
+              className="flex flex-wrap md:flex-nowrap gap-2 p-2"
             >
               {navItems.map((item) => (
                 <Tooltip
@@ -86,14 +92,18 @@ const FloatingNavbar = ({ theme, setCurrentPage }) => {
                     variant={activePage === item.id ? "solid" : "light"}
                     onClick={() => handlePageChange(item.id)}
                     className={`
-                      transition-all duration-300
-                      hover:scale-110
+                      transition-all duration-200 ease-in-out hover:scale-105
                       ${activePage === item.id 
                         ? 'bg-purple-500 text-white shadow-lg scale-105' 
                         : `${theme === 'dark' ? 'text-gray-300' : 'text-gray-600'} hover:text-purple-500`
                       }
                       min-w-[40px] h-[40px] md:min-w-[44px] md:h-[44px]
                     `}
+                    style={{
+                      display: 'flex',
+                      justifyContent: 'center',
+                      alignItems: 'center',
+                    }}
                   >
                     {item.icon}
                   </Button>
@@ -101,7 +111,7 @@ const FloatingNavbar = ({ theme, setCurrentPage }) => {
               ))}
             </motion.div>
           )}
-        </motion.div>
+        </div>
       </motion.div>
       {loading && <LoadingScreen />}
     </>
