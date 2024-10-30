@@ -1,4 +1,3 @@
-import React from 'react';
 import { Card, CardBody, Progress } from "@nextui-org/react";
 import { Brain, AlertTriangle, AlertCircle, CheckCircle2 } from 'lucide-react';
 
