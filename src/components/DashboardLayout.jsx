@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 import AppNavbar from './Navbar';
 import FloatingNavbar from './FloatingNavbar';
 import { NextUIProvider } from "@nextui-org/react";
