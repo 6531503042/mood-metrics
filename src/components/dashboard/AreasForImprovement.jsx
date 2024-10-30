@@ -1,7 +1,6 @@
-import React from 'react';
-import { Card, CardHeader, CardBody, Button } from "@nextui-org/react";
+import { Card, CardHeader, CardBody } from "@nextui-org/react";
 import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, Legend } from 'recharts';
-import { Briefcase, MessageSquare, TrendingUp, Scale, Users, Crown, Download } from 'lucide-react';
+import { Briefcase, MessageSquare, TrendingUp, Scale, Users, Crown } from 'lucide-react';
 import ExportButton from '../ExportButton';
 
 const getIcon = (name) => {
