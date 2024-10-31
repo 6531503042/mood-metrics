@@ -1,0 +1,44 @@
+# Gradle files
+.gradle/
+build/
+out/
+
+# Gradle Wrapper JAR files
+gradle/wrapper/gradle-wrapper.jar
+
+# Allow tracking of Gradle Wrapper JAR and properties files
+!**/gradle/wrapper/gradle-wrapper.jar
+!**/gradle/wrapper/gradle-wrapper.properties
+
+# Dependency caches
+.gradle/caches/
+**/build/
+
+# Log files
+*.log
+
+# IDE-specific files (IntelliJ, Eclipse)
+.idea/
+.vscode/
+*.iml
+*.ipr
+*.iws
+.project
+.classpath
+.settings/
+
+# Operating System files
+.DS_Store
+Thumbs.db
+
+# Executable binaries
+*.exe
+*.dll
+*.so
+*.dylib
+
+# Compiled binary files
+*.class
+*.jar
+*.war
+*.ear
