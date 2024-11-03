@@ -4,7 +4,7 @@ import FloatingNavbar from './FloatingNavbar';
 import { NextUIProvider } from "@nextui-org/react";
 
 const DashboardLayout = ({ children, setCurrentPage }) => {
-  const [theme, setTheme] = useState('light');
+  const [theme, setTheme] = useState('dark'); // Default to dark theme for futuristic look
 
   const toggleTheme = () => {
     setTheme(prevTheme => {
@@ -17,22 +17,23 @@ const DashboardLayout = ({ children, setCurrentPage }) => {
   return (
     <NextUIProvider>
       <div className={theme === 'dark' ? 'dark' : ''}>
-        {/* Page background color depending on theme */}
-        <div className={`min-h-screen ${theme === 'dark' ? 'bg-black' : 'bg-gray-50'} transition-colors duration-200`}>
-          {/* Main Navigation */}
+        <div className="gradient-bg min-h-screen transition-colors duration-200">
           <AppNavbar theme={theme} toggleTheme={toggleTheme} />
           
-          {/* Floating Navbar and content */}
           <div className="relative">
-            {/* Responsive Floating Navbar */}
             <FloatingNavbar theme={theme} setCurrentPage={setCurrentPage} />
             
-            {/* Main Content Area */}
-            <main className={`flex-grow p-4 md:p-8 pt-16 md:pt-24 ${theme === 'dark' ? 'bg-black' : 'bg-gray-50'} transition-colors duration-200`}>
-              <div className={`rounded-lg ${theme === 'dark' ? 'bg-gray-900' : 'bg-white'} shadow-lg p-4 md:p-6 transition-colors duration-200`}>
+            <main className="flex-grow p-4 md:p-8 pt-16 md:pt-24 transition-all duration-200">
+              <div className="futuristic-card rounded-lg p-4 md:p-6 transition-all duration-200">
                 {children}
               </div>
             </main>
+          </div>
+
+          {/* Decorative Elements */}
+          <div className="fixed top-0 left-0 w-full h-full pointer-events-none z-0">
+            <div className="absolute top-0 left-0 w-1/3 h-1/3 bg-blue-500/10 rounded-full filter blur-3xl"></div>
+            <div className="absolute bottom-0 right-0 w-1/2 h-1/2 bg-purple-500/10 rounded-full filter blur-3xl"></div>
           </div>
         </div>
       </div>
