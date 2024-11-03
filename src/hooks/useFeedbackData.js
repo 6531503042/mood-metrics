@@ -1,9 +1,50 @@
 import { useState, useEffect } from 'react';
 
-const mockTeams = ['Overall', 'Frontend', 'Backend', 'DevOps', 'Design', 'Product', 'Marketing', 'Sales', 'Customer Support'];
+const mockTeams = [
+  'Overall',
+  'Information Technology',
+  'Human Resources',
+  'Finance',
+  'Marketing',
+  'Sales',
+  'Operations',
+  'Research & Development',
+  'Customer Support',
+  'Legal',
+  'Product Management',
+  'Quality Assurance',
+  'Business Development',
+  'Administration',
+  'Supply Chain'
+];
+
 const mockProjects = ['Overall', 'Project Alpha', 'Project Beta', 'Project Gamma', 'Project Delta', 'Project Epsilon'];
 
 const generateMockData = (teamName, projectName) => {
+  // Generate different satisfaction rates based on team
+  const getTeamBasedSatisfaction = (team) => {
+    const baseRates = {
+      'Information Technology': 92,
+      'Human Resources': 88,
+      'Finance': 85,
+      'Marketing': 90,
+      'Sales': 87,
+      'Operations': 83,
+      'Research & Development': 89,
+      'Customer Support': 86,
+      'Legal': 84,
+      'Product Management': 91,
+      'Quality Assurance': 88,
+      'Business Development': 89,
+      'Administration': 85,
+      'Supply Chain': 82,
+      'Overall': 87
+    };
+    return baseRates[team] || 85;
+  };
+
+  const satisfactionRate = getTeamBasedSatisfaction(teamName);
+  
   return {
     totalFeedback: Math.floor(Math.random() * 1000) + 500,
     averageRating: (Math.random() * 2 + 3).toFixed(1),
@@ -19,10 +60,11 @@ const generateMockData = (teamName, projectName) => {
       { category: 'Team Collaboration', count: Math.floor(Math.random() * 100) + 50 },
     ],
     sentimentData: {
-      positive: Math.floor(Math.random() * 60) + 40,
-      neutral: Math.floor(Math.random() * 30) + 10,
-      negative: Math.floor(Math.random() * 20) + 5,
+      positive: Math.floor(satisfactionRate * 0.8),
+      neutral: Math.floor((100 - satisfactionRate) * 0.6),
+      negative: Math.floor((100 - satisfactionRate) * 0.4)
     },
+    satisfactionRate: satisfactionRate,
     trendData: Array.from({ length: 12 }, (_, i) => ({
       date: `2023-${i + 1}`,
       averageRating: (Math.random() * 2 + 3).toFixed(1),
@@ -60,18 +102,6 @@ const generateMockData = (teamName, projectName) => {
   };
 };
 
-const mockAISuggestions = [
-  { category: 'performance', suggestion: "Implement daily stand-ups to improve team coordination and communication." },
-  { category: 'performance', suggestion: "Introduce peer code reviews to enhance code quality and knowledge sharing." },
-  { category: 'engagement', suggestion: "Organize monthly team-building activities to boost morale and strengthen relationships." },
-  { category: 'engagement', suggestion: "Implement a recognition program to acknowledge and reward outstanding contributions." },
-  { category: 'improvement', suggestion: "Provide more learning and development opportunities, such as workshops and online courses." },
-  { category: 'improvement', suggestion: "Conduct regular one-on-one meetings to address individual concerns and career aspirations." },
-  { category: 'work-life balance', suggestion: "Introduce flexible working hours to accommodate different personal schedules." },
-  { category: 'work-life balance', suggestion: "Encourage employees to take regular breaks and utilize their vacation time." },
-];
-
-// Generate mock data for all team and project combinations
 const generateAllMockData = () => {
   const data = [];
   mockTeams.forEach(team => {

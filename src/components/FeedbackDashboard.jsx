@@ -3,12 +3,11 @@ import { Card, CardHeader, CardBody } from "@nextui-org/react";
 import MetricCards from "./dashboard/MetricCards";
 import CategoryOverview from "./dashboard/CategoryOverview";
 import SentimentOverview from "./dashboard/SentimentOverview";
-import EmojiFeedbackDistribution from "./dashboard/EmojiFeedbackDistribution";
+import CombinedSatisfactionView from "./dashboard/CombinedSatisfactionView";
 import FeedbackTrends from "./dashboard/FeedbackTrends";
 import RecentFeedback from "./dashboard/RecentFeedback";
 import AIAnalystSuggestions from "./AIAnalystSuggestions";
 import UserSegmentation from "./dashboard/UserSegmentation";
-import SatisfactionMeter from "./dashboard/SatisfactionMeter";
 import AreasForImprovement from "./dashboard/AreasForImprovement";
 import FloatingFilterBar from "./FloatingFilterBar";
 import { useFeedbackData } from "../hooks/useFeedbackData";
@@ -49,9 +48,8 @@ const FeedbackDashboard = () => {
           <MetricCards data={feedbackData} />
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-8 mb-8">
-          <UserSegmentation />
-          <SatisfactionMeter />
+        <div className="mb-8">
+          <CombinedSatisfactionView data={feedbackData} />
         </div>
 
         <div className="mb-8">
@@ -78,14 +76,7 @@ const FeedbackDashboard = () => {
         </div>
 
         <div className="grid grid-cols-1 md:grid-cols-2 gap-8 mb-8">
-          <Card className="w-full h-full">
-            <CardHeader>
-              <h2 className="text-2xl font-semibold text-purple-700">Emoji Feedback Distribution</h2>
-            </CardHeader>
-            <CardBody>
-              <EmojiFeedbackDistribution data={feedbackData.sentimentData} />
-            </CardBody>
-          </Card>
+          <UserSegmentation />
           <Card className="w-full h-full">
             <CardHeader>
               <h2 className="text-2xl font-semibold text-purple-700">Feedback Trends</h2>
