@@ -20,6 +20,17 @@ const mockTeams = [
 
 const mockProjects = ['Overall', 'Project Alpha', 'Project Beta', 'Project Gamma', 'Project Delta', 'Project Epsilon'];
 
+const mockAISuggestions = [
+  { category: 'performance', suggestion: "Implement daily stand-ups to improve team coordination and communication." },
+  { category: 'performance', suggestion: "Introduce peer code reviews to enhance code quality and knowledge sharing." },
+  { category: 'engagement', suggestion: "Organize monthly team-building activities to boost morale and strengthen relationships." },
+  { category: 'engagement', suggestion: "Implement a recognition program to acknowledge and reward outstanding contributions." },
+  { category: 'improvement', suggestion: "Provide more learning and development opportunities, such as workshops and online courses." },
+  { category: 'improvement', suggestion: "Conduct regular one-on-one meetings to address individual concerns and career aspirations." },
+  { category: 'work-life balance', suggestion: "Introduce flexible working hours to accommodate different personal schedules." },
+  { category: 'work-life balance', suggestion: "Encourage employees to take regular breaks and utilize their vacation time." },
+];
+
 const generateMockData = (teamName, projectName) => {
   // Generate different satisfaction rates based on team
   const getTeamBasedSatisfaction = (team) => {
@@ -120,7 +131,6 @@ export const useFeedbackData = () => {
   const [selectedTeam, setSelectedTeam] = useState(mockTeams[0]);
   const [selectedProject, setSelectedProject] = useState(mockProjects[0]);
   const [allFeedbackData, setAllFeedbackData] = useState(generateAllMockData());
-  const aiSuggestions = mockAISuggestions;
 
   const feedbackData = allFeedbackData.find(data => data.team === selectedTeam && data.project === selectedProject)?.feedbackData || {};
 
@@ -143,6 +153,6 @@ export const useFeedbackData = () => {
     setSelectedProject,
     teams: mockTeams,
     projects: mockProjects,
-    aiSuggestions, // Use the aiSuggestions state variable here
+    aiSuggestions: mockAISuggestions,
   };
 };
