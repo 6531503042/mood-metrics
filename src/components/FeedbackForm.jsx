@@ -2,13 +2,10 @@ import { useState } from 'react';
 import { Card, CardHeader, CardBody, Button, Progress } from "@nextui-org/react";
 import { Send, ChevronLeft, ChevronRight } from 'lucide-react';
 import FeedbackSuccessModal from './FeedbackSuccessModal';
-// import IncentiveCard from './feedback/IncentiveCard';
 import * as Steps from './feedback/FeedbackFormSteps';
-// import RewardsStore from './feedback/RewardsStore';
 
 const FeedbackForm = () => {
   const [step, setStep] = useState(1);
-  // const [showStore, setShowStore] = useState(false);
   const [formData, setFormData] = useState({
     category: "",
     team: "",
@@ -21,7 +18,6 @@ const FeedbackForm = () => {
     privacyLevel: "",
   });
   const [showModal, setShowModal] = useState(false);
-  // const [credits, setCredits] = useState(50);
 
   const handleInputChange = (field, value) => {
     setFormData(prev => ({ ...prev, [field]: value }));
@@ -32,7 +28,6 @@ const FeedbackForm = () => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    // setCredits(prev => prev + 10);
     setShowModal(true);
     setTimeout(() => {
       setStep(1);
@@ -70,11 +65,6 @@ const FeedbackForm = () => {
 
   return (
     <div className="space-y-6">
-      {/* <IncentiveCard 
-        credits={credits}
-        onRedeem={() => setShowStore(true)}
-      /> */}
-
       <Card className="w-full">
         <CardHeader className="border-b-2 border-purple-200 dark:border-purple-800">
           <div className="flex flex-col">
@@ -129,13 +119,6 @@ const FeedbackForm = () => {
         isOpen={showModal} 
         onClose={() => setShowModal(false)} 
       />
-
-      {/* <RewardsStore 
-        isOpen={showStore}
-        onClose={() => setShowStore(false)}
-        credits={credits}
-        onRedeem={(cost) => setCredits(prev => prev - cost)}
-      /> */}
     </div>
   );
 };
