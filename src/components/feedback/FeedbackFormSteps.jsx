@@ -20,7 +20,10 @@ export const Step1 = ({ formData, handleInputChange }) => (
       label="Project Name"
       placeholder="Select a project"
       value={formData.project}
-      onChange={(e) => handleInputChange("project", e.target.value)}
+      onChange={(e) => {
+        handleInputChange("project", e.target.value);
+        handleInputChange("displayProject", e.target.value); // Update display
+      }}
     >
       {projects.map((project) => (
         <SelectItem key={project.value} value={project.value}>
@@ -31,20 +34,31 @@ export const Step1 = ({ formData, handleInputChange }) => (
   </div>
 );
 
-export const Step2 = ({ formData, handleInputChange }) => (
-  <Select 
-    label="What specific area would you like to provide feedback on?" 
-    placeholder="Choose a category"
-    value={formData.category}
-    onChange={(e) => handleInputChange("category", e.target.value)}
-  >
-    {categories.map((cat) => (
-      <SelectItem key={cat.value} value={cat.value}>
-        {cat.emoji} {cat.label}
-      </SelectItem>
-    ))}
-  </Select>
-);
+export const Step2 = ({ formData, handleInputChange }) => {
+  const handleChange = (value) => {
+    handleInputChange("category", value);
+    const selectedCategory = categories.find(cat => cat.value === value);
+    // Set the selected category with emoji to the display field
+    handleInputChange("displayCategory", selectedCategory ? `${selectedCategory.emoji} ${selectedCategory.label}` : "");
+  };
+
+  return (
+    <Select 
+      label="What specific area would you like to provide feedback on?" 
+      placeholder="Choose a category"
+      value={formData.category}
+      onChange={(e) => handleChange(e.target.value)} // Pass value directly
+    >
+      {categories.map((cat) => (
+        <SelectItem key={cat.value} value={cat.value}>
+          {cat.emoji} {cat.label}
+        </SelectItem>
+      ))}
+    </Select>
+  );
+};
+
+
 
 export const Step3 = ({ formData, handleEmojiClick }) => (
   <div>
@@ -89,15 +103,18 @@ export const Step6 = ({ formData, handleInputChange }) => (
   <RadioGroup
     label="How likely are you to recommend our company to a friend or colleague?"
     value={formData.recommendation}
-    onChange={(value) => handleInputChange("recommendation", value)}
+    onChange={(value) => {
+      handleInputChange("recommendation", value);
+    }}
   >
-    <Radio value="1">Not at all likely</Radio>
-    <Radio value="2">Somewhat unlikely</Radio>
-    <Radio value="3">Neutral</Radio>
-    <Radio value="4">Somewhat likely</Radio>
-    <Radio value="5">Very likely</Radio>
+    <Radio className="nextui-radio" value="1">Not at all likely</Radio>
+    <Radio className="nextui-radio" value="2">Somewhat unlikely</Radio>
+    <Radio className="nextui-radio" value="3">Neutral</Radio>
+    <Radio className="nextui-radio" value="4">Somewhat likely</Radio>
+    <Radio className="nextui-radio" value="5">Very likely</Radio>
   </RadioGroup>
 );
+
 
 export const Step7 = ({ formData, handleInputChange }) => (
   <FeedbackPrivacySelector
