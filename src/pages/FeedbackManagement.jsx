@@ -1,4 +1,3 @@
-import React from 'react';
 import FeedbackForm from '../components/FeedbackForm';
 import { Card } from "@nextui-org/react";
 
