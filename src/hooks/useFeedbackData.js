@@ -32,7 +32,6 @@ const mockAISuggestions = [
 ];
 
 const generateMockData = (teamName, projectName) => {
-  // Generate different satisfaction rates based on team
   const getTeamBasedSatisfaction = (team) => {
     const baseRates = {
       'Information Technology': 92,
@@ -55,14 +54,15 @@ const generateMockData = (teamName, projectName) => {
   };
 
   const satisfactionRate = getTeamBasedSatisfaction(teamName);
+  const averageRating = ((Math.random() * 1) + 4).toFixed(1); // Ensures rating between 4.0 and 5.0
+  const responseRate = (Math.random() * 20 + 80).toFixed(1); // Ensures rate between 80% and 100%
+  const overallSentiment = (Math.random() * 15 + 85).toFixed(1); // Ensures sentiment between 85% and 100%
   
   return {
     totalFeedback: Math.floor(Math.random() * 1000) + 500,
-    averageRating: (Math.random() * 2 + 3).toFixed(1),
-    responseRate: (Math.random() * 30 + 70).toFixed(1),
-    averageResponseTime: `${Math.floor(Math.random() * 24) + 1}h`,
-    participationRate: `${(Math.random() * 20 + 80).toFixed(1)}%`,
-    feedbackQuality: (Math.random() * 2 + 3).toFixed(1),
+    averageRating,
+    responseRate,
+    overallSentiment,
     categoryData: [
       { category: 'Work Environment', count: Math.floor(Math.random() * 100) + 50 },
       { category: 'Management', count: Math.floor(Math.random() * 100) + 50 },

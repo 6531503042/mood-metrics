@@ -8,7 +8,7 @@ import { motion } from 'framer-motion';
 import LoadingScreen from './LoadingScreen';
 
 const FloatingNavbar = ({ theme, setCurrentPage }) => {
-  const [isCollapsed, setIsCollapsed] = useState(true);
+  const [isCollapsed, setIsCollapsed] = useState(false); // Changed to false
   const [activePage, setActivePage] = useState('dashboard');
   const [loading, setLoading] = useState(false);
 

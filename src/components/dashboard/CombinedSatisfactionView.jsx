@@ -1,6 +1,7 @@
 import { Card, CardBody, CardHeader } from "@nextui-org/react";
 import { MoreVertical } from "lucide-react";
 import { useSpring, animated } from '@react-spring/web';
+import ExportButton from '../ExportButton';
 
 const CombinedSatisfactionView = ({ data }) => {
   const { dashOffset } = useSpring({
@@ -18,9 +19,7 @@ const CombinedSatisfactionView = ({ data }) => {
         <h3 className="text-2xl font-bold bg-gradient-to-r from-purple-600 to-blue-500 bg-clip-text text-transparent">
           Satisfaction Overview
         </h3>
-        <button className="p-2 hover:bg-gray-100 rounded-full dark:hover:bg-gray-800 transition-all">
-          <MoreVertical className="w-5 h-5" />
-        </button>
+        <ExportButton data={data} filename="satisfaction-overview" />
       </CardHeader>
       <CardBody>
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 p-4">

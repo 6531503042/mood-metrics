@@ -1,7 +1,6 @@
 import React, { useState } from 'react';
 import { Card, CardHeader, CardBody } from "@nextui-org/react";
 import MetricCards from "./dashboard/MetricCards";
-import CategoryOverview from "./dashboard/CategoryOverview";
 import SentimentOverview from "./dashboard/SentimentOverview";
 import CombinedSatisfactionView from "./dashboard/CombinedSatisfactionView";
 import FeedbackTrends from "./dashboard/FeedbackTrends";
@@ -42,8 +41,6 @@ const FeedbackDashboard = () => {
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
         <h1 className="text-4xl font-bold mb-8 text-purple-800 dark:text-purple-400">Feedback Dashboard</h1>
         
-        <AIAnalystSuggestions suggestions={aiSuggestions} />
-
         <div className="mb-8">
           <MetricCards data={feedbackData} />
         </div>
@@ -57,25 +54,6 @@ const FeedbackDashboard = () => {
         </div>
 
         <div className="grid grid-cols-1 md:grid-cols-2 gap-8 mb-8">
-          <Card>
-            <CardHeader>
-              <h2 className="text-2xl font-semibold">Category Distribution</h2>
-            </CardHeader>
-            <CardBody>
-              <CategoryOverview data={feedbackData.categoryData} />
-            </CardBody>
-          </Card>
-          <Card>
-            <CardHeader>
-              <h2 className="text-2xl font-semibold">Sentiment Analysis</h2>
-            </CardHeader>
-            <CardBody>
-              <SentimentOverview data={feedbackData.sentimentData} />
-            </CardBody>
-          </Card>
-        </div>
-
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-8 mb-8">
           <UserSegmentation />
           <Card className="w-full h-full">
             <CardHeader>
@@ -85,6 +63,10 @@ const FeedbackDashboard = () => {
               <FeedbackTrends data={feedbackData.trendData} />
             </CardBody>
           </Card>
+        </div>
+
+        <div className="mb-8">
+          <AIAnalystSuggestions suggestions={aiSuggestions} />
         </div>
 
         <Card className="mb-8">
