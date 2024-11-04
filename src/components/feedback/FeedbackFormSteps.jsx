@@ -1,5 +1,5 @@
 import { Select, SelectItem, Textarea, RadioGroup, Radio } from "@nextui-org/react";
-import { categories, emojiRatings, teams, projects, emoji } from '../../utils/feedbackUtils';
+import { categories, emojiRatings, teams, projects } from '../../utils/feedbackUtils';
 import FeedbackPrivacySelector from '../FeedbackPrivacySelector';
 
 export const Step1 = ({ formData, handleInputChange }) => (
@@ -34,6 +34,7 @@ export const Step1 = ({ formData, handleInputChange }) => (
   </div>
 );
 
+
 export const Step2 = ({ formData, handleInputChange }) => {
   const handleChange = (value) => {
     // Update the selected category
@@ -60,7 +61,7 @@ export const Step2 = ({ formData, handleInputChange }) => {
       >
         {categories.map((cat) => (
           <SelectItem key={cat.value} value={cat.value}>
-            {emoji[cat.value]} {cat.label} {/* Use emojis from the utility */}
+            {cat.emoji} {cat.label}
           </SelectItem>
         ))}
       </Select>
