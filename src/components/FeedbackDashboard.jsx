@@ -39,13 +39,13 @@ const FeedbackDashboard = () => {
       />
 
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-        <AIAnalystSuggestions suggestions={aiSuggestions} />
-        
         <h1 className="text-4xl font-bold mb-8 text-purple-800 dark:text-purple-400">Feedback Dashboard</h1>
         
         <div className="mb-8">
           <MetricCards data={feedbackData} />
         </div>
+
+        <AIAnalystSuggestions suggestions={aiSuggestions} />
 
         <div className="mb-8">
           <CombinedSatisfactionView data={feedbackData} />

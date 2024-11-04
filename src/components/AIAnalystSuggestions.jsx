@@ -60,6 +60,7 @@ const getRiskColor = (risk = 'medium') => {
 };
 
 const AIAnalystSuggestions = ({ suggestions = [] }) => {
+  const [showAllCards, setShowAllCards] = useState(false);
   const [expandedCategory, setExpandedCategory] = useState(null);
 
   const categories = {
@@ -84,7 +85,19 @@ const AIAnalystSuggestions = ({ suggestions = [] }) => {
       confidence: 78,
       suggestions: suggestions?.filter(s => s.category === 'improvement') || [],
     },
+    'work-life': {
+      title: 'Work-Life Balance',
+      icon: <Target size={18} />,
+      risk: 'Medium',
+      confidence: 88,
+      suggestions: suggestions?.filter(s => s.category === 'work-life-balance') || [],
+    },
+    // Add more categories as needed
   };
+
+  const visibleCategories = showAllCards 
+    ? Object.entries(categories)
+    : Object.entries(categories).slice(0, 3);
 
   return (
     <StyledCard className="w-full mb-6 relative z-10">
@@ -100,7 +113,7 @@ const AIAnalystSuggestions = ({ suggestions = [] }) => {
       <Divider />
       <CardBody className="relative z-10">
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-          {Object.entries(categories).map(([key, category]) => (
+          {visibleCategories.map(([key, category]) => (
             <div 
               key={key} 
               className={`${getRiskColor(category.risk)} border p-4 rounded-lg backdrop-blur-lg transition-all duration-300 hover:scale-102 relative overflow-hidden`}
@@ -154,6 +167,18 @@ const AIAnalystSuggestions = ({ suggestions = [] }) => {
             </div>
           ))}
         </div>
+        {Object.keys(categories).length > 3 && (
+          <div className="flex justify-center mt-4">
+            <Button
+              color="secondary"
+              variant="flat"
+              onPress={() => setShowAllCards(!showAllCards)}
+              endContent={showAllCards ? <ChevronUp size={16} /> : <ChevronDown size={16} />}
+            >
+              {showAllCards ? "Show Less" : "Show More Insights"}
+            </Button>
+          </div>
+        )}
       </CardBody>
     </StyledCard>
   );
