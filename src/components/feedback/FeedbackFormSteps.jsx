@@ -1,5 +1,5 @@
 import { Select, SelectItem, Textarea, RadioGroup, Radio } from "@nextui-org/react";
-import { categories, emojiRatings, teams, projects } from '../../utils/feedbackUtils';
+import { categories, emojiRatings, teams, projects, emoji } from '../../utils/feedbackUtils';
 import FeedbackPrivacySelector from '../FeedbackPrivacySelector';
 
 export const Step1 = ({ formData, handleInputChange }) => (
@@ -36,28 +36,41 @@ export const Step1 = ({ formData, handleInputChange }) => (
 
 export const Step2 = ({ formData, handleInputChange }) => {
   const handleChange = (value) => {
+    // Update the selected category
     handleInputChange("category", value);
+
+    // Find the selected category based on the value
     const selectedCategory = categories.find(cat => cat.value === value);
-    // Set the selected category with emoji to the display field
-    handleInputChange("displayCategory", selectedCategory ? `${selectedCategory.emoji} ${selectedCategory.label}` : "");
+
+    // Update displayCategory to include emoji and label
+    if (selectedCategory) {
+      handleInputChange("displayCategory", `${selectedCategory.emoji} ${selectedCategory.label}`);
+    } else {
+      handleInputChange("displayCategory", ""); // Clear if no category is selected
+    }
   };
 
   return (
-    <Select 
-      label="What specific area would you like to provide feedback on?" 
-      placeholder="Choose a category"
-      value={formData.category}
-      onChange={(e) => handleChange(e.target.value)} // Pass value directly
-    >
-      {categories.map((cat) => (
-        <SelectItem key={cat.value} value={cat.value}>
-          {cat.emoji} {cat.label}
-        </SelectItem>
-      ))}
-    </Select>
+    <div>
+      <Select 
+        label="What specific area would you like to provide feedback on?" 
+        placeholder="Choose a category"
+        value={formData.category}
+        onChange={(e) => handleChange(e.target.value)} 
+      >
+        {categories.map((cat) => (
+          <SelectItem key={cat.value} value={cat.value}>
+            {emoji[cat.value]} {cat.label} {/* Use emojis from the utility */}
+          </SelectItem>
+        ))}
+      </Select>
+
+      <div className="answer-box">
+        {formData.displayCategory || "No category selected."} {/* Display selected category or fallback text */}
+      </div>
+    </div>
   );
 };
-
 
 
 export const Step3 = ({ formData, handleEmojiClick }) => (
