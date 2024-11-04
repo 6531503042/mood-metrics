@@ -1,4 +1,3 @@
-import React from 'react';
 import { Select, SelectItem } from "@nextui-org/react";
 import { Users, Projector, Filter } from 'lucide-react';
 
