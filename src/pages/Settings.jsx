@@ -1,4 +1,3 @@
-import React from 'react';
 import { Card, CardBody, Switch } from "@nextui-org/react";
 
 const Settings = () => {
