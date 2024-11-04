@@ -17,12 +17,20 @@ export const emojiRatings = [
 
 
 export const teams = [
-  { value: "backend", label: "Backend Team" },
-  { value: "frontend", label: "Frontend Team" },
-  { value: "devops", label: "DevOps Team" },
-  { value: "ai", label: "AI Team" },
-  { value: "design", label: "Design Team" },
-  { value: "product", label: "Product Team" },
+  { value: "information_technology", label: "Information Technology" },
+  { value: "human_resources", label: "Human Resources" },
+  { value: "finance", label: "Finance" },
+  { value: "marketing", label: "Marketing" },
+  { value: "sales", label: "Sales" },
+  { value: "operations", label: "Operations" },
+];
+
+export const projects = [
+  { value: "alpha", label: "Project Alpha" },
+  { value: "beta", label: "Project Beta" },
+  { value: "gamma", label: "Project Gamma" },
+  { value: "delta", label: "Project Delta" },
+  { value: "epsilon", label: "Project Epsilon" },
 ];
 
 export const formatDate = (date) => format(new Date(date), 'yyyy-MM-dd');
