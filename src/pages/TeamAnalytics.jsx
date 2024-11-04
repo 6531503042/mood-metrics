@@ -1,4 +1,3 @@
-import React from 'react';
 import { Card, CardHeader, CardBody } from "@nextui-org/react";
 import EmployeeSegmentation from '../components/dashboard/EmployeeSegmentation';
 import PerformanceMetrics from '../components/dashboard/PerformanceMetrics';
