@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { Card, CardHeader, CardBody, Divider, Chip, Progress, Button, Select, SelectItem } from "@nextui-org/react";
-import { Lightbulb, TrendingUp, Users, Target, AlertTriangle, AlertCircle, CheckCircle2, ChevronDown, ChevronUp, Filter } from 'lucide-react';
+import { Lightbulb, TrendingUp, Users, Target, AlertTriangle, AlertCircle, CheckCircle2, ChevronDown, ChevronUp, Filter, Brain, Activity } from 'lucide-react';
 import styled from "@emotion/styled";
 import { keyframes } from "@emotion/react";
 
@@ -21,6 +21,18 @@ const StyledCard = styled(Card)`
     background: linear-gradient(135deg, #1a1f2c, #2d3748);
   }
 `;
+
+const getPriorityColor = (score) => {
+  if (score >= 80) return "success";
+  if (score >= 60) return "warning";
+  return "danger";
+};
+
+const getPriorityLabel = (score) => {
+  if (score >= 80) return "Low Priority";
+  if (score >= 60) return "Medium Priority";
+  return "High Priority";
+};
 
 const AIAnalystSuggestions = ({ suggestions = [] }) => {
   const [showAllCards, setShowAllCards] = useState(false);
@@ -44,6 +56,11 @@ const AIAnalystSuggestions = ({ suggestions = [] }) => {
       icon: <AlertTriangle size={18} />,
       suggestions: suggestions.filter(s => s.category === 'critical'),
     },
+    performance: {
+      title: 'Performance Insights',
+      icon: <Activity size={18} />,
+      suggestions: suggestions.filter(s => s.category === 'performance'),
+    },
     wellbeing: {
       title: 'Employee Well-being',
       icon: <Target size={18} />,
@@ -60,7 +77,7 @@ const AIAnalystSuggestions = ({ suggestions = [] }) => {
       <CardHeader className="flex flex-col gap-3">
         <div className="flex justify-between items-center w-full">
           <div className="flex items-center gap-2">
-            <Lightbulb size={24} className="text-purple-600" />
+            <Brain size={24} className="text-purple-600" />
             <div>
               <p className="text-xl font-bold text-purple-700">HR Insights & Actions</p>
               <p className="text-small text-purple-600/60">AI-powered analysis for HR decision making</p>
@@ -101,7 +118,16 @@ const AIAnalystSuggestions = ({ suggestions = [] }) => {
       <CardBody>
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
           {visibleCategories.map(([key, category]) => (
-            <Card key={key} className="bg-white/50 dark:bg-gray-800/50 shadow-md hover:shadow-lg transition-all duration-300">
+            <Card 
+              key={key} 
+              className={`shadow-md hover:shadow-lg transition-all duration-300 ${
+                category.suggestions.some(s => s.metrics?.score < 60) 
+                  ? 'bg-red-50 dark:bg-red-900/20' 
+                  : category.suggestions.some(s => s.metrics?.score < 80)
+                    ? 'bg-yellow-50 dark:bg-yellow-900/20'
+                    : 'bg-green-50 dark:bg-green-900/20'
+              }`}
+            >
               <CardHeader className="flex justify-between items-center">
                 <div className="flex items-center gap-2">
                   {category.icon}
@@ -120,11 +146,21 @@ const AIAnalystSuggestions = ({ suggestions = [] }) => {
               <CardBody>
                 <ul className="space-y-3">
                   {category.suggestions
+                    .sort((a, b) => (b.metrics?.score || 0) - (a.metrics?.score || 0))
                     .slice(0, expandedCategory === key ? undefined : 2)
                     .map((item, index) => (
                       <li key={index} className="flex items-start gap-3 p-2 rounded-lg bg-white/50 dark:bg-gray-700/50">
                         <div className="flex-grow">
-                          <p className="text-sm">{item.suggestion}</p>
+                          <div className="flex items-center gap-2 mb-2">
+                            <p className="text-sm flex-grow">{item.suggestion}</p>
+                            <Chip 
+                              size="sm" 
+                              color={getPriorityColor(item.metrics?.score || 0)}
+                              variant="flat"
+                            >
+                              {getPriorityLabel(item.metrics?.score || 0)}
+                            </Chip>
+                          </div>
                           {item.metrics && (
                             <div className="mt-2">
                               <div className="flex justify-between text-xs text-gray-500 mb-1">
@@ -133,7 +169,7 @@ const AIAnalystSuggestions = ({ suggestions = [] }) => {
                               </div>
                               <Progress 
                                 value={item.metrics.score} 
-                                color={item.metrics.score > 75 ? "success" : item.metrics.score > 50 ? "warning" : "danger"}
+                                color={getPriorityColor(item.metrics.score)}
                                 size="sm"
                               />
                             </div>
