@@ -37,38 +37,39 @@ export const Step1 = ({ formData, handleInputChange }) => (
 
 export const Step2 = ({ formData, handleInputChange }) => {
   const handleChange = (value) => {
-    // Update the selected category
     handleInputChange("category", value);
-
-    // Find the selected category based on the value
     const selectedCategory = categories.find(cat => cat.value === value);
-
-    // Update displayCategory to include emoji and label
-    if (selectedCategory) {
-      handleInputChange("displayCategory", `${selectedCategory.emoji} ${selectedCategory.label}`);
-    } else {
-      handleInputChange("displayCategory", ""); // Clear if no category is selected
-    }
+    handleInputChange("displayCategory", selectedCategory ? `${selectedCategory.emoji} ${selectedCategory.label}` : "");
   };
 
   return (
     <div>
-      <Select 
-        label="What specific area would you like to provide feedback on?" 
+      <Select
+        label="What specific area would you like to provide feedback on?"
         placeholder="Choose a category"
         value={formData.category}
-        onChange={(e) => handleChange(e.target.value)} 
+        onChange={(e) => handleChange(e.target.value)}
       >
-        {categories.map((cat) => (
-          <SelectItem key={cat.value} value={cat.value}>
-            {cat.emoji} {cat.label}
-          </SelectItem>
-        ))}
+        <SelectItem key="work_environment" value="work_environment">
+          🏢 Work Environment
+        </SelectItem>
+        <SelectItem key="management" value="management">
+          👔 Management
+        </SelectItem>
+        <SelectItem key="career_growth" value="career_growth">
+          📈 Career Growth
+        </SelectItem>
+        <SelectItem key="work_life_balance" value="work_life_balance">
+          ⚖️ Work-Life Balance
+        </SelectItem>
+        <SelectItem key="team_collaboration" value="team_collaboration">
+          🤝 Team Collaboration
+        </SelectItem>
+        <SelectItem key="company_culture" value="company_culture">
+          🌟 Company Culture
+        </SelectItem>
       </Select>
 
-      <div className="answer-box">
-        {formData.displayCategory || "No category selected."} {/* Display selected category or fallback text */}
-      </div>
     </div>
   );
 };
@@ -113,20 +114,28 @@ export const Step5 = ({ formData, handleInputChange }) => (
   />
 );
 
-export const Step6 = ({ formData, handleInputChange }) => (
-  <RadioGroup
-    label="How likely are you to recommend our company to a friend or colleague?"
-    value={formData.recommendation}
-    onChange={(value) => {
-      handleInputChange("recommendation", value);
-    }}
-  >
-    <Radio className="nextui-radio" value="1">Not at all likely</Radio>
-    <Radio className="nextui-radio" value="2">Somewhat unlikely</Radio>
-    <Radio className="nextui-radio" value="3">Neutral</Radio>
-    <Radio className="nextui-radio" value="4">Somewhat likely</Radio>
-    <Radio className="nextui-radio" value="5">Very likely</Radio>
-  </RadioGroup>
+export const Step6 = ({ formData, handleEmojiClick }) => (
+  <div className="p-4 max-w-lg mx-auto text-center">
+    <p className="mb-2 text-lg font-semibold">
+      Would you recommend our company to a friend or teammate?
+    </p>
+    <div className="flex justify-between space-x-4">
+      {emojiRatings.map((item) => (
+        <button
+          key={item.value}
+          type="button"
+          onClick={() => handleEmojiClick(item.value)}
+          className={`text-4xl transition-transform duration-200 ease-in-out transform ${
+            formData.recommendation === item.value ? 'scale-125 text-blue-600' : 'hover:scale-110'
+          }`}
+          title={item.label}
+          aria-label={item.label}
+        >
+          {item.emoji}
+        </button>
+      ))}
+    </div>
+  </div>
 );
 
 
