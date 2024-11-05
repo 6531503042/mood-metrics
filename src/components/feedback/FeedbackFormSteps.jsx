@@ -4,146 +4,159 @@ import FeedbackPrivacySelector from '../FeedbackPrivacySelector';
 
 export const Step1 = ({ formData, handleInputChange }) => (
   <div className="space-y-4">
-    <Select 
-      label="Which team are you providing feedback for?" 
-      placeholder="Select a team"
-      value={formData.team}
-      onChange={(e) => handleInputChange("team", e.target.value)}
-    >
-      {teams.map((team) => (
-        <SelectItem key={team.value} value={team.value}>
-          {team.label}
-        </SelectItem>
-      ))}
-    </Select>
-    <Select
-      label="Project Name"
-      placeholder="Select a project"
-      value={formData.project}
-      onChange={(e) => {
-        handleInputChange("project", e.target.value);
-        handleInputChange("displayProject", e.target.value); // Update display
-      }}
-    >
-      {projects.map((project) => (
-        <SelectItem key={project.value} value={project.value}>
-          {project.label}
-        </SelectItem>
-      ))}
-    </Select>
+    <h3 className="text-lg font-semibold mb-2">Overall Experience</h3>
+    <div className="space-y-4">
+      <div className="flex justify-center space-x-4">
+        {emojiRatings.map((rating) => (
+          <button
+            key={rating.value}
+            onClick={() => handleInputChange("rating", rating.value)}
+            className={`text-4xl transition-transform ${
+              formData.rating === rating.value ? 'scale-125' : 'hover:scale-110'
+            }`}
+            title={rating.label}
+          >
+            {rating.emoji}
+          </button>
+        ))}
+      </div>
+      <Textarea
+        label="What specific factors contributed to your rating?"
+        placeholder="Please share your thoughts..."
+        value={formData.experienceDetails}
+        onChange={(e) => handleInputChange("experienceDetails", e.target.value)}
+        className="w-full"
+      />
+    </div>
   </div>
 );
 
+export const Step2 = ({ formData, handleInputChange }) => (
+  <div className="space-y-4">
+    <h3 className="text-lg font-semibold mb-2">Successes and Challenges</h3>
+    <Textarea
+      label="What aspects of this project worked particularly well?"
+      placeholder="Share the project's successes..."
+      value={formData.successes}
+      onChange={(e) => handleInputChange("successes", e.target.value)}
+      className="w-full"
+    />
+    <Textarea
+      label="What were the biggest challenges, and how could they be addressed?"
+      placeholder="Describe challenges and potential solutions..."
+      value={formData.challenges}
+      onChange={(e) => handleInputChange("challenges", e.target.value)}
+      className="w-full"
+    />
+  </div>
+);
 
-export const Step2 = ({ formData, handleInputChange }) => {
-  const handleChange = (value) => {
-    handleInputChange("category", value);
-    const selectedCategory = categories.find(cat => cat.value === value);
-    handleInputChange("displayCategory", selectedCategory ? `${selectedCategory.emoji} ${selectedCategory.label}` : "");
-  };
-
-  return (
-    <div>
-      <Select
-        label="What specific area would you like to provide feedback on?"
-        placeholder="Choose a category"
-        value={formData.category}
-        onChange={(e) => handleChange(e.target.value)}
-      >
-        <SelectItem key="work_environment" value="work_environment">
-          🏢 Work Environment
-        </SelectItem>
-        <SelectItem key="management" value="management">
-          👔 Management
-        </SelectItem>
-        <SelectItem key="career_growth" value="career_growth">
-          📈 Career Growth
-        </SelectItem>
-        <SelectItem key="work_life_balance" value="work_life_balance">
-          ⚖️ Work-Life Balance
-        </SelectItem>
-        <SelectItem key="team_collaboration" value="team_collaboration">
-          🤝 Team Collaboration
-        </SelectItem>
-        <SelectItem key="company_culture" value="company_culture">
-          🌟 Company Culture
-        </SelectItem>
-      </Select>
-
-    </div>
-  );
-};
-
-
-export const Step3 = ({ formData, handleEmojiClick }) => (
-  <div>
-    <p className="mb-2 text-lg">How would you rate your experience in this area?</p>
-    <div className="flex justify-between">
-      {emojiRatings.map((item) => (
-        <button
-          key={item.value}
-          type="button"
-          onClick={() => handleEmojiClick(item.value)}
-          className={`text-4xl transition-transform ${formData.rating === item.value ? 'scale-125 text-blue-600' : ''}`}
-          title={item.label}
-        >
-          {item.emoji}
-        </button>
-      ))}
-    </div>
+export const Step3 = ({ formData, handleInputChange }) => (
+  <div className="space-y-4">
+    <h3 className="text-lg font-semibold mb-2">Team Collaboration</h3>
+    <Textarea
+      label="How effective was communication and collaboration within the team?"
+      placeholder="Share your thoughts on team dynamics..."
+      value={formData.teamCollaboration}
+      onChange={(e) => handleInputChange("teamCollaboration", e.target.value)}
+      className="w-full"
+    />
+    <Textarea
+      label="What changes would you recommend for future projects?"
+      placeholder="Suggest improvements for team collaboration..."
+      value={formData.collaborationSuggestions}
+      onChange={(e) => handleInputChange("collaborationSuggestions", e.target.value)}
+      className="w-full"
+    />
   </div>
 );
 
 export const Step4 = ({ formData, handleInputChange }) => (
-  <Textarea
-    label="Please describe your experience in detail"
-    placeholder="What specific aspects influenced your rating?"
-    value={formData.feedback}
-    onChange={(e) => handleInputChange("feedback", e.target.value)}
-    className="transition-shadow focus:shadow-lg focus:border-blue-500"
-  />
-);
-
-export const Step5 = ({ formData, handleInputChange }) => (
-  <Textarea
-    label="What specific changes or improvements would you suggest?"
-    placeholder="Your suggestions for enhancing our offerings or addressing any issues"
-    value={formData.improvement}
-    onChange={(e) => handleInputChange("improvement", e.target.value)}
-    className="transition-shadow focus:shadow-lg focus:border-blue-500"
-  />
-);
-
-export const Step6 = ({ formData, handleEmojiClick }) => (
-  <div className="p-4 max-w-lg mx-auto text-center">
-    <p className="mb-2 text-lg font-semibold">
-      Would you recommend our company to a friend or teammate?
-    </p>
-    <div className="flex justify-between space-x-4">
-      {emojiRatings.map((item) => (
-        <button
-          key={item.value}
-          type="button"
-          onClick={() => handleEmojiClick(item.value)}
-          className={`text-4xl transition-transform duration-200 ease-in-out transform ${
-            formData.recommendation === item.value ? 'scale-125 text-blue-600' : 'hover:scale-110'
-          }`}
-          title={item.label}
-          aria-label={item.label}
-        >
-          {item.emoji}
-        </button>
-      ))}
-    </div>
+  <div className="space-y-4">
+    <h3 className="text-lg font-semibold mb-2">Role and Responsibilities</h3>
+    <RadioGroup
+      value={formData.roleClarity}
+      onChange={(e) => handleInputChange("roleClarity", e.target.value)}
+      label="Were your role and responsibilities clear throughout the project?"
+    >
+      <Radio value="yes">Yes, completely clear</Radio>
+      <Radio value="somewhat">Somewhat clear</Radio>
+      <Radio value="no">No, needed more clarity</Radio>
+    </RadioGroup>
+    <Textarea
+      label="How could we improve role clarity in the future?"
+      placeholder="Share your suggestions..."
+      value={formData.roleImprovement}
+      onChange={(e) => handleInputChange("roleImprovement", e.target.value)}
+      className="w-full"
+    />
   </div>
 );
 
+export const Step5 = ({ formData, handleInputChange }) => (
+  <div className="space-y-4">
+    <h3 className="text-lg font-semibold mb-2">Resources and Support</h3>
+    <Textarea
+      label="Did you have the resources and support needed to complete your work effectively?"
+      placeholder="Describe your experience with available resources..."
+      value={formData.resourceSupport}
+      onChange={(e) => handleInputChange("resourceSupport", e.target.value)}
+      className="w-full"
+    />
+    <Textarea
+      label="What additional resources would have helped?"
+      placeholder="Suggest helpful resources..."
+      value={formData.resourceSuggestions}
+      onChange={(e) => handleInputChange("resourceSuggestions", e.target.value)}
+      className="w-full"
+    />
+  </div>
+);
+
+export const Step6 = ({ formData, handleInputChange }) => (
+  <div className="space-y-4">
+    <h3 className="text-lg font-semibold mb-2">Timeline and Workload</h3>
+    <RadioGroup
+      value={formData.workloadManageable}
+      onChange={(e) => handleInputChange("workloadManageable", e.target.value)}
+      label="Was the project timeline and workload manageable?"
+    >
+      <Radio value="yes">Yes, very manageable</Radio>
+      <Radio value="somewhat">Somewhat manageable</Radio>
+      <Radio value="no">No, too demanding</Radio>
+    </RadioGroup>
+    <Textarea
+      label="How could project scheduling be improved?"
+      placeholder="Share your suggestions for better workload management..."
+      value={formData.workloadSuggestions}
+      onChange={(e) => handleInputChange("workloadSuggestions", e.target.value)}
+      className="w-full"
+    />
+  </div>
+);
 
 export const Step7 = ({ formData, handleInputChange }) => (
-  <FeedbackPrivacySelector
-    isAnonymous={formData.isAnonymous}
-    setIsAnonymous={(value) => handleInputChange("isAnonymous", value)}
-    privacyLevel={formData.privacyLevel}
-    setPrivacyLevel={(value) => handleInputChange("privacyLevel", value)}
-  />
+  <div className="space-y-4">
+    <h3 className="text-lg font-semibold mb-2">Learning and Growth</h3>
+    <Textarea
+      label="What new skills or knowledge did you gain from this project?"
+      placeholder="Share your learning experiences..."
+      value={formData.learningGrowth}
+      onChange={(e) => handleInputChange("learningGrowth", e.target.value)}
+      className="w-full"
+    />
+    <Textarea
+      label="If you could change one thing about this project, what would it be and why?"
+      placeholder="Share your thoughts on potential improvements..."
+      value={formData.improvement}
+      onChange={(e) => handleInputChange("improvement", e.target.value)}
+      className="w-full"
+    />
+    <FeedbackPrivacySelector
+      isAnonymous={formData.isAnonymous}
+      setIsAnonymous={(value) => handleInputChange("isAnonymous", value)}
+      privacyLevel={formData.privacyLevel}
+      setPrivacyLevel={(value) => handleInputChange("privacyLevel", value)}
+    />
+  </div>
 );
