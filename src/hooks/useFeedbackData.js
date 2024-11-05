@@ -21,14 +21,51 @@ const mockTeams = [
 const mockProjects = ['Overall', 'Project Alpha', 'Project Beta', 'Project Gamma', 'Project Delta', 'Project Epsilon'];
 
 const mockAISuggestions = [
-  { category: 'performance', suggestion: "Implement daily stand-ups to improve team coordination and communication." },
-  { category: 'performance', suggestion: "Introduce peer code reviews to enhance code quality and knowledge sharing." },
-  { category: 'engagement', suggestion: "Organize monthly team-building activities to boost morale and strengthen relationships." },
-  { category: 'engagement', suggestion: "Implement a recognition program to acknowledge and reward outstanding contributions." },
-  { category: 'improvement', suggestion: "Provide more learning and development opportunities, such as workshops and online courses." },
-  { category: 'improvement', suggestion: "Conduct regular one-on-one meetings to address individual concerns and career aspirations." },
-  { category: 'work-life balance', suggestion: "Introduce flexible working hours to accommodate different personal schedules." },
-  { category: 'work-life balance', suggestion: "Encourage employees to take regular breaks and utilize their vacation time." },
+  { 
+    category: 'trends',
+    suggestion: "Work-life balance concerns have increased by 15% this quarter, particularly in the IT department.",
+    metrics: { score: 85 }
+  },
+  { 
+    category: 'trends',
+    suggestion: "Professional development opportunities are the most frequently mentioned topic in positive feedback.",
+    metrics: { score: 92 }
+  },
+  { 
+    category: 'trends',
+    suggestion: "Remote work flexibility is consistently mentioned as a key retention factor.",
+    metrics: { score: 78 }
+  },
+  { 
+    category: 'sentiment',
+    suggestion: "Marketing department shows highest positive sentiment trend (89%) over the past quarter.",
+    metrics: { score: 89 }
+  },
+  { 
+    category: 'sentiment',
+    suggestion: "IT department satisfaction dropped 7% in the last month, primarily due to workload concerns.",
+    metrics: { score: 65 }
+  },
+  { 
+    category: 'critical',
+    suggestion: "Urgent: 3 employees from the Finance team reported burnout concerns in the past week.",
+    metrics: { score: 45 }
+  },
+  { 
+    category: 'critical',
+    suggestion: "High priority: Team lead feedback indicates need for additional training resources.",
+    metrics: { score: 72 }
+  },
+  { 
+    category: 'wellbeing',
+    suggestion: "Mental health support services are underutilized - only 30% awareness among employees.",
+    metrics: { score: 55 }
+  },
+  { 
+    category: 'wellbeing',
+    suggestion: "Positive trend: 82% report improved work-life balance after flexible hours implementation.",
+    metrics: { score: 82 }
+  }
 ];
 
 const generateMockData = (teamName, projectName) => {

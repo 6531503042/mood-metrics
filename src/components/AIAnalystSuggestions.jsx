@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
-import { Card, CardHeader, CardBody, Divider, Chip, Progress, Button } from "@nextui-org/react";
-import { Lightbulb, TrendingUp, Users, Target, AlertTriangle, AlertCircle, CheckCircle2, ChevronDown, ChevronUp } from 'lucide-react';
+import { Card, CardHeader, CardBody, Divider, Chip, Progress, Button, Select, SelectItem } from "@nextui-org/react";
+import { Lightbulb, TrendingUp, Users, Target, AlertTriangle, AlertCircle, CheckCircle2, ChevronDown, ChevronUp, Filter } from 'lucide-react';
 import styled from "@emotion/styled";
 import { keyframes } from "@emotion/react";
 
@@ -20,79 +20,35 @@ const StyledCard = styled(Card)`
   &.dark {
     background: linear-gradient(135deg, #1a1f2c, #2d3748);
   }
-
-  &::before {
-    content: '';
-    position: absolute;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    background: linear-gradient(135deg, rgba(126, 214, 223, 0.1), rgba(104, 109, 224, 0.1));
-    pointer-events: none;
-  }
 `;
-
-const getRiskIcon = (risk = 'medium') => {
-  switch (risk.toLowerCase()) {
-    case 'high':
-      return <AlertTriangle className="text-red-500" />;
-    case 'medium':
-      return <AlertCircle className="text-yellow-500" />;
-    case 'low':
-      return <CheckCircle2 className="text-green-500" />;
-    default:
-      return <AlertCircle className="text-yellow-500" />;
-  }
-};
-
-const getRiskColor = (risk = 'medium') => {
-  switch (risk.toLowerCase()) {
-    case 'high':
-      return 'bg-red-500/20 border-red-500';
-    case 'medium':
-      return 'bg-yellow-500/20 border-yellow-500';
-    case 'low':
-      return 'bg-green-500/20 border-green-500';
-    default:
-      return 'bg-blue-500/20 border-blue-500';
-  }
-};
 
 const AIAnalystSuggestions = ({ suggestions = [] }) => {
   const [showAllCards, setShowAllCards] = useState(false);
   const [expandedCategory, setExpandedCategory] = useState(null);
+  const [selectedTimeframe, setSelectedTimeframe] = useState("quarter");
+  const [selectedDepartment, setSelectedDepartment] = useState("all");
 
   const categories = {
-    performance: {
-      title: 'Performance Insights',
+    trends: {
+      title: 'Recurring Themes',
       icon: <TrendingUp size={18} />,
-      risk: 'Medium',
-      confidence: 85,
-      suggestions: suggestions?.filter(s => s.category === 'performance') || [],
+      suggestions: suggestions.filter(s => s.category === 'trends'),
     },
-    engagement: {
-      title: 'Engagement Analysis',
+    sentiment: {
+      title: 'Department Sentiment',
       icon: <Users size={18} />,
-      risk: 'Low',
-      confidence: 92,
-      suggestions: suggestions?.filter(s => s.category === 'engagement') || [],
+      suggestions: suggestions.filter(s => s.category === 'sentiment'),
     },
-    improvement: {
-      title: 'Improvement Opportunities',
+    critical: {
+      title: 'Critical Actions',
+      icon: <AlertTriangle size={18} />,
+      suggestions: suggestions.filter(s => s.category === 'critical'),
+    },
+    wellbeing: {
+      title: 'Employee Well-being',
       icon: <Target size={18} />,
-      risk: 'High',
-      confidence: 78,
-      suggestions: suggestions?.filter(s => s.category === 'improvement') || [],
-    },
-    'work-life': {
-      title: 'Work-Life Balance',
-      icon: <Target size={18} />,
-      risk: 'Medium',
-      confidence: 88,
-      suggestions: suggestions?.filter(s => s.category === 'work-life-balance') || [],
-    },
-    // Add more categories as needed
+      suggestions: suggestions.filter(s => s.category === 'wellbeing'),
+    }
   };
 
   const visibleCategories = showAllCards 
@@ -100,71 +56,94 @@ const AIAnalystSuggestions = ({ suggestions = [] }) => {
     : Object.entries(categories).slice(0, 3);
 
   return (
-    <StyledCard className="w-full mb-6 relative z-10">
-      <CardHeader className="flex gap-3 relative z-10">
-        <Lightbulb size={24} className="text-purple-600 animate-pulse" />
-        <div className="flex flex-col">
-          <p className="text-xl font-bold text-purple-700">AI-Powered Insights</p>
-          <p className="text-small text-purple-600/60">
-            Leveraging advanced machine learning algorithms for data-driven recommendations
-          </p>
+    <StyledCard className="w-full mb-6">
+      <CardHeader className="flex flex-col gap-3">
+        <div className="flex justify-between items-center w-full">
+          <div className="flex items-center gap-2">
+            <Lightbulb size={24} className="text-purple-600" />
+            <div>
+              <p className="text-xl font-bold text-purple-700">HR Insights & Actions</p>
+              <p className="text-small text-purple-600/60">AI-powered analysis for HR decision making</p>
+            </div>
+          </div>
+          <div className="flex gap-2">
+            <Select 
+              size="sm"
+              placeholder="Timeframe" 
+              defaultSelectedKeys={["quarter"]}
+              onChange={(e) => setSelectedTimeframe(e.target.value)}
+              startContent={<Filter size={16} />}
+              className="w-32"
+            >
+              <SelectItem key="week" value="week">Past Week</SelectItem>
+              <SelectItem key="month" value="month">Past Month</SelectItem>
+              <SelectItem key="quarter" value="quarter">Past Quarter</SelectItem>
+              <SelectItem key="year" value="year">Past Year</SelectItem>
+            </Select>
+            <Select 
+              size="sm"
+              placeholder="Department" 
+              defaultSelectedKeys={["all"]}
+              onChange={(e) => setSelectedDepartment(e.target.value)}
+              startContent={<Users size={16} />}
+              className="w-40"
+            >
+              <SelectItem key="all" value="all">All Departments</SelectItem>
+              <SelectItem key="it" value="it">IT</SelectItem>
+              <SelectItem key="hr" value="hr">HR</SelectItem>
+              <SelectItem key="finance" value="finance">Finance</SelectItem>
+              <SelectItem key="marketing" value="marketing">Marketing</SelectItem>
+            </Select>
+          </div>
         </div>
       </CardHeader>
       <Divider />
-      <CardBody className="relative z-10">
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+      <CardBody>
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
           {visibleCategories.map(([key, category]) => (
-            <div 
-              key={key} 
-              className={`${getRiskColor(category.risk)} border p-4 rounded-lg backdrop-blur-lg transition-all duration-300 hover:scale-102 relative overflow-hidden`}
-            >
-              <div className="flex flex-col gap-2">
-                <div className="flex items-center justify-between flex-wrap gap-2">
-                  <h3 className="text-lg font-semibold text-purple-700 flex items-center gap-2">
-                    {category.icon}
-                    <span className="text-sm sm:text-base">{category.title}</span>
-                  </h3>
-                  <div className="flex items-center gap-1 sm:gap-2 flex-wrap">
-                    {getRiskIcon(category.risk)}
-                    <Chip
-                      size="sm"
-                      className={`${getRiskColor(category.risk)} text-purple-700 text-xs sm:text-sm whitespace-nowrap`}
-                    >
-                      {category.risk} Risk
-                    </Chip>
-                  </div>
+            <Card key={key} className="bg-white/50 dark:bg-gray-800/50 shadow-md hover:shadow-lg transition-all duration-300">
+              <CardHeader className="flex justify-between items-center">
+                <div className="flex items-center gap-2">
+                  {category.icon}
+                  <h3 className="text-lg font-semibold">{category.title}</h3>
                 </div>
-                <div className="mb-2">
-                  <div className="flex justify-between text-purple-700/80 text-xs sm:text-sm mb-1">
-                    <span>AI Confidence</span>
-                    <span>{category.confidence}%</span>
-                  </div>
-                  <Progress 
-                    value={category.confidence}
-                    color={category.confidence > 85 ? "success" : category.confidence > 70 ? "warning" : "danger"}
-                    className="h-2"
-                  />
-                </div>
-                <ul className="list-disc pl-5 text-purple-700/80 space-y-2 text-xs sm:text-sm">
-                  {category.suggestions.slice(0, expandedCategory === key ? undefined : 2).map((item, index) => (
-                    <li key={index} className="hover:text-purple-700 transition-colors duration-200">
-                      {item.suggestion}
-                    </li>
-                  ))}
-                </ul>
                 {category.suggestions.length > 2 && (
                   <Button
-                    light
                     size="sm"
-                    className="mt-2 text-purple-600 text-xs sm:text-sm"
-                    endContent={expandedCategory === key ? <ChevronUp size={14} /> : <ChevronDown size={14} />}
-                    onPress={() => setExpandedCategory(expandedCategory === key ? null : key)}
+                    variant="light"
+                    onClick={() => setExpandedCategory(expandedCategory === key ? null : key)}
                   >
-                    {expandedCategory === key ? "Show Less" : "See More"}
+                    {expandedCategory === key ? <ChevronUp size={16} /> : <ChevronDown size={16} />}
                   </Button>
                 )}
-              </div>
-            </div>
+              </CardHeader>
+              <CardBody>
+                <ul className="space-y-3">
+                  {category.suggestions
+                    .slice(0, expandedCategory === key ? undefined : 2)
+                    .map((item, index) => (
+                      <li key={index} className="flex items-start gap-3 p-2 rounded-lg bg-white/50 dark:bg-gray-700/50">
+                        <div className="flex-grow">
+                          <p className="text-sm">{item.suggestion}</p>
+                          {item.metrics && (
+                            <div className="mt-2">
+                              <div className="flex justify-between text-xs text-gray-500 mb-1">
+                                <span>Impact Score</span>
+                                <span>{item.metrics.score}%</span>
+                              </div>
+                              <Progress 
+                                value={item.metrics.score} 
+                                color={item.metrics.score > 75 ? "success" : item.metrics.score > 50 ? "warning" : "danger"}
+                                size="sm"
+                              />
+                            </div>
+                          )}
+                        </div>
+                      </li>
+                    ))}
+                </ul>
+              </CardBody>
+            </Card>
           ))}
         </div>
         {Object.keys(categories).length > 3 && (
@@ -175,7 +154,7 @@ const AIAnalystSuggestions = ({ suggestions = [] }) => {
               onPress={() => setShowAllCards(!showAllCards)}
               endContent={showAllCards ? <ChevronUp size={16} /> : <ChevronDown size={16} />}
             >
-              {showAllCards ? "Show Less" : "Show More Insights"}
+              {showAllCards ? "Show Less" : "View All Insights"}
             </Button>
           </div>
         )}
