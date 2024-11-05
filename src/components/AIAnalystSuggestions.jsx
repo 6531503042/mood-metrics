@@ -77,7 +77,7 @@ const AIAnalystSuggestions = ({ suggestions = [] }) => {
       <CardHeader className="flex flex-col gap-3">
         <div className="flex justify-between items-center w-full">
           <div className="flex items-center gap-2">
-            <Lightbulb size={24} className="text-purple-600" />
+            <Brain size={24} className="text-purple-600" />
             <div>
               <p className="text-xl font-bold text-purple-700">HR Insights & Actions</p>
               <p className="text-small text-purple-600/60">AI-powered analysis for HR decision making</p>
@@ -120,7 +120,13 @@ const AIAnalystSuggestions = ({ suggestions = [] }) => {
           {visibleCategories.map(([key, category]) => (
             <Card 
               key={key} 
-              className="bg-white/50 dark:bg-gray-800/50 shadow-md hover:shadow-lg transition-all duration-300"
+              className={`shadow-md hover:shadow-lg transition-all duration-300 ${
+                category.suggestions.some(s => s.metrics?.score < 60) 
+                  ? 'bg-red-50 dark:bg-red-900/20' 
+                  : category.suggestions.some(s => s.metrics?.score < 80)
+                    ? 'bg-yellow-50 dark:bg-yellow-900/20'
+                    : 'bg-green-50 dark:bg-green-900/20'
+              }`}
             >
               <CardHeader className="flex justify-between items-center">
                 <div className="flex items-center gap-2">
