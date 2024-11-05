@@ -9,15 +9,6 @@ export const categories = [
   { value: "company_culture", label: "Company Culture", emoji: "🌟" },
 ];
 
-const emojis = {
-  "work_environment": "🏢",
-  "management": "👔",
-  "career_growth": "📈",
-  "work_life_balance": "⚖️",
-  "team_collaboration": "🤝",
-  "company_culture": "🌟",
-};
-
 export const emojiRatings = [
   { value: 1, emoji: "😞", label: "Negative" },     // Negative
   { value: 3, emoji: "😐", label: "Neutral" },      // Neutral
