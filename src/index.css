@@ -99,17 +99,3 @@
   50% { transform: translateX(50%) translateY(10%); }
   100% { transform: translateX(-50%) translateY(-10%); }
 }
-
-.nextui-radio {
-  transition: background-color 0.2s ease, color 0.2s ease;
-}
-
-.nextui-radio:checked {
-  background-color: blue; /* Background color when selected */
-  color: white; /* Text color when selected */
-}
-
-/* Ensure this class applies */
-.nextui-radio:checked .nextui-radio-label {
-  color: white; /* Change label color when selected */
-}
