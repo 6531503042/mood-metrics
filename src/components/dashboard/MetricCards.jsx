@@ -15,14 +15,17 @@ const MetricCard = ({ title, value, icon, subtitle }) => (
   </Card>
 );
 
-const MetricCards = ({ data }) => {
+const MetricCards = ({ data = {} }) => {
   const metrics = {
-    totalFeedback: data.totalFeedback || 609,
-    averageRating: data.averageRating || 4.2,
-    responseRate: data.responseRate || 87.5,
-    overallSentiment: data.overallSentiment || 92.3,
-    pendingActions: data.pendingActions || 5
+    totalFeedback: data?.totalFeedback || 609,
+    averageRating: typeof data?.averageRating === 'number' ? data.averageRating : 4.2,
+    responseRate: typeof data?.responseRate === 'number' ? data.responseRate : 87.5,
+    overallSentiment: typeof data?.overallSentiment === 'number' ? data.overallSentiment : 92.3,
+    pendingActions: data?.pendingActions || 5
   };
+
+  // Format the average rating safely
+  const formattedAverageRating = Number(metrics.averageRating).toFixed(1);
 
   return (
     <div className="relative">
@@ -39,7 +42,7 @@ const MetricCards = ({ data }) => {
         <MetricCard 
           className="w-full" 
           title="Average Rating" 
-          value={metrics.averageRating.toFixed(1)} 
+          value={formattedAverageRating}
           icon={<Star size={36} />} 
         />
         <MetricCard 
