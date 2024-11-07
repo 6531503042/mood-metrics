@@ -20,10 +20,34 @@ const StyledCard = styled(Card)`
   &.dark {
     background: linear-gradient(135deg, #1a1f2c, #2d3748);
   }
+
+  &::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: linear-gradient(135deg, rgba(126, 214, 223, 0.1), rgba(104, 109, 224, 0.1));
+    pointer-events: none;
+  }
 `;
 
-const getPriorityColor = (priority) => {
-  switch (priority.toLowerCase()) {
+const getRiskIcon = (risk = 'medium') => {
+  switch (risk.toLowerCase()) {
+    case 'high':
+      return <AlertTriangle className="text-red-500" />;
+    case 'medium':
+      return <AlertCircle className="text-yellow-500" />;
+    case 'low':
+      return <CheckCircle2 className="text-green-500" />;
+    default:
+      return <AlertCircle className="text-yellow-500" />;
+  }
+};
+
+const getRiskColor = (risk = 'medium') => {
+  switch (risk.toLowerCase()) {
     case 'high':
       return 'bg-red-500/20 border-red-500';
     case 'medium':
@@ -35,78 +59,64 @@ const getPriorityColor = (priority) => {
   }
 };
 
-const getPriorityIcon = (priority) => {
-  switch (priority.toLowerCase()) {
-    case 'high':
-      return <AlertTriangle className="text-red-500" />;
-    case 'medium':
-      return <AlertCircle className="text-yellow-500" />;
-    case 'low':
-      return <CheckCircle2 className="text-green-500" />;
-    default:
-      return <AlertCircle className="text-blue-500" />;
-  }
-};
-
-const categories = {
-  performance: {
-    title: 'Performance Insights',
-    icon: <TrendingUp size={18} />,
-    priority: 'high',
-    confidence: 85,
-  },
-  engagement: {
-    title: 'Engagement Analysis',
-    icon: <Users size={18} />,
-    priority: 'medium',
-    confidence: 92,
-  },
-  improvement: {
-    title: 'Improvement Opportunities',
-    icon: <Target size={18} />,
-    priority: 'high',
-    confidence: 78,
-  },
-  'work-life': {
-    title: 'Work-Life Balance',
-    icon: <Target size={18} />,
-    priority: 'medium',
-    confidence: 88,
-  },
-};
-
 const AIAnalystSuggestions = ({ suggestions = [] }) => {
   const [showAllCards, setShowAllCards] = useState(false);
   const [expandedCategory, setExpandedCategory] = useState(null);
 
-  // Sort categories by priority
-  const sortedCategories = Object.entries(categories).sort((a, b) => {
-    const priorityOrder = { high: 0, medium: 1, low: 2 };
-    return priorityOrder[a[1].priority] - priorityOrder[b[1].priority];
-  });
+  const categories = {
+    performance: {
+      title: 'Performance Insights',
+      icon: <TrendingUp size={18} />,
+      risk: 'Medium',
+      confidence: 85,
+      suggestions: suggestions?.filter(s => s.category === 'performance') || [],
+    },
+    engagement: {
+      title: 'Engagement Analysis',
+      icon: <Users size={18} />,
+      risk: 'Low',
+      confidence: 92,
+      suggestions: suggestions?.filter(s => s.category === 'engagement') || [],
+    },
+    improvement: {
+      title: 'Improvement Opportunities',
+      icon: <Target size={18} />,
+      risk: 'High',
+      confidence: 78,
+      suggestions: suggestions?.filter(s => s.category === 'improvement') || [],
+    },
+    'work-life': {
+      title: 'Work-Life Balance',
+      icon: <Target size={18} />,
+      risk: 'Medium',
+      confidence: 88,
+      suggestions: suggestions?.filter(s => s.category === 'work-life-balance') || [],
+    },
+    // Add more categories as needed
+  };
 
   const visibleCategories = showAllCards 
-    ? sortedCategories
-    : sortedCategories.slice(0, 3);
+    ? Object.entries(categories)
+    : Object.entries(categories).slice(0, 3);
 
   return (
-    <StyledCard className="w-full mb-6">
-      <CardHeader className="flex gap-3">
+    <StyledCard className="w-full mb-6 relative z-10">
+      <CardHeader className="flex gap-3 relative z-10">
         <Lightbulb size={24} className="text-purple-600 animate-pulse" />
         <div className="flex flex-col">
           <p className="text-xl font-bold text-purple-700">AI-Powered Insights</p>
           <p className="text-small text-purple-600/60">
-            Leveraging advanced ML for data-driven recommendations
+            Leveraging advanced machine learning algorithms for data-driven recommendations
           </p>
         </div>
       </CardHeader>
       <Divider />
-      <CardBody>
+      <CardBody className="relative z-10">
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
           {visibleCategories.map(([key, category]) => (
             <div 
               key={key} 
-              className={`${getPriorityColor(category.priority)} border p-4 rounded-lg backdrop-blur-lg transition-all duration-300 hover:scale-102`}
+              className={`${getRiskColor(category.risk)} border p-4 rounded-lg backdrop-blur-lg transition-all duration-300 hover:scale-102 relative overflow-hidden`}
             >
               <div className="flex flex-col gap-2">
                 <div className="flex items-center justify-between flex-wrap gap-2">
@@ -115,12 +125,12 @@ const AIAnalystSuggestions = ({ suggestions = [] }) => {
                     <span className="text-sm sm:text-base">{category.title}</span>
                   </h3>
                   <div className="flex items-center gap-1 sm:gap-2 flex-wrap">
-                    {getPriorityIcon(category.priority)}
+                    {getRiskIcon(category.risk)}
                     <Chip
                       size="sm"
-                      className={`${getPriorityColor(category.priority)} text-purple-700 text-xs sm:text-sm whitespace-nowrap`}
+                      className={`${getRiskColor(category.risk)} text-purple-700 text-xs sm:text-sm whitespace-nowrap`}
                     >
-                      {category.priority.charAt(0).toUpperCase() + category.priority.slice(1)} Priority
+                      {category.risk} Risk
                     </Chip>
                   </div>
                 </div>
@@ -136,16 +146,13 @@ const AIAnalystSuggestions = ({ suggestions = [] }) => {
                   />
                 </div>
                 <ul className="list-disc pl-5 text-purple-700/80 space-y-2 text-xs sm:text-sm">
-                  {suggestions
-                    .filter(s => s.category === key)
-                    .slice(0, expandedCategory === key ? undefined : 2)
-                    .map((item, index) => (
-                      <li key={index} className="hover:text-purple-700 transition-colors duration-200">
-                        {item.suggestion}
-                      </li>
-                    ))}
+                  {category.suggestions.slice(0, expandedCategory === key ? undefined : 2).map((item, index) => (
+                    <li key={index} className="hover:text-purple-700 transition-colors duration-200">
+                      {item.suggestion}
+                    </li>
+                  ))}
                 </ul>
-                {suggestions.filter(s => s.category === key).length > 2 && (
+                {category.suggestions.length > 2 && (
                   <Button
                     light
                     size="sm"
