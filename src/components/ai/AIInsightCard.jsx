@@ -1,5 +1,6 @@
 import { Card, CardBody, Progress } from "@nextui-org/react";
 import { Brain, AlertTriangle, AlertCircle, CheckCircle2 } from 'lucide-react';
+import ExportButton from '../ExportButton';
 
 const getRiskIcon = (risk) => {
   switch (risk.toLowerCase()) {
@@ -17,13 +18,24 @@ const getRiskIcon = (risk) => {
 const AIInsightCard = ({ insight }) => {
   const { title, description, riskLevel, confidence, actionItems } = insight;
 
+  const exportData = {
+    title,
+    description,
+    riskLevel,
+    confidence,
+    actionItems: actionItems?.join(', ')
+  };
+
   return (
     <Card className="w-full max-w-md mx-auto mb-4 shadow-lg transition-all duration-300 hover:shadow-xl">
       <CardBody>
-        <div className="flex items-center gap-2 mb-4">
-          <Brain className="text-purple-500" />
-          <h3 className="text-lg font-semibold flex-1">{title}</h3>
+        <div className="flex items-center justify-between gap-2 mb-4">
+          <div className="flex items-center gap-2">
+            <Brain className="text-purple-500" />
+            <h3 className="text-lg font-semibold flex-1">{title}</h3>
+          </div>
           {getRiskIcon(riskLevel)}
+          <ExportButton data={[exportData]} filename={`insight-${title.toLowerCase().replace(/\s+/g, '-')}`} />
         </div>
         
         <div className="mb-4">
