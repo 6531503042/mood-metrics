@@ -3,6 +3,7 @@ import { Card, CardHeader, CardBody, Divider, Chip, Progress, Button } from "@ne
 import { Lightbulb, TrendingUp, Users, Target, AlertTriangle, AlertCircle, CheckCircle2, ChevronDown, ChevronUp } from 'lucide-react';
 import styled from "@emotion/styled";
 import { keyframes } from "@emotion/react";
+import ExportButton from './ExportButton';
 
 const backgroundShift = keyframes`
   0% { background-position: 0% 50%; }
@@ -85,14 +86,6 @@ const AIAnalystSuggestions = ({ suggestions = [] }) => {
       confidence: 78,
       suggestions: suggestions?.filter(s => s.category === 'improvement') || [],
     },
-    'work-life': {
-      title: 'Work-Life Balance',
-      icon: <Target size={18} />,
-      risk: 'Medium',
-      confidence: 88,
-      suggestions: suggestions?.filter(s => s.category === 'work-life-balance') || [],
-    },
-    // Add more categories as needed
   };
 
   const visibleCategories = showAllCards 
@@ -101,13 +94,15 @@ const AIAnalystSuggestions = ({ suggestions = [] }) => {
 
   return (
     <StyledCard className="w-full mb-6 relative z-10">
-      <CardHeader className="flex gap-3 relative z-10">
-        <Lightbulb size={24} className="text-purple-600 animate-pulse" />
-        <div className="flex flex-col">
-          <p className="text-xl font-bold text-purple-700">AI-Powered Insights</p>
-          <p className="text-small text-purple-600/60">
-            Leveraging advanced machine learning algorithms for data-driven recommendations
-          </p>
+      <CardHeader className="flex justify-between items-center px-6 py-4">
+        <div className="flex gap-3">
+          <Lightbulb size={24} className="text-purple-600 animate-pulse" />
+          <div className="flex flex-col">
+            <p className="text-xl font-bold text-purple-700">AI-Powered Insights</p>
+            <p className="text-small text-purple-600/60">
+              Leveraging advanced machine learning algorithms for data-driven recommendations
+            </p>
+          </div>
         </div>
       </CardHeader>
       <Divider />
@@ -124,14 +119,22 @@ const AIAnalystSuggestions = ({ suggestions = [] }) => {
                     {category.icon}
                     <span className="text-sm sm:text-base">{category.title}</span>
                   </h3>
-                  <div className="flex items-center gap-1 sm:gap-2 flex-wrap">
-                    {getRiskIcon(category.risk)}
-                    <Chip
-                      size="sm"
-                      className={`${getRiskColor(category.risk)} text-purple-700 text-xs sm:text-sm whitespace-nowrap`}
-                    >
-                      {category.risk} Risk
-                    </Chip>
+                  <div className="flex items-center gap-2">
+                    <ExportButton 
+                      data={category.suggestions.map(s => ({ 
+                        category: category.title,
+                        risk: category.risk,
+                        confidence: category.confidence,
+                        suggestion: s.suggestion 
+                      }))} 
+                      filename={`ai-insights-${key}`}
+                    />
+                    <div className="flex items-center gap-1">
+                      {getRiskIcon(category.risk)}
+                      <Chip size="sm" className={`${getRiskColor(category.risk)} text-purple-700`}>
+                        {category.risk} Risk
+                      </Chip>
+                    </div>
                   </div>
                 </div>
                 <div className="mb-2">

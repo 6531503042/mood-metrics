@@ -1,5 +1,5 @@
-import { Card, CardBody, CardHeader } from "@nextui-org/react";
-import { MoreVertical } from "lucide-react";
+import { Card, CardBody, CardHeader, Progress } from "@nextui-org/react";
+import { MoreVertical, TrendingUp, TrendingDown, Minus } from "lucide-react";
 import { useSpring, animated } from '@react-spring/web';
 import ExportButton from '../ExportButton';
 
@@ -13,13 +13,46 @@ const CombinedSatisfactionView = ({ data }) => {
   const total = Object.values(data.sentimentData).reduce((acc, val) => acc + val, 0);
   const getPercentage = (value) => ((value / total) * 100).toFixed(1);
 
+  const yearlyTrends = {
+    overall: data.satisfactionRate > 85 ? 'up' : 'down',
+    change: Math.abs(data.satisfactionRate - 85).toFixed(1),
+    previousYear: 85
+  };
+
+  const getTrendIcon = (trend) => {
+    switch(trend) {
+      case 'up':
+        return <TrendingUp className="text-green-500" />;
+      case 'down':
+        return <TrendingDown className="text-red-500" />;
+      default:
+        return <Minus className="text-gray-500" />;
+    }
+  };
+
+  const exportData = {
+    satisfactionRate: data.satisfactionRate,
+    yearOverYearChange: `${yearlyTrends.change}%`,
+    sentimentDistribution: data.sentimentData,
+    trends: {
+      previousYear: yearlyTrends.previousYear,
+      currentYear: data.satisfactionRate,
+      trend: yearlyTrends.overall
+    }
+  };
+
   return (
     <Card className="w-full bg-gradient-to-br from-purple-50 to-white dark:from-gray-800 dark:to-gray-900">
       <CardHeader className="flex justify-between items-center px-6 py-4">
-        <h3 className="text-2xl font-bold bg-gradient-to-r from-purple-600 to-blue-500 bg-clip-text text-transparent">
-          Satisfaction Overview
-        </h3>
-        <ExportButton data={data} filename="satisfaction-overview" />
+        <div>
+          <h3 className="text-2xl font-bold bg-gradient-to-r from-purple-600 to-blue-500 bg-clip-text text-transparent">
+            Satisfaction Overview
+          </h3>
+          <p className="text-sm text-gray-600 dark:text-gray-300">
+            Year-over-year satisfaction analysis and sentiment distribution
+          </p>
+        </div>
+        <ExportButton data={[exportData]} filename="satisfaction-overview" />
       </CardHeader>
       <CardBody>
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 p-4">
@@ -69,6 +102,23 @@ const CombinedSatisfactionView = ({ data }) => {
                 <div className="text-sm text-gray-500">Satisfaction Rate</div>
               </div>
               <div className="text-sm text-gray-500">100%</div>
+            </div>
+            <div className="mt-6 w-full">
+              <div className="flex justify-between items-center p-4 bg-gray-50 dark:bg-gray-800 rounded-lg">
+                <div>
+                  <p className="text-sm text-gray-600 dark:text-gray-300">Year-over-Year Change</p>
+                  <div className="flex items-center gap-2">
+                    {getTrendIcon(yearlyTrends.overall)}
+                    <span className={`text-lg font-bold ${yearlyTrends.overall === 'up' ? 'text-green-500' : 'text-red-500'}`}>
+                      {yearlyTrends.change}%
+                    </span>
+                  </div>
+                </div>
+                <div>
+                  <p className="text-sm text-gray-600 dark:text-gray-300">Previous Year</p>
+                  <p className="text-lg font-bold text-gray-800 dark:text-gray-200">{yearlyTrends.previousYear}%</p>
+                </div>
+              </div>
             </div>
           </div>
 
