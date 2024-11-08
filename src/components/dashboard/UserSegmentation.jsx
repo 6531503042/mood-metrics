@@ -1,55 +1,79 @@
-import { Card, CardBody, CardHeader } from "@nextui-org/react";
-import { MoreVertical } from "lucide-react";
-import { userSegments } from '../../utils/feedbackUtils';
+import { Card, CardBody, CardHeader, Progress } from "@nextui-org/react";
+import { MoreVertical, TrendingUp, TrendingDown } from "lucide-react";
+import { motion } from "framer-motion";
 
 const UserSegmentation = () => {
-  const segmentData = userSegments.map(segment => ({
-    id: segment.id,
-    label: segment.label,
-    count: Math.floor(Math.random() * 500) + 100,
-    color: segment.color,
-    trend: Math.random() > 0.5 ? 'up' : 'down'
-  }));
+  const segmentData = [
+    { label: 'Highly Engaged', count: 273, trend: 'up', change: 3, color: '#22C55E' },
+    { label: 'Satisfied', count: 108, trend: 'up', change: 5, color: '#3B82F6' },
+    { label: 'Neutral', count: 530, trend: 'down', change: 5, color: '#F59E0B' },
+    { label: 'At Risk', count: 494, trend: 'down', change: 9, color: '#EF4444' },
+    { label: 'New Hire', count: 522, trend: 'down', change: 8, color: '#8B5CF6' },
+    { label: 'Veteran Employee', count: 302, trend: 'down', change: 2, color: '#EC4899' },
+    { label: 'Leadership', count: 462, trend: 'up', change: 3, color: '#06B6D4' },
+    { label: 'Remote Worker', count: 242, trend: 'neutral', change: 0, color: '#14B8A6' }
+  ];
+
+  const totalEmployees = segmentData.reduce((acc, curr) => acc + curr.count, 0);
 
   return (
-    <Card className="w-full">
-      <CardHeader className="flex justify-between items-center">
+    <Card className="w-full bg-white dark:bg-gray-800 shadow-lg">
+      <CardHeader className="flex justify-between items-center px-6 py-4">
         <div>
-          <h3 className="text-xl font-semibold">User Segmentation</h3>
-          <p className="text-sm text-gray-500">Employee distribution across segments</p>
+          <h2 className="text-2xl font-bold text-purple-700 dark:text-purple-400">User Segmentation</h2>
+          <p className="text-sm text-gray-600 dark:text-gray-400">Employee distribution across segments</p>
         </div>
-        <button className="p-2 hover:bg-gray-100 rounded-full dark:hover:bg-gray-800">
-          <MoreVertical className="w-5 h-5" />
-        </button>
+        <div className="text-right">
+          <p className="text-sm text-gray-600 dark:text-gray-400">Total Employees</p>
+          <p className="text-2xl font-bold text-purple-700 dark:text-purple-400">{totalEmployees}</p>
+        </div>
       </CardHeader>
-      <CardBody>
+      <CardBody className="px-6">
         <div className="space-y-4">
-          {segmentData.map(({ id, label, count, color, trend }) => (
-            <div className="flex items-center gap-4" key={id}>
-              <div
-                className="w-3 h-3 rounded-full"
-                style={{ backgroundColor: color }}
-              />
-              <div className="flex-1">
-                <div className="flex justify-between items-center">
-                  <span className="text-sm font-medium">{label}</span>
-                  <span className="text-sm text-gray-600">{count}</span>
-                </div>
-                <div className="mt-1 h-2 bg-gray-100 rounded-full overflow-hidden">
-                  <div
-                    className="h-full rounded-full transition-all duration-500"
-                    style={{ 
-                      backgroundColor: color,
-                      width: `${(count / 600) * 100}%`,
-                      opacity: 0.3
-                    }}
+          {segmentData.map((segment, index) => (
+            <motion.div
+              key={segment.label}
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: index * 0.1 }}
+              className="group hover:bg-gray-50 dark:hover:bg-gray-700/50 p-3 rounded-lg transition-all duration-200"
+            >
+              <div className="flex items-center justify-between mb-2">
+                <div className="flex items-center gap-3">
+                  <div 
+                    className="w-3 h-3 rounded-full" 
+                    style={{ backgroundColor: segment.color }}
                   />
+                  <span className="font-medium text-gray-700 dark:text-gray-300">
+                    {segment.label}
+                  </span>
+                </div>
+                <div className="flex items-center gap-3">
+                  <span className="font-bold text-gray-900 dark:text-gray-100">
+                    {segment.count}
+                  </span>
+                  <div className={`flex items-center ${
+                    segment.trend === 'up' ? 'text-green-500' : 
+                    segment.trend === 'down' ? 'text-red-500' : 
+                    'text-gray-500'
+                  }`}>
+                    {segment.trend === 'up' ? <TrendingUp size={16} /> : 
+                     segment.trend === 'down' ? <TrendingDown size={16} /> : 
+                     '−'}
+                    <span className="ml-1 text-sm">
+                      {segment.change}%
+                    </span>
+                  </div>
                 </div>
               </div>
-              <div className={`text-xs ${trend === 'up' ? 'text-green-500' : 'text-red-500'}`}>
-                {trend === 'up' ? '↑' : '↓'} {Math.floor(Math.random() * 10) + 1}%
-              </div>
-            </div>
+              <Progress 
+                value={(segment.count / totalEmployees) * 100}
+                className="h-2"
+                color={segment.trend === 'up' ? "success" : 
+                       segment.trend === 'down' ? "danger" : 
+                       "warning"}
+              />
+            </motion.div>
           ))}
         </div>
       </CardBody>

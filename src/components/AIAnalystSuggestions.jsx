@@ -92,6 +92,15 @@ const AIAnalystSuggestions = ({ suggestions = [] }) => {
     ? Object.entries(categories)
     : Object.entries(categories).slice(0, 3);
 
+  const allSuggestions = Object.values(categories).flatMap(category => 
+    category.suggestions.map(s => ({
+      category: category.title,
+      risk: category.risk,
+      confidence: category.confidence,
+      suggestion: s.suggestion
+    }))
+  );
+
   return (
     <StyledCard className="w-full mb-6 relative z-10">
       <CardHeader className="flex justify-between items-center px-6 py-4">
@@ -104,6 +113,7 @@ const AIAnalystSuggestions = ({ suggestions = [] }) => {
             </p>
           </div>
         </div>
+        <ExportButton data={allSuggestions} filename="ai-insights" />
       </CardHeader>
       <Divider />
       <CardBody className="relative z-10">
@@ -120,15 +130,6 @@ const AIAnalystSuggestions = ({ suggestions = [] }) => {
                     <span className="text-sm sm:text-base">{category.title}</span>
                   </h3>
                   <div className="flex items-center gap-2">
-                    <ExportButton 
-                      data={category.suggestions.map(s => ({ 
-                        category: category.title,
-                        risk: category.risk,
-                        confidence: category.confidence,
-                        suggestion: s.suggestion 
-                      }))} 
-                      filename={`ai-insights-${key}`}
-                    />
                     <div className="flex items-center gap-1">
                       {getRiskIcon(category.risk)}
                       <Chip size="sm" className={`${getRiskColor(category.risk)} text-purple-700`}>
@@ -170,18 +171,6 @@ const AIAnalystSuggestions = ({ suggestions = [] }) => {
             </div>
           ))}
         </div>
-        {Object.keys(categories).length > 3 && (
-          <div className="flex justify-center mt-4">
-            <Button
-              color="secondary"
-              variant="flat"
-              onPress={() => setShowAllCards(!showAllCards)}
-              endContent={showAllCards ? <ChevronUp size={16} /> : <ChevronDown size={16} />}
-            >
-              {showAllCards ? "Show Less" : "Show More Insights"}
-            </Button>
-          </div>
-        )}
       </CardBody>
     </StyledCard>
   );
