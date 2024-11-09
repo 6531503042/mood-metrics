@@ -2,6 +2,7 @@ import { Card, CardHeader, CardBody, Progress } from "@nextui-org/react";
 import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, Legend } from 'recharts';
 import { Briefcase, MessageSquare, TrendingUp, Scale, Users, Crown } from 'lucide-react';
 import { motion } from "framer-motion";
+import ExportButton from '../ExportButton';
 
 const getIcon = (name) => {
   const icons = {
@@ -48,9 +49,10 @@ const AreasForImprovement = ({ data }) => {
           <h3 className="text-2xl font-bold text-purple-700 dark:text-purple-400">Areas for Improvement</h3>
           <p className="text-sm text-gray-600 dark:text-gray-400">Current performance vs target metrics</p>
         </div>
+        <ExportButton data={chartData} filename="improvement-areas" />
       </CardHeader>
       <CardBody>
-        <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-6 gap-4 mb-6">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 mb-6">
           {chartData.map((item, index) => (
             <motion.div
               key={item.name}

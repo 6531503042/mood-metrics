@@ -10,6 +10,7 @@ import UserSegmentation from "./dashboard/UserSegmentation";
 import AreasForImprovement from "./dashboard/AreasForImprovement";
 import FloatingFilterBar from "./FloatingFilterBar";
 import { useFeedbackData } from "../hooks/useFeedbackData";
+import AdvancedAnalytics from "./dashboard/AdvancedAnalytics";
 
 const FeedbackDashboard = () => {
   const { 
@@ -39,32 +40,32 @@ const FeedbackDashboard = () => {
       />
 
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-        <h1 className="text-4xl font-bold mb-8 text-purple-800 dark:text-purple-400">Feedback Dashboard</h1>
+        <h1 className="text-4xl font-bold mb-8 text-purple-800 dark:text-purple-400">
+          Advanced Data Analytics and Visualization Dashboard
+        </h1>
         
-        <AIAnalystSuggestions suggestions={aiSuggestions} />
-
         <div className="mb-8">
-          <MetricCards data={feedbackData} />
+          <MetricCards 
+            data={feedbackData} 
+            selectedTeam={selectedTeam}
+            selectedProject={selectedProject}
+          />
         </div>
 
         <div className="mb-8">
-          <CombinedSatisfactionView data={feedbackData} />
+          <AIAnalystSuggestions suggestions={aiSuggestions} />
         </div>
 
         <div className="mb-8">
+          <AdvancedAnalytics />
+        </div>
+
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 mb-8">
+          <UserSegmentation 
+            selectedTeam={selectedTeam}
+            selectedProject={selectedProject}
+          />
           <AreasForImprovement data={feedbackData.areasForImprovement} />
-        </div>
-
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-8 mb-8">
-          <UserSegmentation />
-          <Card className="w-full h-full">
-            <CardHeader>
-              <h2 className="text-2xl font-semibold text-purple-700">Feedback Trends</h2>
-            </CardHeader>
-            <CardBody>
-              <FeedbackTrends data={feedbackData.trendData} />
-            </CardBody>
-          </Card>
         </div>
 
         <Card className="mb-8">
@@ -80,6 +81,14 @@ const FeedbackDashboard = () => {
             />
           </CardBody>
         </Card>
+
+        <div className="mb-8">
+          <CombinedSatisfactionView data={feedbackData} />
+        </div>
+
+        <div className="mb-8">
+          <FeedbackTrends data={feedbackData.trendData} />
+        </div>
       </div>
     </div>
   );
