@@ -1,7 +1,6 @@
 import { Select, SelectItem, Textarea, RadioGroup, Radio } from "@nextui-org/react";
-import { categories, teams, projects } from '../../utils/feedbackUtils';
-import FeedbackPrivacySelector from '../FeedbackPrivacySelector';
 import { SmilePlus, Meh, Frown } from 'lucide-react';
+import FeedbackPrivacySelector from '../FeedbackPrivacySelector';
 
 export const Step1 = ({ formData, handleInputChange }) => (
   <div className="space-y-4">
@@ -23,7 +22,7 @@ export const Step1 = ({ formData, handleInputChange }) => (
       value={formData.project}
       onChange={(e) => {
         handleInputChange("project", e.target.value);
-        handleInputChange("displayProject", e.target.value); // Update display
+        handleInputChange("displayProject", e.target.value);
       }}
     >
       {projects.map((project) => (
@@ -34,7 +33,6 @@ export const Step1 = ({ formData, handleInputChange }) => (
     </Select>
   </div>
 );
-
 
 export const Step2 = ({ formData, handleInputChange }) => {
   const handleChange = (value) => {
@@ -70,7 +68,6 @@ export const Step2 = ({ formData, handleInputChange }) => {
           🌟 Company Culture
         </SelectItem>
       </Select>
-
     </div>
   );
 };
@@ -187,3 +184,4 @@ export const Step7 = ({ formData, handleInputChange }) => (
     privacyLevel={formData.privacyLevel}
     setPrivacyLevel={(value) => handleInputChange("privacyLevel", value)}
   />
+);
