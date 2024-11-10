@@ -1,6 +1,7 @@
 import { Select, SelectItem, Textarea, RadioGroup, Radio } from "@nextui-org/react";
 import { SmilePlus, Meh, Frown } from 'lucide-react';
 import FeedbackPrivacySelector from '../FeedbackPrivacySelector';
+import { categories, teams, projects } from '../../utils/feedbackUtils';
 
 export const Step1 = ({ formData, handleInputChange }) => (
   <div className="space-y-4">
