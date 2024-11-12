@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
-import { Card, CardHeader, CardBody, Divider, Chip } from "@nextui-org/react";
-import { Lightbulb, TrendingUp, Users, Target, AlertTriangle, AlertCircle, CheckCircle } from 'lucide-react';
+import { Card, CardHeader, CardBody, Divider } from "@nextui-org/react";
+import { Lightbulb, TrendingUp, Users, Target } from 'lucide-react';
 import styled from "@emotion/styled";
 import { keyframes } from "@emotion/react";
 import ExportButton from './ExportButton';
@@ -35,51 +35,6 @@ const StyledCard = styled(Card)`
   }
 `;
 
-const PriorityChip = styled(Chip)`
-  position: absolute;
-  top: 8px;
-  right: 8px;
-  z-index: 10;
-  padding: 0.25rem 0.75rem;
-  font-size: 0.875rem;
-  display: flex;
-  align-items: center;
-  gap: 0.375rem;
-  
-  @media (max-width: 640px) {
-    font-size: 0.75rem;
-    padding: 0.2rem 0.5rem;
-    top: 4px;
-    right: 4px;
-  }
-`;
-
-const getPriorityIcon = (priority) => {
-  switch (priority.toLowerCase()) {
-    case 'high':
-      return <AlertTriangle className="w-4 h-4 md:w-5 md:h-5" />;
-    case 'medium':
-      return <AlertCircle className="w-4 h-4 md:w-5 md:h-5" />;
-    case 'low':
-      return <CheckCircle className="w-4 h-4 md:w-5 md:h-5" />;
-    default:
-      return null;
-  }
-};
-
-const getPriorityColor = (priority) => {
-  switch (priority.toLowerCase()) {
-    case 'high':
-      return 'danger';
-    case 'medium':
-      return 'warning';
-    case 'low':
-      return 'success';
-    default:
-      return 'default';
-  }
-};
-
 const AIAnalystSuggestions = ({ suggestions = [] }) => {
   const [expandedCategories, setExpandedCategories] = useState({});
 
@@ -94,7 +49,7 @@ const AIAnalystSuggestions = ({ suggestions = [] }) => {
     performance: {
       title: 'Performance Insights',
       icon: <TrendingUp size={18} />,
-      priority: 'High',
+      risk: 'Medium',
       confidence: 85,
       suggestions: suggestions?.filter(s => s.category === 'performance') || [],
       details: [
@@ -107,7 +62,7 @@ const AIAnalystSuggestions = ({ suggestions = [] }) => {
     engagement: {
       title: 'Engagement Analysis',
       icon: <Users size={18} />,
-      priority: 'Medium',
+      risk: 'Low',
       confidence: 92,
       suggestions: suggestions?.filter(s => s.category === 'engagement') || [],
       details: [
@@ -120,7 +75,7 @@ const AIAnalystSuggestions = ({ suggestions = [] }) => {
     improvement: {
       title: 'Improvement Opportunities',
       icon: <Target size={18} />,
-      priority: 'Low',
+      risk: 'High',
       confidence: 78,
       suggestions: suggestions?.filter(s => s.category === 'improvement') || [],
       details: [
@@ -150,23 +105,12 @@ const AIAnalystSuggestions = ({ suggestions = [] }) => {
       <CardBody className="relative z-10">
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
           {Object.entries(categories).map(([key, category]) => (
-            <div key={key} className="relative">
-              <PriorityChip
-                size="sm"
-                color={getPriorityColor(category.priority)}
-                variant="flat"
-                className="shadow-sm"
-              >
-                {getPriorityIcon(category.priority)}
-                <span className="hidden sm:inline">{category.priority} Priority</span>
-                <span className="sm:hidden">{category.priority}</span>
-              </PriorityChip>
-              <InsightCard
-                category={category}
-                expanded={expandedCategories[key]}
-                onToggle={() => toggleCategory(key)}
-              />
-            </div>
+            <InsightCard
+              key={key}
+              category={category}
+              expanded={expandedCategories[key]}
+              onToggle={() => toggleCategory(key)}
+            />
           ))}
         </div>
       </CardBody>
