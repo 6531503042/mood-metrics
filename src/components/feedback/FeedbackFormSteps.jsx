@@ -4,12 +4,23 @@ import FeedbackPrivacySelector from '../FeedbackPrivacySelector';
 import { categories, teams, projects } from '../../utils/feedbackUtils';
 
 export const Step1 = ({ formData, handleInputChange }) => (
-  <div className="space-y-4">
+  <div className="space-y-4 max-w-full">
+    <div className="bg-purple-50 dark:bg-purple-900/20 p-4 rounded-lg mb-6">
+      <h3 className="text-lg font-semibold text-purple-700 mb-2">Privacy Notice</h3>
+      <p className="text-sm text-purple-600">
+        Your feedback helps us improve our workplace. This data will be used for:
+        - Team performance analysis
+        - Workplace improvement initiatives
+        - Career development planning
+        - Company culture enhancement
+      </p>
+    </div>
     <Select 
       label="Which team are you providing feedback for?" 
       placeholder="Select a team"
       value={formData.team}
       onChange={(e) => handleInputChange("team", e.target.value)}
+      className="max-w-full"
     >
       {teams.map((team) => (
         <SelectItem key={team.value} value={team.value}>
@@ -25,6 +36,7 @@ export const Step1 = ({ formData, handleInputChange }) => (
         handleInputChange("project", e.target.value);
         handleInputChange("displayProject", e.target.value);
       }}
+      className="max-w-full"
     >
       {projects.map((project) => (
         <SelectItem key={project.value} value={project.value}>
@@ -75,9 +87,9 @@ export const Step2 = ({ formData, handleInputChange }) => {
 
 export const Step3 = ({ formData, handleEmojiClick }) => {
   const sentiments = [
-    { value: -1, label: "Negative", icon: <Frown className="w-8 h-8 text-red-500" /> },
-    { value: 0, label: "Neutral", icon: <Meh className="w-8 h-8 text-yellow-500" /> },
-    { value: 1, label: "Positive", icon: <SmilePlus className="w-8 h-8 text-green-500" /> }
+    { value: -1, label: "Needs Improvement", icon: <Frown className="w-8 h-8 text-red-500" /> },
+    { value: 0, label: "Meeting Expectations", icon: <Meh className="w-8 h-8 text-yellow-500" /> },
+    { value: 1, label: "Exceeding Expectations", icon: <SmilePlus className="w-8 h-8 text-green-500" /> }
   ];
 
   return (
@@ -85,7 +97,7 @@ export const Step3 = ({ formData, handleEmojiClick }) => {
       <p className="text-lg font-semibold text-gray-700 dark:text-gray-300">
         How would you rate your experience in this category?
       </p>
-      <div className="grid grid-cols-3 gap-4">
+      <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
         {sentiments.map((item) => (
           <button
             key={item.value}
@@ -120,19 +132,32 @@ export const Step3 = ({ formData, handleEmojiClick }) => {
 
 export const Step4 = ({ formData, handleInputChange }) => (
   <div className="space-y-6">
+    <div className="bg-purple-50 dark:bg-purple-900/20 p-4 rounded-lg mb-4">
+      <h3 className="text-lg font-semibold text-purple-700 mb-2">Critical Feedback Section</h3>
+      <p className="text-sm text-purple-600 mb-4">
+        Your honest feedback helps us identify areas for improvement and take actionable steps.
+      </p>
+    </div>
     <Textarea
       label="What specific challenges or obstacles have you encountered?"
       placeholder="Please describe any difficulties or barriers you've faced in detail."
-      value={formData.challenges}
+      value={formData.challenges || ''}
       onChange={(e) => handleInputChange("challenges", e.target.value)}
-      className="min-h-[100px]"
+      className="min-h-[100px] w-full"
     />
     <Textarea
       label="How has this impacted your work or team's performance?"
       placeholder="Please explain the effects on productivity, morale, or collaboration."
-      value={formData.impact}
+      value={formData.impact || ''}
       onChange={(e) => handleInputChange("impact", e.target.value)}
-      className="min-h-[100px]"
+      className="min-h-[100px] w-full"
+    />
+    <Textarea
+      label="What specific metrics or KPIs have been affected?"
+      placeholder="Please mention any measurable impacts on deadlines, quality, or efficiency."
+      value={formData.metrics || ''}
+      onChange={(e) => handleInputChange("metrics", e.target.value)}
+      className="min-h-[100px] w-full"
     />
   </div>
 );
