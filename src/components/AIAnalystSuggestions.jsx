@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
-import { Card, CardHeader, CardBody, Divider } from "@nextui-org/react";
-import { Lightbulb, TrendingUp, Users, Target } from 'lucide-react';
+import { Card, CardHeader, CardBody, Divider, Chip } from "@nextui-org/react";
+import { Lightbulb, TrendingUp, Users, Target, AlertTriangle, AlertCircle, CheckCircle } from 'lucide-react';
 import styled from "@emotion/styled";
 import { keyframes } from "@emotion/react";
 import ExportButton from './ExportButton';
@@ -35,6 +35,19 @@ const StyledCard = styled(Card)`
   }
 `;
 
+const getPriorityIcon = (priority) => {
+  switch (priority.toLowerCase()) {
+    case 'high':
+      return <AlertTriangle className="text-red-500" />;
+    case 'medium':
+      return <AlertCircle className="text-yellow-500" />;
+    case 'low':
+      return <CheckCircle className="text-green-500" />;
+    default:
+      return null;
+  }
+};
+
 const AIAnalystSuggestions = ({ suggestions = [] }) => {
   const [expandedCategories, setExpandedCategories] = useState({});
 
@@ -49,7 +62,7 @@ const AIAnalystSuggestions = ({ suggestions = [] }) => {
     performance: {
       title: 'Performance Insights',
       icon: <TrendingUp size={18} />,
-      risk: 'Medium',
+      priority: 'High',
       confidence: 85,
       suggestions: suggestions?.filter(s => s.category === 'performance') || [],
       details: [
@@ -62,7 +75,7 @@ const AIAnalystSuggestions = ({ suggestions = [] }) => {
     engagement: {
       title: 'Engagement Analysis',
       icon: <Users size={18} />,
-      risk: 'Low',
+      priority: 'Medium',
       confidence: 92,
       suggestions: suggestions?.filter(s => s.category === 'engagement') || [],
       details: [
@@ -75,7 +88,7 @@ const AIAnalystSuggestions = ({ suggestions = [] }) => {
     improvement: {
       title: 'Improvement Opportunities',
       icon: <Target size={18} />,
-      risk: 'High',
+      priority: 'Low',
       confidence: 78,
       suggestions: suggestions?.filter(s => s.category === 'improvement') || [],
       details: [
@@ -105,12 +118,24 @@ const AIAnalystSuggestions = ({ suggestions = [] }) => {
       <CardBody className="relative z-10">
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
           {Object.entries(categories).map(([key, category]) => (
-            <InsightCard
-              key={key}
-              category={category}
-              expanded={expandedCategories[key]}
-              onToggle={() => toggleCategory(key)}
-            />
+            <div key={key} className="relative">
+              <Chip
+                size="sm"
+                className="absolute top-2 right-2 z-10"
+                color={
+                  category.priority === 'High' ? 'danger' :
+                  category.priority === 'Medium' ? 'warning' : 'success'
+                }
+              >
+                {getPriorityIcon(category.priority)}
+                <span className="ml-1">{category.priority} Priority</span>
+              </Chip>
+              <InsightCard
+                category={category}
+                expanded={expandedCategories[key]}
+                onToggle={() => toggleCategory(key)}
+              />
+            </div>
           ))}
         </div>
       </CardBody>
