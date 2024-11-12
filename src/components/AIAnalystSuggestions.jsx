@@ -35,16 +35,48 @@ const StyledCard = styled(Card)`
   }
 `;
 
+const PriorityChip = styled(Chip)`
+  position: absolute;
+  top: 8px;
+  right: 8px;
+  z-index: 10;
+  padding: 0.25rem 0.75rem;
+  font-size: 0.875rem;
+  display: flex;
+  align-items: center;
+  gap: 0.375rem;
+  
+  @media (max-width: 640px) {
+    font-size: 0.75rem;
+    padding: 0.2rem 0.5rem;
+    top: 4px;
+    right: 4px;
+  }
+`;
+
 const getPriorityIcon = (priority) => {
   switch (priority.toLowerCase()) {
     case 'high':
-      return <AlertTriangle className="text-red-500" />;
+      return <AlertTriangle className="w-4 h-4 md:w-5 md:h-5" />;
     case 'medium':
-      return <AlertCircle className="text-yellow-500" />;
+      return <AlertCircle className="w-4 h-4 md:w-5 md:h-5" />;
     case 'low':
-      return <CheckCircle className="text-green-500" />;
+      return <CheckCircle className="w-4 h-4 md:w-5 md:h-5" />;
     default:
       return null;
+  }
+};
+
+const getPriorityColor = (priority) => {
+  switch (priority.toLowerCase()) {
+    case 'high':
+      return 'danger';
+    case 'medium':
+      return 'warning';
+    case 'low':
+      return 'success';
+    default:
+      return 'default';
   }
 };
 
@@ -119,17 +151,16 @@ const AIAnalystSuggestions = ({ suggestions = [] }) => {
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
           {Object.entries(categories).map(([key, category]) => (
             <div key={key} className="relative">
-              <Chip
+              <PriorityChip
                 size="sm"
-                className="absolute top-2 right-2 z-10"
-                color={
-                  category.priority === 'High' ? 'danger' :
-                  category.priority === 'Medium' ? 'warning' : 'success'
-                }
+                color={getPriorityColor(category.priority)}
+                variant="flat"
+                className="shadow-sm"
               >
                 {getPriorityIcon(category.priority)}
-                <span className="ml-1">{category.priority} Priority</span>
-              </Chip>
+                <span className="hidden sm:inline">{category.priority} Priority</span>
+                <span className="sm:hidden">{category.priority}</span>
+              </PriorityChip>
               <InsightCard
                 category={category}
                 expanded={expandedCategories[key]}
