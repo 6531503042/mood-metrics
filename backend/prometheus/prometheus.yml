@@ -7,12 +7,13 @@ scrape_configs:
     static_configs:
       - targets: ['localhost:9090']
 
-  - job_name: 'user-service'
+  - job_name: 'spring-actuator'
     metrics_path: '/actuator/prometheus'
     static_configs:
-      - targets: ['host.docker.internal:8081']
+      - targets: ['user-service:8081']
+    scrape_interval: 5s
 
   - job_name: 'eureka-service'
     metrics_path: '/actuator/prometheus'
     static_configs:
-      - targets: ['host.docker.internal:8761'] 
+      - targets: ['eureka-service:8761']
