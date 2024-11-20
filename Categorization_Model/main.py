@@ -75,25 +75,74 @@ def main():
         # Initialize the analyzer
         analyzer = FeedbackAnalyzer()
         
-        # Example feedback
+        # Comprehensive test feedback data
         sample_feedbacks = [
-            "The work environment is very stressful and management doesn't listen to our concerns.",
-            "I love the team collaboration and the positive company culture.",
-            "The compensation package needs improvement, but work-life balance is good."
+            # Work Environment
+            "The office is too noisy and the air conditioning is always too cold, making it difficult to concentrate.",
+            "Our new open office layout has greatly improved collaboration between teams.",
+            "The workplace safety protocols are outdated and need immediate attention.",
+            
+            # Management
+            "My manager provides clear guidance and regular constructive feedback.",
+            "Upper management seems disconnected from day-to-day operations and employee concerns.",
+            "The leadership team's communication has been inconsistent regarding company direction.",
+            
+            # Compensation
+            "The salary is below market rate and the bonus structure is unclear.",
+            "Recent improvements to our healthcare benefits are greatly appreciated.",
+            "The stock options program is competitive, but the base salary needs review.",
+            
+            # Work-life Balance
+            "The flexible working hours have helped me maintain a better work-life balance.",
+            "Constant after-hours meetings are affecting my personal time and mental health.",
+            "The unlimited PTO policy is great, but there's subtle pressure not to use it.",
+            
+            # Career Growth
+            "There are limited opportunities for advancement within my department.",
+            "The professional development program and learning resources are excellent.",
+            "I appreciate the mentorship program, but need more structured career planning.",
+            
+            # Team Collaboration
+            "Cross-team communication is poor and causes project delays.",
+            "Our team's weekly sync meetings have improved project coordination significantly.",
+            "The new project management tools have streamlined our collaboration.",
+            
+            # Company Culture
+            "The company values are well-defined but not practiced in daily operations.",
+            "I love how the company celebrates diversity and promotes inclusion.",
+            "The recent changes to company policies have negatively impacted morale.",
+            
+            # Tools and Resources
+            "Our software licenses are often expired, causing workflow disruptions.",
+            "The new IT support system is responsive and helpful.",
+            "We need better training resources for the new tools being implemented.",
+            
+            # Mixed Categories
+            "While the pay is good, the work-life balance is terrible and management is unresponsive.",
+            "Great team culture and collaboration, but outdated tools slow us down.",
+            "The office environment is excellent, but career growth opportunities are limited.",
+            "Management is supportive, however, the compensation is below industry standards.",
+            "The company culture is positive, but we need better project management tools."
         ]
         
         # Process feedback
         results = analyzer.process_feedback_batch(sample_feedbacks)
         
-        # Print results
-        for result in results:
+        # Print results with more detailed formatting
+        for i, result in enumerate(results, 1):
             if 'error' in result:
-                print(f"\nError processing feedback: {result['error']}")
+                print(f"\nError processing feedback {i}: {result['error']}")
             else:
-                print("\nFeedback:", result['feedback'])
+                print("\n" + "="*80)
+                print(f"Feedback {i}:")
+                print("-"*40)
+                print("Text:", result['feedback'])
                 print("Sentiment:", result['sentiment'])
-                print("Categories:", [cat['category'] for cat in result['categories']])
-                print("Priority:", result['priority'])
+                print("Confidence:", f"{result['sentiment_confidence']:.2%}")
+                print("Categories:", [f"{cat['category']} ({cat['confidence']:.2%})" 
+                                   for cat in result['categories']])
+                print("Priority:", result['priority'].upper())
+                print("Processed at:", result['processed_at'])
                 
     except Exception as e:
         print(f"Error in main: {str(e)}")
