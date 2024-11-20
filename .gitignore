@@ -1,25 +1,82 @@
-# Logs
-logs
+# Byte-compiled files
+__pycache__/
+*.py[cod]
+*$py.class
+
+# Environment files
+.env
+.env.*
+
+# Virtual environments
+venv/
+.env/
+env/
+.venv/
+
+# Jupyter Notebook checkpoints
+.ipynb_checkpoints/
+
+# Python-specific logs and caches
 *.log
-npm-debug.log*
-yarn-debug.log*
-yarn-error.log*
-pnpm-debug.log*
-lerna-debug.log*
+*.pot
+*.pyc
+*.pyo
+*.pyd
+*.pkl
+*.db
+*.sqlite3
 
-node_modules
-dist
-dist-ssr
-*.local
+# Test coverage files
+coverage.xml
+*.cover
+.hypothesis/
+*.coverage
+.cache/
 
-# Editor directories and files
-.vscode/*
-!.vscode/extensions.json
-.idea
+# Build artifacts
+build/
+dist/
+*.egg-info/
+*.eggs/
+
+# Model files
+*.h5
+*.ckpt
+*.pth
+*.pt
+*.onnx
+*.pb
+*.tflite
+*.joblib
+*.pkl
+
+# Dataset files
+*.csv
+*.tsv
+*.gz
+*.zip
+*.tar
+*.tar.gz
+*.7z
+
+# IDE-specific files
+.idea/
+.vscode/
+*.code-workspace
+*.sublime-project
+*.sublime-workspace
+
+# OS-generated files
 .DS_Store
-*.suo
-*.ntvs*
-*.njsproj
-*.sln
-*.sw?
-bun.lockb
+Thumbs.db
+
+# Debugging files
+*.log
+*.out
+
+# Docker-related files
+docker-compose.override.yml
+Dockerfile.*
+
+# Additional custom ignores
+# Add here any other specific paths or file types you'd like to ignore
