@@ -4,4 +4,11 @@ dependencies {
     
     // Development
     developmentOnly 'org.springframework.boot:spring-boot-devtools'
+    
+    // PDF Generation
+    implementation 'com.itextpdf:itext7-core:7.2.3'
+}
+
+bootJar {
+    mainClass = 'dev.bengi.feedbackservice.FeedbackServiceApplication'
 } 
