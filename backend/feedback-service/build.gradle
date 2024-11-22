@@ -1,0 +1,7 @@
+dependencies {
+    // Database
+    runtimeOnly 'org.postgresql:postgresql'
+    
+    // Development
+    developmentOnly 'org.springframework.boot:spring-boot-devtools'
+} 
