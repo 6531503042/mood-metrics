@@ -15,6 +15,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.UUID;
+import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -26,7 +27,7 @@ public class UserService {
         return userRepository.findAll()
                 .stream()
                 .map(this::mapToUserResponse)
-                .toList();
+                .collect(Collectors.toList());
     }
 
     public UserResponse getUserById(UUID id) {
@@ -44,36 +45,24 @@ public class UserService {
 
     @Transactional
     public UserResponse updateUser(UUID id, UpdateUserRequest request) {
-        User user = userRepository.findById(id)
+        var user = userRepository.findById(id)
                 .orElseThrow(() -> new EntityNotFoundException("User not found"));
 
-        // Check if the current user has permission to update
-        String currentUserEmail = SecurityContextHolder.getContext().getAuthentication().getName();
-        User currentUser = userRepository.findByEmail(currentUserEmail)
-                .orElseThrow(() -> new EntityNotFoundException("Current user not found"));
+        var updatedUser = User.builder()
+                .id(user.getId())
+                .firstName(request.getFirstName() != null ? request.getFirstName() : user.getFirstName())
+                .lastName(request.getLastName() != null ? request.getLastName() : user.getLastName())
+                .email(request.getEmail() != null ? request.getEmail() : user.getEmail())
+                .password(request.getPassword() != null ? passwordEncoder.encode(request.getPassword())
+                        : user.getPassword())
+                .role(request.getRole() != null ? request.getRole() : user.getRole())
+                .enabled(user.isEnabled())
+                .accountNonExpired(user.isAccountNonExpired())
+                .accountNonLocked(user.isAccountNonLocked())
+                .credentialsNonExpired(user.isCredentialsNonExpired())
+                .build();
 
-        if (!currentUser.getRole().equals(Role.ADMIN) && !currentUser.getId().equals(user.getId())) {
-            throw new AccessDeniedException("You don't have permission to update this user");
-        }
-
-        if (request.getFirstName() != null) {
-            user.setFirstName(request.getFirstName());
-        }
-        if (request.getLastName() != null) {
-            user.setLastName(request.getLastName());
-        }
-        if (request.getEmail() != null) {
-            user.setEmail(request.getEmail());
-        }
-        if (request.getPassword() != null) {
-            user.setPassword(passwordEncoder.encode(request.getPassword()));
-        }
-        if (request.getRole() != null && currentUser.getRole().equals(Role.ADMIN)) {
-            user.setRole(request.getRole());
-        }
-
-        User savedUser = userRepository.save(user);
-        return mapToUserResponse(savedUser);
+        return mapToUserResponse(userRepository.save(updatedUser));
     }
 
     @Transactional
