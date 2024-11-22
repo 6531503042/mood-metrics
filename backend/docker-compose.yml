@@ -10,13 +10,8 @@ services:
       - ./prometheus/prometheus.yml:/etc/prometheus/prometheus.yml
     command:
       - '--config.file=/etc/prometheus/prometheus.yml'
-      - '--storage.tsdb.path=/prometheus'
-      - '--web.console.libraries=/usr/share/prometheus/console_libraries'
-      - '--web.console.templates=/usr/share/prometheus/consoles'
     networks:
       - monitoring
-    extra_hosts:
-      - "host.docker.internal:host-gateway"
 
   grafana:
     image: grafana/grafana:latest
@@ -29,35 +24,8 @@ services:
       - GF_USERS_ALLOW_SIGN_UP=false
     volumes:
       - grafana-storage:/var/lib/grafana
-      - ./grafana/provisioning:/etc/grafana/provisioning
     depends_on:
       - prometheus
-    networks:
-      - monitoring
-
-  user-service:
-    build:
-      context: ./user-service
-      dockerfile: Dockerfile
-    container_name: user-service
-    ports:
-      - "8081:8081"
-    environment:
-      - SPRING_DATASOURCE_URL=jdbc:postgresql://postgres:5432/user-service
-      - SPRING_DATASOURCE_USERNAME=postgres
-      - SPRING_DATASOURCE_PASSWORD=6531503042
-    depends_on:
-      - postgres
-    networks:
-      - monitoring
-
-  eureka-service:
-    build:
-      context: ./eureka-service
-      dockerfile: Dockerfile
-    container_name: eureka-service
-    ports:
-      - "8761:8761"
     networks:
       - monitoring
 
