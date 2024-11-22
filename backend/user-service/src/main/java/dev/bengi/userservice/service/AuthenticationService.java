@@ -5,6 +5,8 @@ import dev.bengi.userservice.domain.model.TokenType;
 import dev.bengi.userservice.domain.model.User;
 import dev.bengi.userservice.dto.request.AuthenticationRequest;
 import dev.bengi.userservice.dto.request.RegisterRequest;
+import dev.bengi.userservice.dto.request.RefreshTokenRequest;
+import dev.bengi.userservice.dto.request.LogoutRequest;
 import dev.bengi.userservice.dto.response.AuthenticationResponse;
 import dev.bengi.userservice.dto.response.UserResponse;
 import dev.bengi.userservice.repository.TokenRepository;
@@ -104,6 +106,50 @@ public class AuthenticationService {
         }
     }
 
+    @Timed(value = "authentication.refresh", description = "Time taken to refresh token")
+    public AuthenticationResponse refreshToken(RefreshTokenRequest request) {
+        try {
+            final String refreshToken = request.getRefreshToken();
+            final String userEmail = jwtService.extractUsername(refreshToken);
+
+            if (userEmail != null) {
+                var user = userRepository.findByEmail(userEmail)
+                        .orElseThrow(() -> new UsernameNotFoundException("User not found"));
+
+                if (jwtService.isTokenValid(refreshToken, user)) {
+                    var accessToken = jwtService.generateToken(user);
+                    revokeAllUserTokens(user);
+                    saveUserToken(user, accessToken);
+
+                    return AuthenticationResponse.builder()
+                            .accessToken(accessToken)
+                            .refreshToken(refreshToken)
+                            .build();
+                }
+            }
+            throw new RuntimeException("Invalid refresh token");
+        } catch (Exception e) {
+            logger.error("Token refresh failed", e);
+            throw new RuntimeException("Token refresh failed: " + e.getMessage());
+        }
+    }
+
+    @Timed(value = "authentication.logout", description = "Time taken to logout")
+    public void logout(LogoutRequest request) {
+        try {
+            final String jwt = request.getAccessToken();
+            var storedToken = tokenRepository.findByToken(jwt)
+                    .orElseThrow(() -> new RuntimeException("Token not found"));
+
+            storedToken.setExpired(true);
+            storedToken.setRevoked(true);
+            tokenRepository.save(storedToken);
+        } catch (Exception e) {
+            logger.error("Logout failed", e);
+            throw new RuntimeException("Logout failed: " + e.getMessage());
+        }
+    }
+
     private void saveUserToken(User user, String jwtToken) {
         var token = Token.builder()
                 .user(user)
@@ -119,10 +165,12 @@ public class AuthenticationService {
         var validUserTokens = tokenRepository.findAllValidTokensByUser(user.getId());
         if (validUserTokens.isEmpty())
             return;
+
         validUserTokens.forEach(token -> {
             token.setExpired(true);
             token.setRevoked(true);
         });
         tokenRepository.saveAll(validUserTokens);
     }
+
 }

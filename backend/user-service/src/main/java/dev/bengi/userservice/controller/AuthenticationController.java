@@ -1,6 +1,8 @@
 package dev.bengi.userservice.controller;
 
 import dev.bengi.userservice.dto.request.AuthenticationRequest;
+import dev.bengi.userservice.dto.request.LogoutRequest;
+import dev.bengi.userservice.dto.request.RefreshTokenRequest;
 import dev.bengi.userservice.dto.request.RegisterRequest;
 import dev.bengi.userservice.dto.response.AuthenticationResponse;
 import dev.bengi.userservice.dto.response.UserResponse;
@@ -26,5 +28,17 @@ public class AuthenticationController {
     public ResponseEntity<AuthenticationResponse> authenticate(
             @RequestBody @Valid AuthenticationRequest request) {
         return ResponseEntity.ok(authenticationService.authenticate(request));
+    }
+
+    @PostMapping("/refresh-token")
+    public ResponseEntity<AuthenticationResponse> refreshToken(
+            @RequestBody @Valid RefreshTokenRequest request) {
+        return ResponseEntity.ok(authenticationService.refreshToken(request));
+    }
+
+    @PostMapping("/logout")
+    public ResponseEntity<Void> logout(@RequestBody @Valid LogoutRequest request) {
+        authenticationService.logout(request);
+        return ResponseEntity.ok().build();
     }
 }
