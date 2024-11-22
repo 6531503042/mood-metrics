@@ -5,7 +5,6 @@ import dev.bengi.userservice.dto.request.LogoutRequest;
 import dev.bengi.userservice.dto.request.RefreshTokenRequest;
 import dev.bengi.userservice.dto.request.RegisterRequest;
 import dev.bengi.userservice.dto.response.AuthenticationResponse;
-import dev.bengi.userservice.dto.response.UserResponse;
 import dev.bengi.userservice.service.AuthenticationService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
@@ -19,7 +18,7 @@ public class AuthenticationController {
     private final AuthenticationService authenticationService;
 
     @PostMapping("/register")
-    public ResponseEntity<UserResponse> register(
+    public ResponseEntity<AuthenticationResponse> register(
             @RequestBody @Valid RegisterRequest request) {
         return ResponseEntity.ok(authenticationService.register(request));
     }
