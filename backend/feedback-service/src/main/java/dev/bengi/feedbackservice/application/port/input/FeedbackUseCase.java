@@ -15,4 +15,6 @@ public interface FeedbackUseCase {
     FeedbackAnalyticsResponse getProjectAnalytics(UUID projectId);
 
     FeedbackAnalyticsResponse getYearlyAnalytics(int year);
+
+    byte[] generateYearlyReport(int year);
 }
