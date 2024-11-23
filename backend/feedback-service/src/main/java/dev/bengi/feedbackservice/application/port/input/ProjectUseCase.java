@@ -1,21 +1,18 @@
 package dev.bengi.feedbackservice.application.port.input;
 
 import dev.bengi.feedbackservice.domain.model.Project;
-import dev.bengi.feedbackservice.presentation.dto.request.CreateProjectRequest;
 
 import java.util.List;
 import java.util.UUID;
 
 public interface ProjectUseCase {
-    Project createProject(CreateProjectRequest request);
+    Project createProject(Project project);
 
-    Project updateProject(UUID id, CreateProjectRequest request);
+    List<Project> getAllProjects();
+
+    Project getProjectById(UUID id);
+
+    Project updateProject(UUID id, Project project);
 
     void deleteProject(UUID id);
-
-    Project getProject(UUID id);
-
-    List<Project> getAllActiveProjects();
-
-    void assignQuestionsToProject(UUID projectId, List<UUID> questionIds);
 }
