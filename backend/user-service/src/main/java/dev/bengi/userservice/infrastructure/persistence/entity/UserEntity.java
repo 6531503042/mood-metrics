@@ -20,14 +20,16 @@ public class UserEntity {
     @GeneratedValue(strategy = GenerationType.UUID)
     private UUID id;
 
-    @Column(unique = true)
-    private String email;
     private String firstName;
     private String lastName;
+
+    @Column(unique = true)
+    private String email;
     private String password;
 
     @Enumerated(EnumType.STRING)
     private Role role;
 
+    @Builder.Default
     private boolean enabled = true;
 }
