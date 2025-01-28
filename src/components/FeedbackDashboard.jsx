@@ -10,6 +10,7 @@ import AreasForImprovement from "./dashboard/AreasForImprovement";
 import FloatingFilterBar from "./FloatingFilterBar";
 import { useFeedbackData } from "../hooks/useFeedbackData";
 import AdvancedAnalytics from "./dashboard/AdvancedAnalytics";
+import YearlyReportGenerator from "./hr/YearlyReportGenerator";
 
 const FeedbackDashboard = () => {
   const { 
@@ -39,9 +40,12 @@ const FeedbackDashboard = () => {
       />
 
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-
         <div className="mb-8">
           <AIAnalystSuggestions suggestions={aiSuggestions} />
+        </div>
+
+        <div className="mb-8">
+          <YearlyReportGenerator />
         </div>
 
         <div className="mb-8">
@@ -85,7 +89,7 @@ const FeedbackDashboard = () => {
               project={selectedProject} 
             />
           </CardBody>
-        </Card>
+      </Card>
     </div>
   );
 };
