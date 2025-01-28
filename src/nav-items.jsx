@@ -5,9 +5,7 @@ import {
   Activity,
   TrendingUp, 
   Target, 
-  Settings,
-  FileText,
-  Send
+  Settings 
 } from "lucide-react";
 
 export const navItems = [
@@ -17,14 +15,9 @@ export const navItems = [
     icon: <HomeIcon className="h-4 w-4" />,
   },
   {
-    title: "Submit Feedback",
-    id: "submit-feedback",
-    icon: <Send className="h-4 w-4" />,
-  },
-  {
     title: "Feedback Management",
-    id: "feedback-management",
-    icon: <FileText className="h-4 w-4" />,
+    id: "feedback",
+    icon: <MessageSquare className="h-4 w-4" />,
   },
   {
     title: "Team Analytics",

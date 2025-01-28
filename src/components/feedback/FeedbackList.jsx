@@ -11,13 +11,12 @@ import {
   SelectItem,
   Button,
   Chip,
-  Pagination,
-  Card
+  Pagination
 } from "@nextui-org/react";
-import { Search, Filter, Calendar, Eye } from 'lucide-react';
+import { Search, Filter, Calendar } from 'lucide-react';
 import { useFeedbackData } from '../../hooks/useFeedbackData';
 
-const FeedbackList = ({ onSelectFeedback }) => {
+const FeedbackList = () => {
   const { feedbackData, teams, projects } = useFeedbackData();
   const [selectedTeam, setSelectedTeam] = useState('all');
   const [selectedProject, setSelectedProject] = useState('all');
@@ -39,8 +38,8 @@ const FeedbackList = ({ onSelectFeedback }) => {
   };
 
   return (
-    <Card className="p-6 space-y-6">
-      <div className="flex flex-col md:flex-row gap-4">
+    <div className="space-y-6">
+      <div className="flex flex-col md:flex-row gap-4 p-4 bg-gray-50 dark:bg-gray-900 rounded-lg">
         <Input
           placeholder="Search feedback..."
           value={searchQuery}
@@ -88,19 +87,18 @@ const FeedbackList = ({ onSelectFeedback }) => {
         </Select>
       </div>
 
-      <Table aria-label="Feedback list" className="mt-6">
+      <Table aria-label="Feedback list">
         <TableHeader>
           <TableColumn>DATE</TableColumn>
           <TableColumn>TEAM</TableColumn>
           <TableColumn>PROJECT</TableColumn>
           <TableColumn>FEEDBACK</TableColumn>
           <TableColumn>SENTIMENT</TableColumn>
-          <TableColumn>STATUS</TableColumn>
           <TableColumn>ACTIONS</TableColumn>
         </TableHeader>
         <TableBody>
           {feedbackData.recentFeedback?.map((feedback) => (
-            <TableRow key={feedback.id} className="hover:bg-gray-50 dark:hover:bg-gray-800/50">
+            <TableRow key={feedback.id}>
               <TableCell>
                 <div className="flex items-center gap-2">
                   <Calendar size={16} className="text-gray-400" />
@@ -122,24 +120,8 @@ const FeedbackList = ({ onSelectFeedback }) => {
                 </Chip>
               </TableCell>
               <TableCell>
-                <Chip
-                  color={feedback.status === 'approved' ? 'success' : 
-                         feedback.status === 'rejected' ? 'danger' : 'warning'}
-                  variant="dot"
-                  size="sm"
-                >
-                  {feedback.status || 'pending'}
-                </Chip>
-              </TableCell>
-              <TableCell>
-                <Button 
-                  size="sm" 
-                  color="primary" 
-                  variant="light"
-                  startContent={<Eye size={16} />}
-                  onClick={() => onSelectFeedback(feedback)}
-                >
-                  View
+                <Button size="sm" color="primary" variant="light">
+                  View Details
                 </Button>
               </TableCell>
             </TableRow>
@@ -147,7 +129,7 @@ const FeedbackList = ({ onSelectFeedback }) => {
         </TableBody>
       </Table>
 
-      <div className="flex justify-center mt-6">
+      <div className="flex justify-center">
         <Pagination
           total={10}
           page={page}
@@ -156,7 +138,7 @@ const FeedbackList = ({ onSelectFeedback }) => {
           color="secondary"
         />
       </div>
-    </Card>
+    </div>
   );
 };
 
